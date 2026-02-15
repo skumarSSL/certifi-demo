@@ -89,7 +89,7 @@ function Carousel() {
     <div className="flex items-center justify-center">
       <div
         ref={containerRef}
-        className="relative w-full max-w-4xl h-[700px] rounded-2xl overflow-hidden"
+        className="relative w-full max-w-4xl h-[500px] md:h-[700px] rounded-2xl overflow-hidden"
       >
         {slides.map((slide, i) => (
           <div

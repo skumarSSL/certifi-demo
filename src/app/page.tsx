@@ -8,7 +8,7 @@ import LoginSection from "@/components/login/LoginSection";
 export default function Home() {
   return (
     <div className="min-h-screen md:min-h-dvh bg-gray-200 text-foreground p-8 space-y-6">
-      <div className="grid grid-cols-5 items-center justify-center">
+      <div className="grid grid-cols-5 items-center justify-center gap-4">
         <div className="col-span-3 relative h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden border-gray-200 ">
           {/* GIF Background */}
           <img

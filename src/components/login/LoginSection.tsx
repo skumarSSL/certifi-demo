@@ -18,6 +18,7 @@ const socialMediaLinks = [
     href: "https://www.facebook.com/certificcs",
     src: facebook.src,
     alt: "Facebook Logo",
+    color: "#0165E0",
   },
   {
     href: "https://www.twitter.com/certificcs",
@@ -28,16 +29,19 @@ const socialMediaLinks = [
     href: "https://www.instagram.com/certifi.ccs",
     src: instagram.src,
     alt: "Instagram Logo",
+    color: "#FC036E",
   },
   {
     href: "https://www.linkedin.com/company/certificcs",
     src: linkedin.src,
     alt: "LinkedIn Logo",
+    color: "#0567C2",
   },
   {
     href: "https://www.youtube.com/@certificcs",
     src: youtube.src,
     alt: "Youtube Logo",
+    color: "#FF0034",
   },
 ];
 
@@ -64,7 +68,7 @@ const LoginSection = () => {
 
   return (
     <div className=" flex items-center justify-center overflow-hidden">
-      <div className="relative w-full max-w-md h-165 p-8 bg-gray-100 rounded-lg shadow-md flex flex-col justify-center transition-all duration-300 hover:scale-[1.01]">
+      <div className="relative w-full max-w-md h-150 md:h-165 p-8 bg-gray-100 rounded-lg shadow-md flex flex-col justify-center transition-all duration-300 hover:scale-[1.01]">
         {/* Center content */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2">
           <img src={logo.src} alt="Logo" className=" w-48 h-13" />
@@ -74,7 +78,7 @@ const LoginSection = () => {
           ref={textRef}
           className="text-xs font-semibold text-[#f1c40f] text-center opacity-0 scale-0 mt-3"
         >
-          <span className="text-sky-600 text-xl font-semibold">Sign In </span>
+          <span className="text-[#0976B1] text-xl font-semibold">Sign In </span>
           <br />
           for new era of secured communication
         </p>
@@ -120,7 +124,7 @@ const LoginSection = () => {
               {socialMediaLinks.map((media) => (
                 <div
                   key={media.alt}
-                  className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer bg-black hover:scale-110 transition"
+                  className={`w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${media.color ? `bg-[${media.color}]` : "bg-black "} hover:scale-110 transition`}
                 >
                   <img
                     src={media.src}
