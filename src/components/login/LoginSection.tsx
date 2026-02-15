@@ -93,6 +93,12 @@ const LoginSection = (props: any) => {
       .catch(() => setIsBtnDisabled(false));
   };
 
+  const onKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="relative w-full max-w-md h-[600px] md:h-[660px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
@@ -106,7 +112,7 @@ const LoginSection = (props: any) => {
           <span className="text-[#0976B1] text-xl font-semibold">Sign In</span>
           <br />
           <span id="message" className="text-sm font-semibold text-[#f1c40f]">
-            for new era of secured communication
+            New Era Of Secured Communication
           </span>
         </p>
 
@@ -132,7 +138,7 @@ const LoginSection = (props: any) => {
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
             }
-            onKeyDown={handleLogin}
+            onKeyPress={onKeyPress}
           />
 
           <div className="text-sm font-bold text-sky-600 cursor-pointer pl-10">
@@ -144,7 +150,7 @@ const LoginSection = (props: any) => {
             <button
               disabled={isBtnDisabled || !props.user_name || !props.password}
               onClick={handleLogin}
-              className={`w-32 py-2.5 rounded-lg bg-primary text-white ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
+              className={`w-32 py-2.5 rounded-lg bg-primary text-white font-medium text-xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
             >
               Login
             </button>

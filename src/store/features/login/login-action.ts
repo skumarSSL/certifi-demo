@@ -2,8 +2,7 @@
 
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
-
-let AppUrl = "https://test-api.certifi.biz";
+import { AppUrl } from "@/env";
 
 import {
   loginSetErrors,
@@ -137,7 +136,7 @@ export const LoginGetSettingsData =
       method: "POST",
       credentials: "include",
       headers: {
-        // Authorization: "Token " + session_token,
+        Authorization: "Token " + session_token,
       },
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))

@@ -9,6 +9,8 @@ interface CredentialState {
   error_info: Record<string, string>;
   settings_data: any;
   session_expiry: any;
+  is_sidebar: boolean;
+  is_dark_mode: boolean;
 }
 
 const CredentialInitialState: CredentialState = {
@@ -23,6 +25,8 @@ const CredentialInitialState: CredentialState = {
     mobile: "",
   },
   session_expiry: { time: 0 },
+  is_dark_mode: false,
+  is_sidebar: true,
 };
 
 export const LoginReducer = createSlice({
@@ -49,6 +53,12 @@ export const LoginReducer = createSlice({
     loginSettingsData: (state, action: any) => {
       state.settings_data = action.payload;
     },
+    setSideBar: (state, action: PayloadAction<boolean>) => {
+      state.is_sidebar = action.payload;
+    },
+    setDarkMode: (state, action: PayloadAction<boolean>) => {
+      state.is_dark_mode = action.payload;
+    },
   },
 });
 
@@ -58,6 +68,8 @@ export const {
   loginSetErrors,
   loginDeleteError,
   loginSettingsData,
+  setSideBar,
+  setDarkMode,
 } = LoginReducer.actions;
 
 export default LoginReducer.reducer;
