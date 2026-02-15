@@ -12,6 +12,8 @@ import {
   Bitcoin,
   BanIcon,
   BanknoteIcon,
+  Settings,
+  HelpingHand,
 } from "lucide-react";
 import Image from "next/image";
 import logo from "@/assets/hrlogo.png";
@@ -74,6 +76,15 @@ const Sidebar = ({
       <nav className="flex flex-col mt-5 justify-start mx-2 gap-3">
         <SideBarLink icon={Mail} label="Sent Mails" href="/sent-mails" />
         <SideBarLink icon={BanknoteIcon} label="Payment" href="/payment" />
+
+        <div className="absolute bottom-10 border-t border-gray-200 my-3 py-3">
+          <SideBarLink icon={Settings} label="Settings" href="/settings" />
+          <SideBarLink
+            icon={HelpingHand}
+            label="Help & Support"
+            href="/settings"
+          />
+        </div>
       </nav>
     </div>
   );
@@ -92,7 +103,7 @@ const SideBarLink = ({ href, icon: Icon, label }: SidebarProps) => {
   return (
     <Link href={href}>
       <div
-        className={`flex items-center gap-5 px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md
+        className={`flex items-center gap-5 px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md rounded-md
         ${isActive ? "bg-blue-100 dark:bg-gray-600 text-gray-900" : ""}`}
       >
         <Icon className="h-7 w-7 text-gray-600" />

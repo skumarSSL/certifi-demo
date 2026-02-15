@@ -111,7 +111,7 @@ const LoginSection = (props: any) => {
         <p ref={textRef} className="text-center mt-16 opacity-0 scale-0">
           <span className="text-[#0976B1] text-xl font-semibold">Sign In</span>
           <br />
-          <span id="message" className="text-sm font-semibold text-[#f1c40f]">
+          <span id="message" className="text-sm font-semibold text-[#e67e22]">
             New Era Of Secured Communication
           </span>
         </p>

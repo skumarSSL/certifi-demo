@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Mail, Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import gsap from "gsap";
+import malePng from "@/assets/male.png";
 
 let exampleWords = ["abc@gmail.com", "John Doe"];
 
@@ -105,6 +106,7 @@ const Navbar = ({
           >
             <img
               src={
+                malePng.src ??
                 "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
               }
               className="w-full h-full object-cover rounded-full"
