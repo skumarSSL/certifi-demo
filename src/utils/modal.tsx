@@ -1,5 +1,11 @@
 const Modal = (props: any) => {
-  let { onClose, is_open_modal, size = "", close = true, height = "40%" } = props;
+  let {
+    onClose,
+    is_open_modal,
+    size = "",
+    close = true,
+    height = "40%",
+  } = props;
 
   //   const [height, setHeight] = useState("40%");
 

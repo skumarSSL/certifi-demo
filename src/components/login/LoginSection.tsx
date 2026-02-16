@@ -108,7 +108,7 @@ const LoginSection = (props: any) => {
         </div>
 
         {/* Animated Text */}
-        <p ref={textRef} className="text-center mt-16 opacity-0 scale-0">
+        <p ref={textRef} className="text-center mt-3 opacity-0 scale-0">
           <span className="text-[#0976B1] text-xl font-semibold">Sign In</span>
           <br />
           <span id="message" className="text-sm font-semibold text-[#e67e22]">

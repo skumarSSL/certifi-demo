@@ -9,6 +9,7 @@ import {
   loginDeleteError,
   loginSettingsData,
   loginSetCredentials,
+  setSideBar,
 } from "@/store/features/login/loginSlice";
 
 // import { GraphUpdateFolderData } from "~/taskpane/actions/graph-action";
@@ -17,6 +18,10 @@ export const LoginSetCredentials =
   (name: string, value: string | number | boolean) => (dispatch: any) => {
     dispatch(loginSetCredentials({ name, value }));
   };
+
+export const LoginSetSidebar = (value: boolean) => (dispatch: any) => {
+  dispatch(setSideBar(value));
+};
 
 export const LoginDeleteErrors = (name: string) => (dispatch: any) => {
   dispatch(loginDeleteError({ name }));

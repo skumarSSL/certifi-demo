@@ -1,5 +1,11 @@
+import DashboardWrapper from "@/app/(dashboard)/layout";
+
 const ComposePage = () => {
-  return <div>Compose page</div>;
+  return (
+    <DashboardWrapper>
+      <p>Compose Mail</p>
+    </DashboardWrapper>
+  );
 };
 
 export default ComposePage;

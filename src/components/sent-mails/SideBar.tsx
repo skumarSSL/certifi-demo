@@ -1,88 +1,72 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import {
-  Mail,
-  X,
-  LucideIcon,
-  DollarSign,
-  IndianRupee,
-  BusIcon,
-  Briefcase,
-  Bitcoin,
-  BanIcon,
-  BanknoteIcon,
-  Settings,
-  HelpingHand,
-} from "lucide-react";
-import Image from "next/image";
-import logo from "@/assets/hrlogo.png";
+import React, { useEffect, useRef, useState } from "react";
+import { Mail, LucideIcon, LogOut, CheckCircle } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
+import { connect } from "react-redux";
 
-const Sidebar = ({
-  isSideBar,
-  setIsSideBar,
-}: {
-  isSideBar: boolean;
-  setIsSideBar: (val: boolean) => void;
-}) => {
+import mailSvg from "@/assets/mail.svg";
+import reverifySvg from "@/assets/reverify.svg";
+import { LoginSetSidebar } from "@/store/features/login/login-action";
+
+const Sidebar = (props: any) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sidebarRef.current) return;
 
-    if (isSideBar) {
+    if (props.is_sidebar) {
       gsap.to(sidebarRef.current, {
-        x: 0,
-        opacity: 1,
-        duration: 2,
+        width: 220,
+        duration: 0.5,
         ease: "power3.out",
-        display: "flex",
       });
     } else {
       gsap.to(sidebarRef.current, {
-        x: -300,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.in",
-        onComplete: () => {
-          gsap.set(sidebarRef.current, { display: "none" });
-        },
+        width: 64, // w-16
+        duration: 0.4,
+        ease: "power3.inOut",
       });
     }
-  }, [isSideBar]);
+  }, [props.is_sidebar]);
+
+  const setSidebar = (value: boolean) => {
+    props.Login_Set_Sidebar(value);
+  };
 
   return (
     <div
       ref={sidebarRef}
-      className="fixed left-0 top-0 z-40 h-full w-64 bg-white dark:bg-black shadow-xl flex flex-col"
-      style={{ transform: "translateX(-300px)", display: "none" }}
+      className={`fixed left-0 top-0 z-40 h-full bg-white dark:bg-black shadow-xl flex flex-col overflow-hidden ${!props.is_sidebar && "bg-gray-400"} mt-15`}
+      onMouseEnter={() => setSidebar(true)}
+      onMouseLeave={() => setSidebar(false)}
     >
-      {/* Top */}
-      <div className="relative flex min-h-[56px] items-center justify-between px-6 pt-3 cursor-pointer">
-        <div className="flex items-center justify-center py-4">
-          <Image src={logo} alt="logo" width={150} height={60} />
-        </div>
-        <button onClick={() => setIsSideBar(false)}>
-          <X className="absolute top-4 right-2 h-6 w-6 cursor-pointer hover:text-gray-400" />
-        </button>
-      </div>
-
-      {/* Logo */}
-
       {/* Links */}
-      <nav className="flex flex-col mt-5 justify-start mx-2 gap-3">
-        <SideBarLink icon={Mail} label="Sent Mails" href="/sent-mails" />
-        <SideBarLink icon={BanknoteIcon} label="Payment" href="/payment" />
+      <nav className="flex flex-col h-full justify-start mx-2 gap-3 pt-6 mt-15">
+        <SideBarLink
+          icon={Mail}
+          svgIcon={mailSvg.src}
+          label="Sent Mails"
+          href="/sent-mails"
+          isSideBar={props.is_sidebar}
+        />
+        <SideBarLink
+          icon={CheckCircle}
+          svgIcon={reverifySvg.src}
+          label="Reverification"
+          href="/reverification"
+          isSideBar={props.is_sidebar}
+        />
 
-        <div className="absolute bottom-10 border-t border-gray-200 my-3 py-3">
-          <SideBarLink icon={Settings} label="Settings" href="/settings" />
+        <div className="mt-auto border-t border-gray-200 py-3 mb-15">
           <SideBarLink
-            icon={HelpingHand}
-            label="Help & Support"
-            href="/settings"
+            icon={LogOut}
+            label="Logout"
+            href="/login"
+            isSideBar={props.is_sidebar}
           />
         </div>
       </nav>
@@ -90,27 +74,53 @@ const Sidebar = ({
   );
 };
 
+const mapStateToProps = (state: any) => ({
+  is_sidebar: state.login_store.is_sidebar,
+});
+const mapDispatchToProps = (dispatch: any) => ({
+  Login_Set_Sidebar: (value: boolean) => dispatch(LoginSetSidebar(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+
 interface SidebarProps {
   href: string;
   icon: LucideIcon;
   label: string;
+  isSideBar: boolean;
+  svgIcon?: string;
 }
 
-const SideBarLink = ({ href, icon: Icon, label }: SidebarProps) => {
+const SideBarLink = ({
+  href,
+  icon: Icon,
+  label,
+  isSideBar,
+  svgIcon,
+}: SidebarProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
+
+  console.log("svgIcon", svgIcon);
 
   return (
     <Link href={href}>
       <div
-        className={`flex items-center gap-5 px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md rounded-md
-        ${isActive ? "bg-blue-100 dark:bg-gray-600 text-gray-900" : ""}`}
+        className={`flex items-center p-2 rounded-md transition-all
+        hover:bg-gray-100 dark:hover:bg-gray-700
+        ${isActive ? "bg-blue-100 dark:bg-gray-600" : ""}
+        ${isSideBar ? "justify-start gap-5" : "justify-center"}`}
       >
-        <Icon className="h-7 w-7 text-gray-600" />
-        <span className="text-[16px] ">{label}</span>
+        {isSideBar || label == "Logout" ? (
+          <Icon className="h-7 w-7 text-gray-600" />
+        ) : (
+          <img src={svgIcon} className="h-8 w-8 text-gray-600" />
+        )}
+
+        {isSideBar && (
+          <span className="text-[16px] whitespace-nowrap">{label}</span>
+        )}
       </div>
     </Link>
   );
 };
-
-export default Sidebar;

@@ -3,7 +3,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/sent-mails/NavBar";
 import Sidebar from "@/components/sent-mails/SideBar";
-import { connect } from "react-redux";
+
+import StoreProvider from "../StoreProvider";
+import { Edit, Edit2 } from "lucide-react";
+import gsap from "gsap";
 
 const DashboardWrapper = ({
   children,
@@ -16,6 +19,18 @@ const DashboardWrapper = ({
   const [isSideBar, setIsSideBar] = useState(true);
 
   useEffect(() => {
+    const composeButton = document.querySelector(".compose");
+
+    gsap.to(composeButton, {
+      y: -10,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.out",
+    });
+  }, []);
+
+  useEffect(() => {
     console.log("dark_mode", isDarkMode);
     if (isDarkMode) {
       document.documentElement.classList.add(".dark");
@@ -24,34 +39,34 @@ const DashboardWrapper = ({
     }
   }, [isDarkMode]);
 
-  console.log("is_sidebar", isSideBar);
   return (
-    <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
-      {/* sidebar */}
-      <Sidebar 
-        isSideBar={isSideBar}
-        setIsSideBar={setIsSideBar} 
-      />
-      <main
-        className={`dark:bg-dark-bg flex w-full flex-col bg-gray-50 ${isSideBar ? "md:pl-64" : ""}`}
-      >
-        {/* Navbar */}
-        <Navbar
-          isDarkMode={isDarkMode}
-          isSideBar={isSideBar}
-          setIsSideBar={setIsSideBar}
-          setIsDarkMode={setIsDarkMode}
-        />
-        {children}
-      </main>
-    </div>
+    <StoreProvider>
+      <div className="relative flex h-screen w-full bg-gray-50 text-gray-900 overflow-hidden">
+        {/* Sidebar */}
+        <Sidebar isSideBar={isSideBar} setIsSideBar={setIsSideBar} />
+
+        {/* Main layout */}
+        <main className="flex flex-col flex-1 bg-gray-50 dark:bg-dark-bg">
+          {/* Sticky Navbar */}
+          <Navbar
+            isDarkMode={isDarkMode}
+            isSideBar={isSideBar}
+            setIsSideBar={setIsSideBar}
+            setIsDarkMode={setIsDarkMode}
+          />
+
+          {/* Scrollable content only */}
+          <div className="flex-1 overflow-y-auto">{children}</div>
+        </main>
+
+        {/* Compose button fixed */}
+        <div className="fixed bottom-20 right-10 bg-primary px-5 py-3 rounded-md flex items-center gap-2 shadow-lg hover:scale-105 opacity-90 hover:opacity-100 transition cursor-pointer z-50">
+          <Edit2 className="w-5 h-5 text-white" />
+          <span className="text-white text-lg font-semibold">Compose</span>
+        </div>
+      </div>
+    </StoreProvider>
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  is_sidebar: state.login_store.is_sidebar,
-  is_dark_mode: state.login_store.is_dark_mode,
-});
-const mapDispatchToProps = (dispatch: any) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardWrapper);
+export default DashboardWrapper;
