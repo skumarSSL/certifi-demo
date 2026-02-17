@@ -69,3 +69,8 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.ProseMirror {
+  min-height: 200px;
+  outline: none;
+}

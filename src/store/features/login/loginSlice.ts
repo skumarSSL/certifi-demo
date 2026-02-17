@@ -11,6 +11,7 @@ interface CredentialState {
   session_expiry: any;
   is_sidebar: boolean;
   is_dark_mode: boolean;
+  show_sidebar: boolean;
 }
 
 const CredentialInitialState: CredentialState = {
@@ -27,6 +28,7 @@ const CredentialInitialState: CredentialState = {
   session_expiry: { time: 0 },
   is_dark_mode: false,
   is_sidebar: true,
+  show_sidebar: true, // for global state
 };
 
 export const LoginReducer = createSlice({
@@ -56,6 +58,9 @@ export const LoginReducer = createSlice({
     setSideBar: (state, action: PayloadAction<boolean>) => {
       state.is_sidebar = action.payload;
     },
+    setGlobalSidebar: (state, action: PayloadAction<boolean>) => {
+      state.show_sidebar = action.payload;
+    },
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.is_dark_mode = action.payload;
     },
@@ -70,6 +75,7 @@ export const {
   loginSettingsData,
   setSideBar,
   setDarkMode,
+  setGlobalSidebar,
 } = LoginReducer.actions;
 
 export default LoginReducer.reducer;

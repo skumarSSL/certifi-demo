@@ -3,7 +3,7 @@ import { Mail, Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import gsap from "gsap";
 import malePng from "@/assets/male.png";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
 import user from "@/assets/user.svg";
@@ -20,6 +20,7 @@ const Navbar = (props: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const pageHeaderRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!pageHeaderRef.current) return;
@@ -118,12 +119,21 @@ const Navbar = (props: any) => {
             alt="User avatar"
           />
         </div>
-      </div>
+       </div>
       <div
         ref={pageHeaderRef}
         className={`flex items-center justify-between mt-5 ${props.is_sidebar ? "pl-64" : "pl-16"}`}
       >
-        <div className="text-2xl font-bold">All Sent Mails</div>
+        <div className="text-2xl font-bold">
+          {" "}
+          {pathname === "/sent-mails"
+            ? "All Sent Mails"
+            : pathname === "/compose"
+              ? "Compose"
+              : pathname === "/reverification"
+                ? "Reverification"
+                : ""}
+        </div>
         {/* <div className="flex gap-3">
           <button
             className="flex items-center gap-2 px-5 py-2 rounded-lg bg-gradient-to-r from-[#0078D4] via-[#1E90FF] to-[#4FC3F7] text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 ease-in-out cursor-pointer"

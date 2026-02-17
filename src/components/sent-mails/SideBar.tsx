@@ -22,7 +22,7 @@ const Sidebar = (props: any) => {
       gsap.to(sidebarRef.current, {
         width: 220,
         duration: 0.5,
-        ease: "power3.out",
+        ease: "power3.inOut",
       });
     } else {
       gsap.to(sidebarRef.current, {
@@ -106,7 +106,7 @@ const SideBarLink = ({
   return (
     <Link href={href}>
       <div
-        className={`flex items-center p-2 rounded-md transition-all
+        className={`flex items-center p-2 rounded-md transition-all  
         hover:bg-gray-100 dark:hover:bg-gray-700
         ${isActive ? "bg-blue-100 dark:bg-gray-600" : ""}
         ${isSideBar ? "justify-start gap-5" : "justify-center"}`}

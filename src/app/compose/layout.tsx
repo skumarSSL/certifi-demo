@@ -65,14 +65,12 @@ const DashboardWrapper = ({
 
         {/* Compose button fixed */}
         {pathname !== "/compose" && (
-          <div 
-            className="compose fixed bottom-20 right-10 bg-primary px-5 py-3 rounded-md flex items-center gap-2 shadow-lg cursor-pointer z-10"
+          <div
+            className="fixed bottom-20 right-10 bg-primary px-5 py-3 rounded-md flex items-center gap-2 shadow-lg hover:scale-105 opacity-90 hover:opacity-100 transition cursor-pointer z-50"
             onClick={() => router.push("/compose")}
           >
             <Edit2 className="w-5 h-5 text-white" />
-            <span className="compose-text text-white text-lg font-semibold whitespace-nowrap overflow-hidden">
-              Compose
-            </span>
+            <span className="text-white text-lg font-semibold">Compose</span>
           </div>
         )}
       </div>
