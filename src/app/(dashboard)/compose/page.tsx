@@ -63,7 +63,12 @@ const ComposePage = (props: any) => {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    let total_file_size = props.attachments.reduce(
+      (acc: any, curr: any) => acc + curr.size,
+      0,
+    );
+
+    if (file.size > 5 * 1024 * 1024 || total_file_size > 5 * 1024 * 1024) {
       toast.error("File size exceeds 5 MB");
       return;
     }
@@ -142,6 +147,7 @@ const ComposePage = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
   is_sidebar: state.login_store.is_sidebar,
+  attachments: state.compose_store.attachments,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

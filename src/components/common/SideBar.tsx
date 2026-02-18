@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Mail, LucideIcon, LogOut, CheckCircle } from "lucide-react";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { connect } from "react-redux";
@@ -17,6 +17,8 @@ import {
 
 const Sidebar = (props: any) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!sidebarRef.current) return;
@@ -41,11 +43,6 @@ const Sidebar = (props: any) => {
         duration: 0.2,
         ease: "power3.inOut",
       });
-      gsap.to(IconImg, {
-        display: "none",
-        duration: 0.2,
-        ease: "power3.inOut",
-      });
     } else {
       gsap.to(sidebarRef.current, {
         width: 64, // w-16
@@ -55,11 +52,6 @@ const Sidebar = (props: any) => {
       gsap.to(spanTag, {
         display: "none",
         duration: 0.4,
-        ease: "power3.inOut",
-      });
-      gsap.to(IconImg, {
-        display: "block",
-        duration: 0.2,
         ease: "power3.inOut",
       });
       gsap.to(IconTag, {
@@ -72,6 +64,11 @@ const Sidebar = (props: any) => {
 
   const setSidebar = (value: boolean) => {
     props.Login_Set_Sidebar(value);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("session_token");
+    router.push("/");
   };
 
   return (
@@ -98,11 +95,14 @@ const Sidebar = (props: any) => {
           isSideBar={props.is_sidebar}
         />
 
-        <div className="mt-auto border-t border-gray-200 py-3 mb-15">
+        <div
+          className="mt-auto border-t border-gray-200 py-3 mb-15"
+          onClick={logout}
+        >
           <SideBarLink
             icon={LogOut}
             label="Logout"
-            href="/login"
+            href="/"
             isSideBar={props.is_sidebar}
           />
         </div>
