@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import user from "@/assets/user.svg";
 import hrlogo from "@/assets/hrlogo.png";
-import { LoginSetSidebar } from "@/store/features/login/login-action";
+import { LoginSetSidebar } from "@/store/login/login-action";
 import { connect } from "react-redux";
 
 let exampleWords = ["abc@gmail.com", "John Doe"];
@@ -119,7 +119,7 @@ const Navbar = (props: any) => {
             alt="User avatar"
           />
         </div>
-       </div>
+      </div>
       <div
         ref={pageHeaderRef}
         className={`flex items-center justify-between mt-5 ${props.is_sidebar ? "pl-64" : "pl-16"}`}

@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 
 import mailSvg from "@/assets/mail.svg";
 import reverifySvg from "@/assets/reverify.svg";
-import { LoginSetSidebar } from "@/store/features/login/login-action";
+import { LoginSetSidebar } from "@/store/login/login-action";
 
 const Sidebar = (props: any) => {
   const sidebarRef = useRef<HTMLDivElement>(null);

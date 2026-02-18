@@ -10,7 +10,7 @@ import {
   loginSettingsData,
   loginSetCredentials,
   setSideBar,
-} from "@/store/features/login/loginSlice";
+} from "@/store/login/loginSlice";
 
 // import { GraphUpdateFolderData } from "~/taskpane/actions/graph-action";
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { useRouter } from "next/navigation";
 import { connect } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+import gsap from "gsap";
 
 import logo from "@/assets/hrlogo.png";
 import lock from "@/assets/lock.png";
@@ -19,7 +20,7 @@ import Input from "@/utils/Input";
 import {
   LoginGetLoggedIn,
   LoginSetCredentials,
-} from "@/store/features/login/login-action";
+} from "@/store/login/login-action";
 
 const socialMediaLinks = [
   {
