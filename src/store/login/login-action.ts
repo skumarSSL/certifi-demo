@@ -11,6 +11,7 @@ import {
   loginSettingsData,
   loginSetCredentials,
   setSideBar,
+  setGlobalSidebar,
 } from "@/store/login/loginSlice";
 import { CommonSetSessionToken } from "../common/common-action";
 
@@ -20,6 +21,10 @@ export const LoginSetCredentials =
   (name: string, value: string | number | boolean) => (dispatch: any) => {
     dispatch(loginSetCredentials({ name, value }));
   };
+
+export const LoginSetGlobalSidebar = (value: boolean) => (dispatch: any) => {
+  dispatch(setGlobalSidebar(value));
+};
 
 export const LoginSetSidebar = (value: boolean) => (dispatch: any) => {
   dispatch(setSideBar(value));
@@ -105,7 +110,7 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
 
 export const LoginGetSessionExpiry = () => (dispatch: any) => {
   let session_token = localStorage.getItem("session_token");
-  
+
   return fetch(AppUrl + "/getsessionexpiry/", {
     method: "POST",
     credentials: "include",

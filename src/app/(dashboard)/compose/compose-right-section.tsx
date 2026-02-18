@@ -43,7 +43,7 @@ const ComposeRightSection = (props: any) => {
   };
 
   return (
-    <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5">
+    <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5 overflow-y-auto overflow-x-hidden">
       <div
         className={`outline-none w-80 mx-auto py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? "max-h-60" : "h-auto"}`}
       >
@@ -147,19 +147,22 @@ const ComposeRightSection = (props: any) => {
         </div>
       </div>
 
-      <div
-        onClick={onCertifiSend}
-        className={`absolute bottom-10 right-10 bg-primary px-5 py-2 rounded-md flex items-center gap-2 shadow-lg z-10 justify-center  ${isSending ? "opacity-70 cursor-not-allowed w-40" : "cursor-pointer w-36"}`}
-      >
-        <span className="compose-text text-white text-lg font-semibold overflow-hidden">
-          {isSending ? "Sending..." : "Send"}
-        </span>
+      <div className="sticky bottom-0 flex justify-end pr-5 z-20 pt-11">
+        <div
+          onClick={onCertifiSend}
+          className={`bg-primary px-5 py-2 rounded-md flex items-center gap-2 shadow-lg justify-center
+      ${isSending ? "opacity-70 cursor-not-allowed w-40" : "cursor-pointer w-36"}`}
+        >
+          <span className="compose-text text-white text-lg font-semibold overflow-hidden">
+            {isSending ? "Sending..." : "Send"}
+          </span>
 
-        {isSending ? (
-          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-        ) : (
-          <Send className="w-5 h-5 text-white" />
-        )}
+          {isSending ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <Send className="w-5 h-5 text-white" />
+          )}
+        </div>
       </div>
     </div>
   );

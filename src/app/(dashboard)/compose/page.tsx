@@ -88,9 +88,9 @@ const ComposePage = (props: any) => {
   return (
     <div
       ref={composeRef}
-      className="relative flex h-[calc(100vh-120px)] justify-center items-center bg-gray-100"
+      className="relative flex h-[calc(100vh-120px)] bg-gray-100 p-5 overflow-hidden"
     >
-      <div className="w-full shadow-2xl mx-5 bg-white rounded-md">
+      <div className="w-full h-full shadow-2xl bg-white rounded-md flex flex-col mx-5">
         <div className="flex items-center justify-between mt-7 ">
           <p className="px-3  text-xl text-gray-800 font-medium w-52 h-7 text-center flex items-center justify-center ml-3 py-5">
             New Certified Email
@@ -116,7 +116,7 @@ const ComposePage = (props: any) => {
           </div>
         </div>
         <div className="border-t-2 border-gray-200 my-3 mx-5"></div>
-        <div className="relative grid grid-cols-8 flex-1 h-full ml-5 mb-5">
+        <div className="relative grid grid-cols-8 flex-1 overflow-y-auto px-5 pb-5">
           {/* // left section */}
           <ComposeLeftSection />
 

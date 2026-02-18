@@ -67,7 +67,7 @@ const ComposeLeftSection = (props: any) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1  gap-6 text-gray-800 mt-11 h-140">
+      <div className="grid grid-cols-1  gap-6 text-gray-800 mt-11 h-110">
         <TiptapEditor
           content={props.mail_body ?? ""}
           onChange={(html) => props.Compose_Set_Fields("mail_body", html)}

@@ -87,6 +87,18 @@ const SentMails = (props: any) => {
           onPageChange={(p) => setPage(p)}
         />
       )}
+      <Toaster
+        toastOptions={{
+          className:
+            "bg-gray-900 text-white rounded-lg px-4 py-3 shadow-lg border border-gray-700",
+          success: {
+            className: "bg-green-600 text-white",
+          },
+          error: {
+            className: "bg-red-600 text-white font-light text-[15px]",
+          },
+        }}
+      />
     </div>
   );
 };

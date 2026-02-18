@@ -8,7 +8,10 @@ import Image from "next/image";
 
 import user from "@/assets/user.svg";
 import hrlogo from "@/assets/hrlogo.png";
-import { LoginSetSidebar } from "@/store/login/login-action";
+import {
+  LoginSetGlobalSidebar,
+  LoginSetSidebar,
+} from "@/store/login/login-action";
 import { connect } from "react-redux";
 
 let exampleWords = ["abc@gmail.com", "John Doe"];
@@ -86,6 +89,7 @@ const Navbar = (props: any) => {
 
   const setSidebar = (value: boolean) => {
     props.Login_Set_Sidebar(value);
+    props.Login_Set_Global_Sidebar(value);
   };
 
   return (
@@ -96,7 +100,7 @@ const Navbar = (props: any) => {
           <div className={`flex space-x-3 items-center`}>
             <button
               id="navBar"
-              className={`active flex items-center p-2 rounded-md transition-all  hover:bg-gray-100 dark:hover:bg-gray-700  ${props.is_sidebar ? "justify-start gap-5" : "justify-center"}`}
+              className={`active flex items-center p-2 rounded-md transition-all  hover:bg-gray-100   ${props.is_sidebar ? "justify-start gap-5" : "justify-center"}`}
               onClick={() => {
                 setSidebar(!props.is_sidebar);
               }}
@@ -157,6 +161,8 @@ const mapStateToProps = (state: any) => ({
 });
 const mapDispatchToProps = (dispatch: any) => ({
   Login_Set_Sidebar: (value: boolean) => dispatch(LoginSetSidebar(value)),
+  Login_Set_Global_Sidebar: (value: boolean) =>
+    dispatch(LoginSetGlobalSidebar(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
