@@ -12,6 +12,7 @@ interface CredentialState {
   is_sidebar: boolean;
   is_dark_mode: boolean;
   show_sidebar: boolean;
+  session_token: string;
 }
 
 const CredentialInitialState: CredentialState = {
@@ -26,6 +27,7 @@ const CredentialInitialState: CredentialState = {
     mobile: "",
   },
   session_expiry: { time: 0 },
+  session_token: "",
   is_dark_mode: false,
   is_sidebar: true,
   show_sidebar: true, // for global state

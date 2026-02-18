@@ -1,6 +1,6 @@
 "use client";
 
-import { Editor } from "@tiptap/react";
+import { Editor, useEditorState } from "@tiptap/react";
 import {
   Bold,
   Italic,
@@ -19,27 +19,47 @@ type Props = {
 };
 
 export default function Toolbar({ editor }: Props) {
+  useEditorState({
+    editor,
+    selector: ({ editor }) => ({
+      isH1: editor?.isActive("heading", { level: 1 }),
+      isH2: editor?.isActive("heading", { level: 2 }),
+      isH3: editor?.isActive("heading", { level: 3 }),
+    }),
+  });
+
   if (!editor) return null;
+
+  const currentBlock = editor.isActive("heading", { level: 1 })
+    ? "h1"
+    : editor.isActive("heading", { level: 2 })
+      ? "h2"
+      : editor.isActive("heading", { level: 3 })
+        ? "h3"
+        : "p";
 
   return (
     <div className="flex items-center justify-between border-b bg-gray-100 px-2 py-1">
-
-      {/* LEFT SIDE TOOLBAR */}
       <div className="flex items-center gap-1">
-
-        {/* Paragraph / Heading Dropdown */}
         <select
           className="border rounded px-2 py-1 text-sm"
+          value={currentBlock}
           onChange={(e) => {
             const value = e.target.value;
+
             if (value === "p") editor.chain().focus().setParagraph().run();
-            if (value === "h1") editor.chain().focus().toggleHeading({ level: 1 }).run();
-            if (value === "h2") editor.chain().focus().toggleHeading({ level: 2 }).run();
+            if (value === "h1")
+              editor.chain().focus().setHeading({ level: 1 }).run();
+            if (value === "h2")
+              editor.chain().focus().setHeading({ level: 2 }).run();
+            if (value === "h3")
+              editor.chain().focus().setHeading({ level: 3 }).run();
           }}
         >
           <option value="p">Paragraph</option>
           <option value="h1">Heading 1</option>
           <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
         </select>
 
         <Divider />
@@ -109,12 +129,11 @@ export default function Toolbar({ editor }: Props) {
         </ToolbarButton>
       </div>
 
-      {/* RIGHT SIDE (UNDO / REDO) */}
-      <div className="flex items-center gap-1">
+      {/* RIGHT */}
+      <div className="flex gap-1">
         <ToolbarButton onClick={() => editor.chain().focus().undo().run()}>
           <Undo size={16} />
         </ToolbarButton>
-
         <ToolbarButton onClick={() => editor.chain().focus().redo().run()}>
           <Redo size={16} />
         </ToolbarButton>
@@ -122,8 +141,6 @@ export default function Toolbar({ editor }: Props) {
     </div>
   );
 }
-
-/* ---------------- UI Components ---------------- */
 
 function ToolbarButton({
   children,
@@ -136,11 +153,11 @@ function ToolbarButton({
 }) {
   return (
     <button
-      onClick={onClick}
-      className={`p-2 rounded hover:bg-gray-200 transition
-        ${active ? "bg-blue-200 text-blue-700" : ""}
-      `}
       type="button"
+      onClick={onClick}
+      className={`p-2 rounded hover:bg-gray-200 transition ${
+        active ? "bg-blue-200 text-blue-700" : ""
+      }`}
     >
       {children}
     </button>

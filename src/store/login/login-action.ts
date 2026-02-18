@@ -1,8 +1,9 @@
 "use client";
 
-import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import { AppUrl } from "@/env";
+
+const CryptoJS = require("crypto-js");
 
 import {
   loginSetErrors,
@@ -11,6 +12,7 @@ import {
   loginSetCredentials,
   setSideBar,
 } from "@/store/login/loginSlice";
+import { CommonSetSessionToken } from "../common/common-action";
 
 // import { GraphUpdateFolderData } from "~/taskpane/actions/graph-action";
 
@@ -81,11 +83,13 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
       .then((res) => (res.ok ? res.json() : Promise.reject()))
       .then((data) => {
         console.log("login_data", data);
-        dispatch(LoginGetSessionExpiry(data?.token));
+        // dispatch(LoginGetSessionExpiry(data?.token));
         dispatch(loginSetCredentials({ name: "is_logged_in", value: true }));
-        dispatch(
-          loginSetCredentials({ name: "session_expiry", value: data?.token }),
-        );
+
+        // setting token in common store
+        dispatch(CommonSetSessionToken(data?.token));
+
+        localStorage.setItem("session_token", data?.token);
 
         return Promise.resolve();
       })

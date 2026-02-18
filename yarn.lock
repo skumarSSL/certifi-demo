@@ -146,6 +146,11 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.28.5"
 
+"@cashfreepayments/cashfree-js@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@cashfreepayments/cashfree-js/-/cashfree-js-1.0.6.tgz#c12ef8fdd92348ef3e3b1c40f56ae163f64e6e24"
+  integrity sha512-9I+Ziv3o3BObvgdPksOV/wd5BG/nlCYhZe5sqk1ryGG2orScBxsCDGHrQdHjGGmYysWQgCLSsNQT/r4N01GUJA==
+
 "@emnapi/core@^1.4.3", "@emnapi/core@^1.7.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@emnapi/core/-/core-1.8.1.tgz#fd9efe721a616288345ffee17a1f26ac5dd01349"
@@ -896,6 +901,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-heading/-/extension-heading-3.19.0.tgz#d0bc93426c01a2ed36b9124c1a8205ab3945e77a"
   integrity sha512-uLpLlfyp086WYNOc0ekm1gIZNlEDfmzOhKzB0Hbyi6jDagTS+p9mxUNYeYOn9jPUxpFov43+Wm/4E24oY6B+TQ==
 
+"@tiptap/extension-heading@^3.20.0":
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-heading/-/extension-heading-3.20.0.tgz#a16dbb625d91556399912fa110b04b2ad2dfd2e3"
+  integrity sha512-JgJhurnCe3eN6a0lEsNQM/46R1bcwzwWWZEFDSb1P9dR8+t1/5v7cMZWsSInpD7R4/74iJn0+M5hcXLwCmBmYA==
+
 "@tiptap/extension-horizontal-rule@^3.19.0":
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-horizontal-rule/-/extension-horizontal-rule-3.19.0.tgz#0e77078fcd53beca786277ce83d259e2103cc361"
@@ -943,10 +953,10 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-paragraph/-/extension-paragraph-3.19.0.tgz#91adde189aabf13a2bfbb2d961833d3bc2bc055f"
   integrity sha512-xWa6gj82l5+AzdYyrSk9P4ynySaDzg/SlR1FarXE5yPXibYzpS95IWaVR0m2Qaz7Rrk+IiYOTGxGRxcHLOelNg==
 
-"@tiptap/extension-placeholder@^3.19.0":
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-placeholder/-/extension-placeholder-3.19.0.tgz#648f8d65b389b9bc2902d5aa38a0218446579f6d"
-  integrity sha512-i15OfgyI4IDCYAcYSKUMnuZkYuUInfanjf9zquH8J2BETiomf/jZldVCp/QycMJ8DOXZ38fXDc99wOygnSNySg==
+"@tiptap/extension-placeholder@^3.20.0":
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-placeholder/-/extension-placeholder-3.20.0.tgz#958d4dd22716b36ec09a052e0c3b1590298e2edd"
+  integrity sha512-ZhYD3L5m16ydSe2z8vqz+RdtAG/iOQaFHHedFct70tKRoLqi2ajF5kgpemu8DwpaRTcyiCN4G99J/+MqehKNjQ==
 
 "@tiptap/extension-strike@^3.19.0":
   version "3.19.0"
