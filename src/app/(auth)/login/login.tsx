@@ -5,8 +5,23 @@ import backgroundGif from "@/assets/background-login.png";
 import Carousel from "@/components/login/CarouselSection";
 
 import LoginSection from "@/components/login/LoginSection";
+import { LoginGetSessionExpiry } from "@/store/login/login-action";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { connect } from "react-redux";
 
-function LoginScreen() {
+function LoginScreen(props: any) {
+  const router = useRouter();
+
+  useEffect(() => {
+    props
+      .Login_Get_Session_Expiry()
+      .then(() => {
+        router.push("/compose");
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <StoreProvider>
       <div className="min-h-screen md:min-h-dvh bg-gray-200 text-foreground p-8 space-y-6">
@@ -34,4 +49,8 @@ function LoginScreen() {
   );
 }
 
-export default LoginScreen;
+const mapDispatchToProps = (dispatch: any) => ({
+  Login_Get_Session_Expiry: () => dispatch(LoginGetSessionExpiry()),
+});
+
+export default connect(null, mapDispatchToProps)(LoginScreen);

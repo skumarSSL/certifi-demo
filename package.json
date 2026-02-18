@@ -28,6 +28,7 @@
     "gsap": "^3.14.2",
     "lucide-react": "^0.567.0",
     "lucide-solid": "^0.564.0",
+    "moment": "^2.30.1",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",

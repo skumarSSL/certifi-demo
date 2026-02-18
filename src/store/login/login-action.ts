@@ -103,41 +103,42 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
   }
 };
 
-export const LoginGetSessionExpiry =
-  (session_token: string) => (dispatch: any) => {
-    return fetch(AppUrl + "/getsessionexpiry/", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Authorization: "Token " + session_token,
-      },
+export const LoginGetSessionExpiry = () => (dispatch: any) => {
+  let session_token = localStorage.getItem("session_token");
+  
+  return fetch(AppUrl + "/getsessionexpiry/", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Authorization: "Token " + session_token,
+    },
+  })
+    .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+    .then((data) => {
+      // let expiryTime = moment(data.expiry_at);
+      // let now = moment();
+      // const time = expiryTime.diff(now, "minutes");
+      // console.log(time, "time");
+
+      dispatch(loginSetCredentials({ name: "is_logged_in", value: true }));
+      dispatch(loginSetCredentials({ name: "session_expiry", value: data }));
+
+      return Promise.resolve();
     })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((data) => {
-        // let expiryTime = moment(data.expiry_at);
-        // let now = moment();
-        // const time = expiryTime.diff(now, "minutes");
-        // console.log(time, "time");
-
-        dispatch(loginSetCredentials({ name: "is_logged_in", value: true }));
-        dispatch(loginSetCredentials({ name: "session_expiry", value: data }));
-
-        return Promise.resolve();
-      })
-      .catch((err) => {
-        err instanceof Error
-          ? toast.error("An error occurred")
-          : err
-              .json()
-              .then((val: any) => {
-                toast.error(val.detail ?? val.error ?? val.response);
-              })
-              .catch(() => {
-                toast.error("An error occurred");
-              });
-        return Promise.reject();
-      });
-  };
+    .catch((err) => {
+      err instanceof Error
+        ? toast.error("An error occurred")
+        : err
+            .json()
+            .then((val: any) => {
+              toast.error(val.detail ?? val.error ?? val.response);
+            })
+            .catch(() => {
+              toast.error("An error occurred");
+            });
+      return Promise.reject();
+    });
+};
 
 export const LoginGetSettingsData =
   (session_token?: string) => (dispatch: any) => {
