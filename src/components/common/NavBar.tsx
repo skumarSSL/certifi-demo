@@ -13,11 +13,16 @@ import {
   LoginSetSidebar,
 } from "@/store/login/login-action";
 import { connect } from "react-redux";
+import {
+  ProfileGetData,
+  ProfileGetProfilePic,
+} from "@/store/profile/profile-action";
 
 let exampleWords = ["abc@gmail.com", "John Doe"];
 
 const Navbar = (props: any) => {
   const [search, setSearch] = useState("");
+  const [loader, setLoader] = useState(false);
   const [is_search_focused, setIsSearchFocused] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -87,6 +92,20 @@ const Navbar = (props: any) => {
     }
   }, [is_search_focused]);
 
+  useEffect(() => {
+    setLoader(true);
+    props.Profile_Get_Profile_Pic();
+    props
+      .Profile_Get_Data()
+      .then(() => {
+        setLoader(false);
+      })
+      .catch(() => {
+        setLoader(false);
+        router.push("/");
+      });
+  }, []);
+
   const setSidebar = (value: boolean) => {
     props.Login_Set_Sidebar(value);
     props.Login_Set_Global_Sidebar(value);
@@ -94,7 +113,7 @@ const Navbar = (props: any) => {
 
   return (
     <div className="grid items-center bg-white px-4 py-3 dark:bg-black dark:px-4 dark:py-3">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between shadow w-full">
         {/* Search */}
         <div className="flex items-center gap-8">
           <div className={`flex space-x-3 items-center`}>
@@ -113,18 +132,12 @@ const Navbar = (props: any) => {
           </div>
         </div>
 
-        <div className="flex space-x-2">
-          <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer">
-            <img
-              src={
-                user.src ??
-                "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-              }
-              className="w-8 h-8 object-cover rounded-full"
-              alt="User avatar"
-            />
-          </div>
-          <p>Good Morning <br/> Saket Kumar</p>
+        <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer mr-3">
+          <img
+            src={props.profile_pic ? props.profile_pic : user.src}
+            className="w-8 h-8 object-cover rounded-full"
+            alt="User avatar"
+          />
         </div>
       </div>
       <div
@@ -161,11 +174,16 @@ const Navbar = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
   is_sidebar: state.login_store.is_sidebar,
+  profile_pic: state.profile_store.profile_pic,
+  is_logged_in: state.login_store.is_logged_in,
+  profile_data: state.profile_store.profile_data,
 });
 const mapDispatchToProps = (dispatch: any) => ({
   Login_Set_Sidebar: (value: boolean) => dispatch(LoginSetSidebar(value)),
   Login_Set_Global_Sidebar: (value: boolean) =>
     dispatch(LoginSetGlobalSidebar(value)),
+  Profile_Get_Data: () => dispatch(ProfileGetData()),
+  Profile_Get_Profile_Pic: () => dispatch(ProfileGetProfilePic()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

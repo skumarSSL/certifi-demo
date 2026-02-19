@@ -4,6 +4,7 @@ import LoginReducer from "./login/loginSlice";
 import SentReducer from "./sent-mails/sent-mails-reducer";
 import ComposeReducer from "./compose/composeSlice";
 import CommonReducer from "./common/commonSlice";
+import ProfileReducer from "./profile/profile-reducer";
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       login_store: LoginReducer,
       common_store: CommonReducer,
       compose_store: ComposeReducer,
+      profile_store: ProfileReducer,
       sent_store: SentReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),
