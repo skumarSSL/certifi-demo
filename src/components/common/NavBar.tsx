@@ -113,15 +113,18 @@ const Navbar = (props: any) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer">
-          <img
-            src={
-              user.src ??
-              "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-            }
-            className="w-8 h-8 object-cover rounded-full"
-            alt="User avatar"
-          />
+        <div className="flex space-x-2">
+          <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer">
+            <img
+              src={
+                user.src ??
+                "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+              }
+              className="w-8 h-8 object-cover rounded-full"
+              alt="User avatar"
+            />
+          </div>
+          <p>Good Morning <br/> Saket Kumar</p>
         </div>
       </div>
       <div

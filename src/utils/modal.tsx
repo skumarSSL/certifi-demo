@@ -27,11 +27,11 @@ const Modal = (props: any) => {
           : "fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center"
       }`}
     >
-      <div className="relative w-11/12 max-w-md rounded-full">
+      <div className="relative w-[500px] max-w-[90vw]">
         {close && (
           <button
             onClick={onClose}
-            className="absolute -top-1 right-0 bg-white rounded-full shadow-md text-gray-500 hover:text-gray-700 hover:scale-110 transition p-1 z-999 cursor-pointer w-7 h-7 text-center"
+            className="absolute top-1 right-1 bg-white text-md rounded-full shadow-md text-red-400 hover:bg-red-100 hover:scale-110 transition p-1 z-999 cursor-pointer w-7 h-7 text-center"
           >
             ✕
           </button>

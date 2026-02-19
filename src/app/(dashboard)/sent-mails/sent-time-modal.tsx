@@ -1,4 +1,6 @@
 import Modal from "@/utils/modal";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const SentTimeModal = ({
   onCloseModal,
@@ -9,45 +11,70 @@ const SentTimeModal = ({
   recipient,
   whatsapp_dr_time,
 }: any) => {
-  // const [is_open_modal, setIsOpenModal] = useState(false);
+  const [is_open_modal, setIsOpenModal] = useState(false);
 
-  // useEffect(() => {
-  //   setIsOpenModal(true);
-  // }, []);
+  useEffect(() => {
+    setIsOpenModal(true);
+  }, []);
 
-  // const onClose = () => {
-  //   onCloseModal && onCloseModal();
-  //   setIsOpenModal(false);
-  // };
+  const onClose = () => {
+    onCloseModal && onCloseModal();
+    setIsOpenModal(false);
+  };
 
   return (
-    <Modal height={"40%"}>
-      <div className="-mt-3">
-        <div className="px-2 rounded-2xl  bg-[#f5f6fa] shadow-[0px_8px_24px_rgba(149,157,165,0.2)] py-1">
-          <p className="text-xs text-[#0E6DBD] font-semibold">{recipient}</p>
-          <p className="text-gray-600">
-            Subject:{" "}
-            <span className="font-bold">{"Course Completion Certificate"}</span>
+    <Modal size="medium" is_open_modal={is_open_modal} onClose={onClose}>
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold">
+              S
+            </div>
+            <div>
+              <p className="font-semibold text-gray-900">{recipient}</p>
+              <p className="text-sm text-gray-400">20 May 2023</p>
+            </div>
+          </div>
+
+          <button
+            onClick={onCloseModal}
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        </div>
+
+        {/* Subject */}
+        <div className="space-y-1">
+          <p className="text-sm text-gray-500">Subject</p>
+          <p className="font-semibold text-lg text-gray-800">
+            {subject || "Course Completion Certificate"}
           </p>
         </div>
-      </div>
-      <div className="mt-4 space-y-1">
-        <p className="text-gray-600">
-          Email Delivered Time:{" "}
-          <span className="font-bold">{"16 Feb, 2026 12:11:23"}</span>
-        </p>
-        <p className="text-gray-600">
-          SMS Delivered Time:{" "}
-          <span className="font-bold"> {"16 Feb, 2026 12:11:23"}</span>
-        </p>
-        <p className="text-gray-600">
-          WhatsApp Delivered At:{" "}
-          <span className="font-bold"> {"16 Feb, 2026 12:11:23"}</span>
-        </p>
-        <p className="text-gray-600">
-          Read Time:{" "}
-          <span className="font-bold"> {"16 Feb, 2026 12:11:23"}</span>
-        </p>
+
+        {/* Delivery Info */}
+        <div className="space-y-3 bg-gray-50 p-4 rounded-xl">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">📧 Email Delivered</span>
+            <span className="font-medium">{email_dr_time}</span>
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">📱 SMS Delivered</span>
+            <span className="font-medium">{sms_dr_time}</span>
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">💬 WhatsApp Delivered</span>
+            <span className="font-medium">{whatsapp_dr_time}</span>
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">👁 Read Time</span>
+            <span className="font-medium">{read_time}</span>
+          </div>
+        </div>
       </div>
     </Modal>
   );

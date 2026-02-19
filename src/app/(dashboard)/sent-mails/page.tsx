@@ -51,35 +51,34 @@ const SentMails = (props: any) => {
   return (
     <div ref={sentRef}>
       <FilterSection />
-      <div className="relative grid gap-2 overflow-y-auto h-[calc(100vh-120px)]">
-        {props.sent_data.length > 0 ? (
-          <>
-            <div className="sticky top-0 z-20 grid grid-cols-10 mx-3 my-1 bg-gray-100 text-gray-800 text-[14px] font-semibold border border-gray-200">
-              <div className="col-span-2 px-4 py-2 border-r border-gray-300">
-                Recipient Information
-              </div>
 
-              <div className="col-span-6 px-4 py-2 border-r border-gray-300">
-                Subject
-              </div>
+      {props.sent_data.length > 0 ? (
+        <div className="relative grid gap-2 overflow-y-auto h-[calc(100vh-120px)]">
+          <div className="sticky top-0 z-20 grid grid-cols-12 mx-3 my-1 bg-gray-100 text-gray-800 text-[14px] font-semibold border border-gray-200 rounded-md">
+            <div className="col-span-3 px-4 py-2 border-r border-gray-300">
+              Recipient Information
+            </div>
 
-              <div className="col-span-2 px-4 py-2">Certificate Status</div>
+            <div className="col-span-7 px-4 py-2 border-r border-gray-300 mx-5">
+              Subject
             </div>
-            <div className="min-h-[200px] space-y-1">
-              {props.sent_data.length > 0 ? (
-                props.sent_data.map((data: any) => (
-                  <SentData key={data.id} data={data} />
-                ))
-              ) : (
-                <p className="text-center text-gray-400 py-10">
-                  No sent mails found
-                </p>
-              )}
-            </div>
-            <SentTimeModal />
-          </>
-        ) : null}
-      </div>
+
+            <div className="col-span-2 px-4 py-2">Certificate Status</div>
+          </div>
+          <div className="min-h-[200px] space-y-1">
+            {props.sent_data.length > 0 ? (
+              props.sent_data.map((data: any) => (
+                <SentData key={data.id} data={data} />
+              ))
+            ) : (
+              <p className="text-center text-gray-400 py-10">
+                No sent mails found
+              </p>
+            )}
+          </div>
+        </div>
+      ) : null}
+
       {props.sent_data.length > 0 && (
         <Pagination
           currentPage={page}

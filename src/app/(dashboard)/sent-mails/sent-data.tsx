@@ -8,8 +8,11 @@ import MessageSvg from "@/assets/message.svg";
 import MailInfoSvg from "@/assets/mail-info.svg";
 import WhatsAppPng from "@/assets/whatsapp.png";
 import { SentGetDownloadViewCert } from "@/store/sent-mails/sent-mails-action";
+import SentTimeModal from "./sent-time-modal";
 
 const SentData = (props: any) => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const cardRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -53,7 +56,15 @@ const SentData = (props: any) => {
   }, []);
 
   const downloadAttachment = () => {
-    props.Sent_Get_Download_View_Cert(props.data.id);
+    setIsDownloading(true);
+    props
+      .Sent_Get_Download_View_Cert(props.data.id)
+      .then(() => {
+        setIsDownloading(false);
+      })
+      .catch(() => {
+        setIsDownloading(false);
+      });
   };
 
   const formatDate = (inputDate: string, isSameDay = true) => {
@@ -84,9 +95,9 @@ const SentData = (props: any) => {
     <div
       ref={cardRef}
       key={props.data.id}
-      className="grid grid-cols-10 mx-3 bg-white text-gray-800 text-[14px] border-b border-x border-gray-200 transition-all duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md hover:-translate-y-[1px] hover:scale-[1.002] cursor-pointer group"
+      className="grid grid-cols-12 mx-3 bg-white text-gray-800 text-[14px] border-b border-x border-gray-200 transition-all duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md hover:-translate-y-[1px] hover:scale-[1.002] cursor-pointer group rounded-md"
     >
-      <div className="col-span-2 px-4 py-3">
+      <div className="col-span-3 px-4 py-3">
         <div className="flex space-x-3">
           <p className="font-bold group-hover:text-[#0976B1] transition-colors">
             {props.data.recipient}
@@ -98,27 +109,28 @@ const SentData = (props: any) => {
         </p>
       </div>
 
-      <div className="col-span-6 px-4 py-3 flex items-center mx-5">
+      <div className="col-span-7 px-4 py-3 flex items-center mx-5">
         <p className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
           {props.data.subject} :{" "}
-          <span className="text-sm font-normal">
-            Hello, I have sent you the certified communication. Please check and
-            revert as soon as possible. And also, please check the certificate
-            you received.
-          </span>
+          <span className="text-sm font-normal">{props.data.body}</span>
         </p>
       </div>
 
       <div className="relative col-span-2 px-4 py-3 flex items-center justify-between align-middle">
-        <p className="px-3 py-1 rounded-md text-md font-light bg-[#74b9ff] text-gray-900 group-hover:bg-[#e67e22]] transition">
-          Delivered
+        <p
+          className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-[#74b9ff]" : "bg-[#ffbe76]"} text-gray-900 group-hover:bg-[#e67e22]] transition`}
+        >
+          {props.data.cert_req ? "Delivered" : "In Progress"}
         </p>
 
         <p className="absolute top-1 right-1 text-sm text-gray-500 font-medium">
           {formatDate(props.data.time)}
         </p>
 
-        <div className="mt-5" onClick={downloadAttachment}>
+        <div
+          className={`mt-5 ${isDownloading && "opacity-30"}`}
+          onClick={() => !isDownloading && downloadAttachment()}
+        >
           <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
         </div>
 
@@ -133,6 +145,17 @@ const SentData = (props: any) => {
             <IconWithTooltip src={WhatsAppPng.src} text="WhatsApp Status" />
           </div> */}
       </div>
+      {isOpenModal && (
+        <SentTimeModal
+          onCloseModal={() => setIsOpenModal(false)}
+          email_dr_time={formatDate(props.email_dr_time)}
+          sms_dr_time={formatDate(props.sms_dr_time)}
+          read_time={formatDate(props.read_time)}
+          whatsapp_dr_time={formatDate(props.whatsapp_dr_time)}
+          subject={props.subject}
+          recipient={props.recipient}
+        />
+      )}
     </div>
   );
 };

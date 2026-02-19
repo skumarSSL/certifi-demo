@@ -86,8 +86,8 @@ export const SentGetDownloadViewCert = (id: number | string) => async () => {
     URL.revokeObjectURL(pdfUrl);
 
     // Return or handle the PDF blob as needed
-    return pdfBlob;
+    return Promise.resolve();
   } else {
-    throw new Error("Unsupported response type");
+    return Promise.reject();
   }
 };

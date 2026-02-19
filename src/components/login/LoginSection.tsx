@@ -101,7 +101,7 @@ const LoginSection = (props: any) => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-full">
+    <div className="flex items-center justify-center w-full h-full ml-3">
       <div className="relative w-full max-w-md h-[600px] md:h-[660px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
         {/* Logo */}
         <div className="absolute top-6 left-1/2 -translate-x-1/2">
@@ -112,7 +112,7 @@ const LoginSection = (props: any) => {
         <p ref={textRef} className="text-center mt-3 opacity-0 scale-0">
           <span className="text-[#0976B1] text-xl font-semibold">Sign In</span>
           <br />
-          <span id="message" className="text-sm font-semibold text-[#e67e22]">
+          <span id="message" className="message text-sm font-semibold text-[#d7aa83]">
             New Era Of Secured Communication
           </span>
         </p>

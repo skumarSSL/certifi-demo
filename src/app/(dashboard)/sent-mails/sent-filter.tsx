@@ -5,7 +5,7 @@ const FilterSection = () => {
 
   return (
     <div className="flex items-center justify-between my-3">
-      <div className="relative flex h-min w-[250px] ml-5 bg-gray-100">
+      <div className="relative flex h-min w-[250px] ml-5 bg-gray-100 ">
         <Search className="absolute top-1/2 left-[4px] mr-2 h-5 w-7 -translate-y-1/2 transform cursor-pointer dark:text-white text-gray-400" />
 
         <input
