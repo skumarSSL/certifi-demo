@@ -11,7 +11,6 @@ import { SentGetDownloadViewCert } from "@/store/sent-mails/sent-mails-action";
 import SentTimeModal from "./sent-time-modal";
 
 const SentData = (props: any) => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const cardRef = useRef<HTMLInputElement>(null);
 
@@ -26,7 +25,8 @@ const SentData = (props: any) => {
 
     console.log("distanceFromBottom", distanceFromBottom);
 
-    const onEnter = () => {
+    const onEnter = (e: any) => {
+      e.stopPropagation();
       gsap.to(composeButton, {
         scale: 0.5,
         opacity: 0.2,
@@ -35,7 +35,8 @@ const SentData = (props: any) => {
       });
     };
 
-    const onLeave = () => {
+    const onLeave = (e: any) => {
+      e.stopPropagation();
       gsap.to(composeButton, {
         scale: 1,
         opacity: 1,
@@ -96,6 +97,7 @@ const SentData = (props: any) => {
       ref={cardRef}
       key={props.data.id}
       className="grid grid-cols-12 mx-3 bg-white text-gray-800 text-[14px] border-b border-x border-gray-200 transition-all duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md hover:-translate-y-[1px] hover:scale-[1.002] cursor-pointer group rounded-md"
+      onClick={() => props.onClick(props.data.id)}
     >
       <div className="col-span-3 px-4 py-3">
         <div className="flex space-x-3">
@@ -109,14 +111,14 @@ const SentData = (props: any) => {
         </p>
       </div>
 
-      <div className="col-span-7 px-4 py-3 flex items-center mx-5">
+      <div className="col-span-7 px-4 py-1 flex items-center mx-5">
         <p className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
           {props.data.subject} :{" "}
           <span className="text-sm font-normal">{props.data.body}</span>
         </p>
       </div>
 
-      <div className="relative col-span-2 px-4 py-3 flex items-center justify-between align-middle">
+      <div className="relative col-span-2 px-4 py-1 flex items-center justify-between align-middle">
         <p
           className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-[#74b9ff]" : "bg-[#ffbe76]"} text-gray-900 group-hover:bg-[#e67e22]] transition`}
         >
@@ -129,7 +131,10 @@ const SentData = (props: any) => {
 
         <div
           className={`mt-5 ${isDownloading && "opacity-30"}`}
-          onClick={() => !isDownloading && downloadAttachment()}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!isDownloading) downloadAttachment();
+          }}
         >
           <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
         </div>
@@ -145,17 +150,6 @@ const SentData = (props: any) => {
             <IconWithTooltip src={WhatsAppPng.src} text="WhatsApp Status" />
           </div> */}
       </div>
-      {isOpenModal && (
-        <SentTimeModal
-          onCloseModal={() => setIsOpenModal(false)}
-          email_dr_time={formatDate(props.email_dr_time)}
-          sms_dr_time={formatDate(props.sms_dr_time)}
-          read_time={formatDate(props.read_time)}
-          whatsapp_dr_time={formatDate(props.whatsapp_dr_time)}
-          subject={props.subject}
-          recipient={props.recipient}
-        />
-      )}
     </div>
   );
 };
