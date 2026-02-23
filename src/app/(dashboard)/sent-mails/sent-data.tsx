@@ -6,13 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import CloudSvg from "@/assets/cloud.svg";
 import MessageSvg from "@/assets/message.svg";
 import MailInfoSvg from "@/assets/mail-info.svg";
+import CalenderSvg from "@/assets/calender.svg";
 import WhatsAppPng from "@/assets/whatsapp.png";
 import { SentGetDownloadViewCert } from "@/store/sent-mails/sent-mails-action";
-import SentTimeModal from "./sent-time-modal";
 
 const SentData = (props: any) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const cardRef = useRef<HTMLInputElement>(null);
+  const [showTime, setShowTime] = useState(false);
 
   useEffect(() => {
     const composeButton = document.querySelector(".compose");
@@ -28,7 +29,6 @@ const SentData = (props: any) => {
     const onEnter = (e: any) => {
       e.stopPropagation();
       gsap.to(composeButton, {
-        scale: 0.5,
         opacity: 0.2,
         duration: 0.3,
         ease: "power2.out",
@@ -38,7 +38,6 @@ const SentData = (props: any) => {
     const onLeave = (e: any) => {
       e.stopPropagation();
       gsap.to(composeButton, {
-        scale: 1,
         opacity: 1,
         duration: 0.3,
         ease: "power2.out",
@@ -68,36 +67,75 @@ const SentData = (props: any) => {
       });
   };
 
-  const formatDate = (inputDate: string, isSameDay = true) => {
-    // Create a moment object for the input date
-    const date = moment(inputDate);
-
-    // Check if the date is valid
-    if (!date.isValid()) {
-      return "N/A"; // Return empty string if the date is invalid
-    }
-
-    // Create a moment object for today's date
-    const today = moment();
-
-    // Check if the input date is the same as today
-    if (date.isSame(today, "day") && isSameDay) {
-      // Return only the time if it's today
-      return date.format("HH:mm:ss");
-    } else {
-      // Otherwise, return the full date and time
-      return date.format("MMM DD, YYYY");
-    }
+  const getDeliveredTime = () => {
+    gsap.to(`#deliveredTime${props.data.id}`, {
+      scale: 1,
+      display: "flex",
+      duration: 1,
+      paddingTop: 1,
+      paddingBottom: 1,
+      stagger: 2,
+      ease: "sine.inOut",
+    });
   };
 
-  //   console.log("data", data);
+  const hideDeliveredTime = () => {
+    gsap.to(`#deliveredTime${props.data.id}`, {
+      scale: 0.2,
+      display: "none",
+      paddingTop: 0,
+      paddingBottom: 0,
+      duration: 0.3,
+      ease: "sine.inOut",
+    });
+  };
+
+  useEffect(() => {
+    if (showTime) {
+      getDeliveredTime();
+    } else {
+      hideDeliveredTime();
+    }
+  }, [showTime]);
+
+  // const formatDate = (inputDate: string, isSameDay = true) => {
+  //   // Create a moment object for the input date
+  //   const date = moment(inputDate);
+
+  //   // Check if the date is valid
+  //   if (!date.isValid()) {
+  //     return "N/A"; // Return empty string if the date is invalid
+  //   }
+
+  //   // Create a moment object for today's date
+  //   const today = moment();
+
+  //   // Check if the input date is the same as today
+  //   if (date.isSame(today, "day") && isSameDay) {
+  //     // Return only the time if it's today
+  //     return date.format("HH:mm:ss");
+  //   } else {
+  //     // Otherwise, return the full date and time
+  //     return date.format("MMM DD, YYYY");
+  //   }
+  // };
+
+  const formatDate = (inputDate: string, isSameDay = true) => {
+    const date = moment(inputDate);
+    if (!date.isValid()) return "N/A";
+
+    const today = moment();
+    return date.isSame(today, "day") && isSameDay
+      ? date.format("HH:mm:ss")
+      : date.format("MMM DD, YYYY");
+  };
 
   return (
     <div
       ref={cardRef}
       key={props.data.id}
       className="grid grid-cols-12 mx-3 bg-white text-gray-800 text-[14px] border-b border-x border-gray-200 transition-all duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md hover:-translate-y-[1px] hover:scale-[1.002] cursor-pointer group rounded-md"
-      onClick={() => props.onClick(props.data.id)}
+      // onClick={() => props.onClick(props.data.id)}
     >
       <div className="col-span-3 px-4 py-3">
         <div className="flex space-x-3">
@@ -129,14 +167,19 @@ const SentData = (props: any) => {
           {formatDate(props.data.time)}
         </p>
 
-        <div
-          className={`mt-5 ${isDownloading && "opacity-30"}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (!isDownloading) downloadAttachment();
-          }}
-        >
-          <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
+        <div className="mt-7 flex space-x-3">
+          <div onClick={() => setShowTime(!showTime)}>
+            <IconWithTooltip src={CalenderSvg.src} text="Message info" />
+          </div>
+          <div
+            className={`${isDownloading && "opacity-30"}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!isDownloading) downloadAttachment();
+            }}
+          >
+            <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
+          </div>
         </div>
 
         {/* Cloud */}
@@ -149,6 +192,45 @@ const SentData = (props: any) => {
             <IconWithTooltip src={MailInfoSvg.src} text="Mail Info" />
             <IconWithTooltip src={WhatsAppPng.src} text="WhatsApp Status" />
           </div> */}
+      </div>
+      <div
+        id={`deliveredTime${props.data.id}`}
+        className="col-span-12 items-center justify-around text-sm bg-[#ffeaa7] text-gray-900 rounded-b-md space-x-3 hidden"
+      >
+        <div className="flex justify-between space-x-2 text-sm">
+          <p className="flex space-x-1 text-gray-600">
+            <img src={MailInfoSvg.src} className="w-5 h-5 cursor-pointer" />
+            <span>Email Delivered</span>
+          </p>
+          <p className="font-medium">{formatDate(props.data.email_dr_time)}</p>
+        </div>
+
+        <div className="flex justify-between text-sm space-x-2 ">
+          <p className="flex space-x-2 text-gray-600">
+            <img src={MessageSvg.src} className="w-5 h-5 cursor-pointer" />
+            <span>SMS Delivered</span>
+          </p>
+          <span className="font-medium">
+            {formatDate(props.data.sms_dr_time)}
+          </span>
+        </div>
+
+        <div className="flex justify-between text-sm space-x-2 ">
+          <p className="flex space-x-2 text-gray-600">
+            <img src={WhatsAppPng.src} className="w-5 h-5 cursor-pointer" />
+            <span>WhatsApp Delivered</span>
+          </p>
+          <span className="font-medium">
+            {formatDate(props.data.whatsapp_dr_time)}
+          </span>
+        </div>
+
+        <div className="flex justify-between text-sm space-x-2 ">
+          <span className="text-gray-600">👁 Read Time</span>
+          <span className="font-medium">
+            {formatDate(props.data.read_time)}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -164,7 +246,7 @@ export default connect(null, mapDispatchToProps)(SentData);
 const IconWithTooltip = ({ src, text }: { src: string; text: string }) => {
   return (
     <div className="relative inline-block group/icon overflow-visible">
-      <img src={src} className="w-8 h-8 cursor-pointer" />
+      <img src={src} className="w-7 h-7 cursor-pointer" />
 
       {/* Tooltip */}
       <div className="absolute right-full top-1/2 mr-2 -translate-y-1/2 opacity-0 scale-95 translate-x-1 group-hover/icon:opacity-100 group-hover/icon:scale-100 group-hover/icon:translate-x-0 transition-all duration-200 ease-out pointer-events-none z-[9999] max-w-[220px]">
