@@ -36,10 +36,9 @@ const SentMails = (props: any) => {
   }, [props.is_sidebar]);
 
   const startIndex = (page - 1) * pageSize;
-  const paginatedData = props.sent_data.slice(
-    startIndex,
-    startIndex + pageSize,
-  );
+  let paginatedData = props.sent_data.slice(startIndex, startIndex + pageSize);
+
+  // paginatedData = [...paginatedData, ...paginatedData];
 
   const openSentModal = (id: string) => {
     const data = props.sent_data.find((item: any) => item.id === id);
@@ -59,62 +58,57 @@ const SentMails = (props: any) => {
   };
 
   return (
-    <div ref={sentRef}>
-      <FilterSection />
-
-      {props.sent_data.length > 0 && (
-        <div className="relative grid gap-2 overflow-y-auto h-[calc(100vh-160px)]">
-          {/* Header */}
-          <div className="sticky top-0 z-20 grid grid-cols-12 mx-3 my-1 bg-gray-100 text-gray-800 text-[14px] font-semibold border border-gray-200 rounded-md">
-            <div className="col-span-3 px-4 py-2 border-r">
-              Recipient Information
-            </div>
-            <div className="col-span-7 px-4 py-2 border-r mx-5">Subject</div>
-            <div className="col-span-2 px-4 py-2">Certificate Status</div>
+    <div ref={sentRef} className="relative flex flex-col h-[calc(100vh-120px)]">
+      {/* ✅ HEADER - sticky */}
+      <div className="sticky top-0 z-50 bg-gray-100">
+        <FilterSection />
+        <div className="grid grid-cols-12 mx-3 my-1 text-gray-800 text-[14px] font-semibold border border-gray-200 rounded-md">
+          <div className="col-span-3 px-4 py-2 border-r border-gray-200">
+            Recipient Information
           </div>
-
-          {/* Data */}
-          <div className="min-h-[200px] space-y-1">
-            {paginatedData.length > 0 ? (
-              paginatedData.map((data: any) => (
-                <SentData
-                  key={data.id}
-                  data={data}
-                  onClick={(id: string) => openSentModal(id)}
-                />
-              ))
-            ) : (
-              <p className="text-center text-gray-400 py-10">
-                No sent mails found
-              </p>
-            )}
+          <div className="col-span-7 px-4 py-2 border-r mx-5 border-gray-200">
+            Subject
           </div>
+          <div className="col-span-2 px-4 py-2">Certificate Status</div>
         </div>
-      )}
+      </div>
 
+      <div className="flex-1 overflow-y-auto space-y-1 px-1">
+        {paginatedData.length > 0 ? (
+          paginatedData.map((data: any) => (
+            <SentData
+              key={data.id}
+              data={data}
+              onClick={(id: string) => openSentModal(id)}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-400 py-10">No sent mails found</p>
+        )}
+      </div>
+
+  
       {props.sent_data.length > 0 && (
-        <Pagination
-          currentPage={page}
-          totalCount={props.sent_data.length}
-          pageSize={pageSize}
-          onPageChange={(p) => setPage(p)}
-          onPageSizeChange={(size) => {
-            setPageSize(size);
-            setPage(1);
-          }}
-        />
+        <div className="sticky bottom-0 bg-white z-40 border-t border-gray-200">
+          <Pagination
+            currentPage={page}
+            totalCount={props.sent_data.length}
+            pageSize={pageSize}
+            onPageChange={(p) => setPage(p)}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setPage(1);
+            }}
+          />
+        </div>
       )}
 
       <Toaster
         toastOptions={{
           className:
             "bg-gray-900 text-white rounded-lg px-4 py-3 shadow-lg border border-gray-700",
-          success: {
-            className: "bg-green-600 text-white",
-          },
-          error: {
-            className: "bg-red-600 text-white font-light text-[15px]",
-          },
+          success: { className: "bg-green-600 text-white" },
+          error: { className: "bg-red-600 text-white font-light text-[15px]" },
         }}
       />
 
@@ -122,8 +116,8 @@ const SentMails = (props: any) => {
       {selectedMail && (
         <SentTimeModal
           id={selectedMail.id}
-          isOpenModal={selectedMail ? true : false}
-          onCloseModal={closeModal} 
+          isOpenModal={true}
+          onCloseModal={closeModal}
           time={formatDate(selectedMail.time)}
           email_dr_time={formatDate(selectedMail.email_dr_time)}
           sms_dr_time={formatDate(selectedMail.sms_dr_time)}

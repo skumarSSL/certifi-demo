@@ -73,7 +73,7 @@ const LoginSection = (props: any) => {
         ease: "power3.out",
         onComplete: () => {
           gsap.to("#message", {
-            color: "#e67e22",
+            color: "#2980b9",
             duration: 0.8,
             repeat: -1,
             yoyo: true,
@@ -104,21 +104,24 @@ const LoginSection = (props: any) => {
     <div className="flex items-center justify-center w-full h-full ml-3">
       <div className="relative w-full max-w-md h-[600px] md:h-[660px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
         {/* Logo */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2">
-          <img src={logo.src} alt="Logo" className="w-40" />
+        <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-xl">
+          <img src={logo.src} alt="Logo" className="w-50 px-5 py-2" />
         </div>
 
         {/* Animated Text */}
-        <p ref={textRef} className="text-center mt-3 opacity-0 scale-0">
-          <span className="text-[#0976B1] text-xl font-semibold">Sign In</span>
-          <br />
-          <span id="message" className="message text-sm font-semibold text-[#d7aa83]">
+        <p ref={textRef} className="text-center opacity-0 scale-0">
+          <span
+            id="message"
+            className="message text-sm font-semibold text-[#3498db]"
+          >
             New Era Of Secured Communication
           </span>
+          <br />
+          <span className="text-[#fa8231] text-2xl font-semibold">Sign In</span>
         </p>
 
         {/* Inputs */}
-        <div className="mt-6 space-y-4">
+        <div className="mt-9 space-y-4">
           <Input
             name="user_name"
             type="text"

@@ -76,7 +76,7 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
 
     form_data.append("username", user_name.trim());
     form_data.append("password", CryptoJS.SHA1(password));
-    return fetch(`${AppUrl}/login/`, {
+    return fetch(`${AppUrl}/demo_login/`, {
       method: "POST",
       credentials: "include",
       headers: {

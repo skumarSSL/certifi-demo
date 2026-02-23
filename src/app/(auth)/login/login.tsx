@@ -16,17 +16,17 @@ function LoginScreen(props: any) {
     (state: any) => state.login_store.is_logged_in,
   );
 
-  useEffect(() => {
-    let session_token = localStorage.getItem("session_token");
-    if (session_token) {
-      props
-        .Login_Get_Session_Expiry()
-        .then(() => {
-          router.push("/compose");
-        })
-        .catch(() => {});
-    }
-  }, []);
+  // useEffect(() => {
+  //   let session_token = localStorage.getItem("session_token");
+  //   if (session_token) {
+  //     props
+  //       .Login_Get_Session_Expiry()
+  //       .then(() => {
+  //         router.push("/compose");
+  //       })
+  //       .catch(() => {});
+  //   }
+  // }, []);
 
   return (
     <StoreProvider>
