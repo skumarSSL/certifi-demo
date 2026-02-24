@@ -247,6 +247,7 @@ const ReverificationPage = (props: any) => {
         <div className="flex mx-auto mt-5">
           <button
             onClick={onVerify}
+            disabled={loader}
             className={`bg-[#ef9837] text-white font-bold text-xl px-13 py-3 rounded-md cursor-pointer ${loader && "opacity-60 cursor-not-allowed"}`}
           >
             Reverify
