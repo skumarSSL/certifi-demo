@@ -77,7 +77,7 @@ function EmailView({ data }: { data: any }) {
       <div>
         {/* <p className="text-sm text-gray-400">07:42 AM</p> */}
         <h3 className="font-semibold text-lg mt-1">{data.SUBJECT}</h3>
-        <p className="text-sm text-gray-500 mt-1">To: {data.TO}</p>
+        <p className="text-lg text-gray-500 mt-1">To: {data.TO}</p>
       </div>
 
       {/* Body */}

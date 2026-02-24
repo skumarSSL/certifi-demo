@@ -73,12 +73,12 @@ const CertifyInbox = (props: any) => {
   return (
     <div
       ref={certifyInboxRef}
-      className="relative h-[calc(100vh-120px)] flex flex-col bg-gray-100 pl-55"
+      className="relative h-[calc(100vh-120px)] flex flex-col bg-gray-100 pl-60 z-0"
     >
-      <div className="sticky top-0 z-50 w-full bg-gray-100 border border-gray-200 py-1 shrink-0">
+      <div className="sticky top-0 z-50 w-full bg-[#f7f1e3] border border-gray-200 py-1 shrink-0">
         <div className="flex items-center gap-4 ml-7">
           <span className="px-2 py-1 bg-[#fad390] text-md font-light rounded-md">
-            View email with :
+            View certified email using :
           </span>
 
           <div className="flex bg-white rounded-full shadow-inner p-1">
