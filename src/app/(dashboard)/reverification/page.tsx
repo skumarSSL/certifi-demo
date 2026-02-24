@@ -148,13 +148,13 @@ const ReverificationPage = (props: any) => {
 
         <div className="mt-1">
           <span className="text-md md:text-md font-semibold mb-3">
-            Email ID
+            Email  
           </span>
           <Input
             name="user_name"
             type="text"
             value={props.email}
-            placeholder="Enter Email ID"
+            placeholder="Enter email"
             icon={user.src}
             onChange={onChangeEmail}
           />
