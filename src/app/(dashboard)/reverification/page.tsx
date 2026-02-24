@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 const ReverificationPage = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
   const reverificationRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
@@ -40,6 +41,25 @@ const ReverificationPage = (props: any) => {
       ease: "power3.inOut",
     });
   }, [props.is_sidebar]);
+
+  useEffect(() => {
+    let interval: any;
+
+    if (isScanning) {
+      setScanProgress(0);
+      interval = setInterval(() => {
+        setScanProgress((prev) => {
+          if (prev >= 90) return prev; // stop at 90% until scan finishes
+          return prev + 5;
+        });
+      }, 200);
+    } else {
+      setScanProgress(100);
+      setTimeout(() => setScanProgress(0), 500);
+    }
+
+    return () => clearInterval(interval);
+  }, [isScanning]);
 
   const onChangeEmail = (e: any) => {
     props.Reverify_Set_Fields("email", e.target.value);
@@ -70,13 +90,12 @@ const ReverificationPage = (props: any) => {
     };
 
     if (!selected_file || selected_file?.type === "application/pdf") {
-      props.Reverify_Set_Fields("file", finalValue);
-
       if (selected_file) {
         setIsScanning(true);
         props
           .Reverify_Scan_Files([selected_file])
           .then(() => {
+            props.Reverify_Set_Fields("file", finalValue);
             setIsScanning(false);
           })
           .catch(() => {
@@ -107,43 +126,93 @@ const ReverificationPage = (props: any) => {
       className="min-h-[calc(100vh-120px)] bg-gray-100 p-4 md:p-6 flex items-center  justify-center"
     >
       <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-4 md:p-6 flex flex-col items-start text-left gap-5">
+        {/* Checkbox aligned with upload start */}
+        <div className="w-full flex justify-end">
+          <label className="flex items-center gap-3 cursor-pointer justify-start">
+            <input
+              type="checkbox"
+              checked={props.is_form66}
+              name="is_form66"
+              onChange={() =>
+                props.Reverify_Set_Fields("is_form66", !props.is_form66)
+              }
+              className="mt-1 w-5 h-5 accent-sky-700 cursor-pointer"
+            />
+            <span className="text-md md:text-md font-light text-gray-800">
+              Would you like reverification{" "}
+              <span className="font-extrabold">certificate</span> under{" "}
+              <span className="font-extrabold">Section 63 BSA</span>?
+            </span>
+          </label>
+        </div>
+
+        <div className="mt-1">
+          <span className="text-md md:text-md font-semibold mb-3">
+            Email ID
+          </span>
+          <Input
+            name="user_name"
+            type="text"
+            value={props.email}
+            placeholder="Enter Email ID"
+            icon={user.src}
+            onChange={onChangeEmail}
+          />
+        </div>
+
         {/* Upload Section */}
         <div className="w-full">
-          <h2 className="text-lg md:text-xl font-semibold mb-3">Upload file</h2>
+          {/* <h2 className="text-lg md:text-xl font-semibold mb-3">Upload file</h2> */}
 
           <label
             htmlFor="fileUpload"
             className="border-2 border-dashed border-gray-300 rounded-xl p-6 md:p-10 flex flex-col items-center justify-center text-center space-y-4 cursor-pointer bg-gray-100 hover:bg-gray-50 transition"
           >
-            {props.file ? (
-              /* Preview after upload */
-              <div className="flex flex-col items-center space-y-3">
-                <div className="w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center">
-                  <a className="text-red-600 font-bold text-lg" download href={props.file.url}>PDF</a>
+            {isScanning ? (
+              /* Progress UI */
+              <div className="w-full flex flex-col gap-3">
+                <p className="text-gray-700 font-medium">Scanning file...</p>
+
+                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="bg-sky-600 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${scanProgress}%` }}
+                  />
                 </div>
 
-                <p className="text-gray-800 font-medium">{props.file.name}</p>
+                <p className="text-sm text-gray-500">{scanProgress}%</p>
+              </div>
+            ) : props.file ? (
+              /* File Preview Card */
+              <div className="w-full flex items-center gap-4 bg-white shadow-sm rounded-lg p-4 relative">
+                <div className="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center">
+                  <span className="text-red-600 font-bold text-lg">PDF</span>
+                </div>
 
-                <p className="text-sm text-gray-500">
-                  {(props.file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
-
-                <span className="text-sky-700 text-md font-medium hover:underline">
-                  Replace file
-                </span>
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex-1 text-left">
+                    <p className="font-medium text-gray-800">
+                      {props.file.name}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {(props.file.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                  </div>
+                  <button className="text-sky-700 text-sm font-medium hover:underline">
+                    Replace file
+                  </button>
+                </div>
               </div>
             ) : (
-              /* Default UI */
+              /* Default Upload UI */
               <>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-indigo-100 flex items-center justify-center">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-2">
                   <UploadCloud className="text-sky-900" size={28} />
                 </div>
-
                 <p className="text-gray-800 font-medium">
-                  Drag and drop your document here
+                  Upload your document here
                 </p>
-
-                <span className="text-sky-900 font-medium hover:underline hover:text-sky-600">
+                <span className="text-sky-900 font-medium hover:underline">
                   Choose a file
                 </span>
               </>
@@ -166,43 +235,9 @@ const ReverificationPage = (props: any) => {
             </p>
             <p>
               Maximum file size:{" "}
-              <span className="text-sky-700 font-medium">5MB</span>
+              <span className="text-sky-700 font-medium">1 MB</span>
             </p>
           </div>
-        </div>
-
-        <div className="mt-1">
-          <span className="text-md md:text-md font-semibold mb-3">
-            Email ID
-          </span>
-          <Input
-            name="user_name"
-            type="text"
-            value={props.email}
-            placeholder="Enter Email ID"
-            icon={user.src}
-            onChange={onChangeEmail}
-          />
-        </div>
-
-        {/* Checkbox aligned with upload start */}
-        <div className="">
-          <label className="flex items-center gap-3 cursor-pointer justify-start">
-            <input
-              type="checkbox"
-              checked={props.is_form66}
-              name="is_form66"
-              onChange={() =>
-                props.Reverify_Set_Fields("is_form66", !props.is_form66)
-              }
-              className="mt-1 w-5 h-5 accent-sky-700 cursor-pointer"
-            />
-            <span className="text-md md:text-md font-light text-gray-800">
-              Would you like reverification{" "}
-              <span className="font-extrabold">certificate</span> under{" "}
-              <span className="font-extrabold">Section 63 BSA</span>?
-            </span>
-          </label>
         </div>
 
         <div className="flex mx-auto mt-5">
