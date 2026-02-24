@@ -17,10 +17,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     <div className="flex justify-center w-full h-17">
       <div
         className={`
-          relative flex items-center w-80 my-3 rounded-xl px-4 py-3
+          relative flex items-center w-150 my-3 rounded-xl px-4 py-3
           bg-gray-100
           transition-all duration-200
-          ${error ? "border border-red-500" : isFocused ? "border border-primary/50 shadow-[0_0_0_2px_rgba(1,113,177,0.12)]" : "border border-transparent shadow-[0_1px_6px_rgba(0,0,0,0.06)]"}
+          ${error ? "border border-red-500" : isFocused ? "border border-primary/50 shadow-[0_0_0_2px_rgba(1,113,177,0.12)]" : "border border-gray-200 shadow-[0_1px_6px_rgba(0,0,0,0.06)]"}
         `}
       >
         {/* Icon */}

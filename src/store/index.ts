@@ -5,15 +5,17 @@ import SentReducer from "./sent-mails/sent-mails-reducer";
 import ComposeReducer from "./compose/composeSlice";
 import CommonReducer from "./common/commonSlice";
 import ProfileReducer from "./profile/profile-reducer";
+import ReverifyReducer from "./reverify/reverify-reducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      sent_store: SentReducer,
       login_store: LoginReducer,
       common_store: CommonReducer,
       compose_store: ComposeReducer,
       profile_store: ProfileReducer,
-      sent_store: SentReducer,
+      reverify_store: ReverifyReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),
   });
