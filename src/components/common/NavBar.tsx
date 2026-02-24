@@ -152,7 +152,9 @@ const Navbar = (props: any) => {
               ? "Compose"
               : pathname === "/reverification"
                 ? "Reverification"
-                : ""}
+                : pathname === "/inbox"
+                  ? "Recieved Certified Email"
+                  : ""}
         </div>
         {/* <div className="flex gap-3">
           <button

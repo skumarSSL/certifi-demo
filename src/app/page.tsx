@@ -18,8 +18,10 @@ export default function HomePage() {
       pathname === "/reverification"
         ? router.replace("/reverification")
         : pathname === "/compose"
-          ? "/compose"
-          : router.replace("/sent-mails");
+          ? router.replace("/compose")
+          : pathname === "/inbox"
+            ? router.replace("/inbox")
+            : router.replace("/sent-mails");
     } else {
       router.replace("/");
     }

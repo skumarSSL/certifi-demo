@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Mail, LucideIcon, LogOut, CheckCircle } from "lucide-react";
+import { Mail, LucideIcon, LogOut, CheckCircle, MailCheck } from "lucide-react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -82,6 +82,13 @@ const Sidebar = (props: any) => {
       <nav className="flex flex-col h-full justify-start mx-2 gap-3 pt-6 mt-15">
         <SideBarLink
           icon={Mail}
+          svgIcon={reverifySvg.src}
+          label="Recieved Emails"
+          href="/inbox"
+          isSideBar={props.is_sidebar}
+        />
+        <SideBarLink
+          icon={MailCheck}
           svgIcon={mailSvg.src}
           label="Sent Mails"
           href="/sent-mails"

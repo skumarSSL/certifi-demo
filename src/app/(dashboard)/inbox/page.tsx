@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { connect } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Repeat, UploadCloud } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 
 import user from "@/assets/user.png";
 import Input from "@/utils/Input";
@@ -18,11 +18,11 @@ import {
 } from "@/store/reverify/reverify-action";
 import { useRouter } from "next/navigation";
 
-const ReverificationPage = (props: any) => {
+const CertifyInbox = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
   const [loader, setLoader] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
-  const reverificationRef = useRef<HTMLDivElement>(null);
+  const certifyInboxRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
 
@@ -33,9 +33,9 @@ const ReverificationPage = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (!reverificationRef.current) return;
+    if (!certifyInboxRef.current) return;
 
-    gsap.to(reverificationRef.current, {
+    gsap.to(certifyInboxRef.current, {
       paddingLeft: props.is_sidebar ? 220 : 64,
       duration: 0.4,
       ease: "power3.inOut",
@@ -122,7 +122,7 @@ const ReverificationPage = (props: any) => {
 
   return (
     <div
-      ref={reverificationRef}
+      ref={certifyInboxRef}
       className="min-h-[calc(100vh-120px)] bg-gray-100 p-4 md:p-6 flex items-center  justify-center"
     >
       <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-4 md:p-6 flex flex-col items-start text-left gap-5">
@@ -147,7 +147,9 @@ const ReverificationPage = (props: any) => {
         </div>
 
         <div className="mt-1">
-          <span className="text-md md:text-md font-semibold mb-3">Email</span>
+          <span className="text-md md:text-md font-semibold mb-3">
+            Email  
+          </span>
           <Input
             name="user_name"
             type="text"
@@ -189,21 +191,16 @@ const ReverificationPage = (props: any) => {
 
                 <div className="flex justify-between items-center w-full">
                   <div className="flex-1 text-left">
-                    <a
-                      className="font-medium text-gray-800"
-                      href={props.file.url}
-                      download={props.file.name}
-                    >
+                    <p className="font-medium text-gray-800">
                       {props.file.name}
-                    </a>
+                    </p>
                     <p className="text-sm text-gray-500">
                       {(props.file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
-                  <p className=" flex items-center space-x-3 justify-around text-primary-foreground bg-gray-700 px-5 py-2 font-semibold rounded-full cursor-pointer hover:bg-gray-600">
-                    <Repeat size={14} />
-                    <p>Replace file</p>
-                  </p>
+                  <button className="text-sky-700 text-sm font-medium hover:underline">
+                    Replace file
+                  </button>
                 </div>
               </div>
             ) : (
@@ -212,12 +209,11 @@ const ReverificationPage = (props: any) => {
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-2">
                   <UploadCloud className="text-sky-900" size={28} />
                 </div>
-                <p className="text-gray-600 font-medium text-lg">
-                  Upload your{" "}
-                  <span className="font-bold">CERTIFI Certificate</span> here
+                <p className="text-gray-800 font-medium">
+                  Upload your document here
                 </p>
-                <span className="text-primary-foreground bg-primary px-5 py-2 font-semibold rounded-full cursor-pointer hover:bg-sky-600">
-                  Choose file
+                <span className="text-sky-900 font-medium hover:underline">
+                  Choose a file
                 </span>
               </>
             )}
@@ -281,4 +277,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(ReverifySetFields(name, value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReverificationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CertifyInbox);
