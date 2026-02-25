@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Send, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import WhatsAppPng from "@/assets/whatsapp.png";
+import WhatsAppPng from "@public/assets/whatsapp.png";
 import {
   ComposeSetFields,
   ComposeSendCertifiMail,

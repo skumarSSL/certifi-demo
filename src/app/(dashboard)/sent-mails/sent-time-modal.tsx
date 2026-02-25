@@ -2,9 +2,9 @@ import Modal from "@/utils/modal";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import MessageSvg from "@/assets/message.svg";
-import MailInfoSvg from "@/assets/mail-info.svg";
-import WhatsAppPng from "@/assets/whatsapp.png";
+import MessageSvg from "@public/assets/message.svg";
+import MailInfoSvg from "@public/assets/mail-info.svg";
+import WhatsAppPng from "@public/assets/whatsapp.png";
 
 const SentTimeModal = ({
   id,

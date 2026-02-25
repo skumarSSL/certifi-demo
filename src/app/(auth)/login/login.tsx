@@ -1,7 +1,7 @@
 "use client";
 
 import StoreProvider from "@/app/StoreProvider";
-import backgroundGif from "@/assets/background-login.png";
+import backgroundGif from "@public/assets/background-login.png";
 import Carousel from "@/components/login/CarouselSection";
 
 import LoginSection from "@/components/login/LoginSection";

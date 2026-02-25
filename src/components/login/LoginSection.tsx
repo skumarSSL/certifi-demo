@@ -6,17 +6,19 @@ import { useEffect, useRef, useState } from "react";
 
 import gsap from "gsap";
 
-import logo from "@/assets/hrlogo.png";
-import lock from "@/assets/lock.png";
-import user from "@/assets/user.png";
-import qrCode from "@/assets/qr-code.svg";
-import twitter from "@/assets/twitter.png";
-import youtube from "@/assets/youtube.png";
-import facebook from "@/assets/facebook.png";
-import linkedin from "@/assets/linkedin.png";
-import instagram from "@/assets/instagram.png";
-import googleIcon from "@/assets/googleIcon.svg";
-import googleStore from "@/assets/google-play.png";
+import logo from "@public/assets/hrlogo.png";
+import lock from "@public/assets/lock.png";
+import user from "@public/assets/user.png";
+import qrCode from "@public/assets/qr-code.svg";
+import twitter from "@public/assets/twitter.png";
+import youtube from "@public/assets/youtube.png";
+import appQrCode from "@public/assets/app-qr.svg";
+import facebook from "@public/assets/facebook.png";
+import linkedin from "@public/assets/linkedin.png";
+import instagram from "@public/assets/instagram.png";
+import googleIcon from "@public/assets/googleIcon.svg";
+import googleStore from "@public/assets/google-play.png";
+import appleStore from "@public/assets/apple-logo.png";
 
 import Input from "@/utils/Input";
 import {
@@ -149,16 +151,16 @@ const LoginSection = (props: any) => {
             onKeyPress={onKeyPress}
           />
 
-          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5">
+          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right">
             Forgot Password?
           </div>
 
           {/* Login Button */}
-          <div className="flex justify-end">
+          <div className="flex justify-center items-center">
             <button
               disabled={isBtnDisabled || !props.user_name || !props.password}
               onClick={handleLogin}
-              className={`w-32 py-2.5 rounded-lg bg-primary text-white font-medium text-xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
+              className={`w-90 py-1.5 rounded-lg bg-primary text-white font-medium text-xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
             >
               Login
             </button>
@@ -173,7 +175,7 @@ const LoginSection = (props: any) => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-3 mt-4">
-            <img src={qrCode.src} alt={qrCode.alt} className={`w-30 h-30`} />
+            <img src={appQrCode.src} alt={qrCode.alt} className={`w-35 h-35`} />
 
             <div className="flex flex-wrap gap-3 mt-1">
               <a
@@ -190,7 +192,28 @@ const LoginSection = (props: any) => {
                 <div className="flex flex-col leading-tight">
                   <span className="text-[8px] text-[#616161]">Get it on</span>
                   <span className="text-xs font-semibold text-[#242424]">
-                    Google play store
+                    Google Play
+                  </span>
+                </div>
+              </a>
+
+              <a
+                href="https://apps.apple.com/in/app/certifi-communications/id6737164586"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+              >
+                <img
+                  src={appleStore.src}
+                  alt="Google Play"
+                  className="w-5 h-5"
+                />
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[8px] text-[#616161]">
+                    Download on the
+                  </span>
+                  <span className="text-xs font-semibold text-[#242424]">
+                    App Store
                   </span>
                 </div>
               </a>

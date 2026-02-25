@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Mail, Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import gsap from "gsap";
-import malePng from "@/assets/male.png";
+import malePng from "@public/assets/male.png";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
-import user from "@/assets/user.svg";
-import hrlogo from "@/assets/hrlogo.png";
+import user from "@public/assets/user.svg";
+import hrlogo from "@public/assets/hrlogo.png";
 import {
   LoginSetGlobalSidebar,
   LoginSetSidebar,

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Repeat, UploadCloud } from "lucide-react";
 
-import user from "@/assets/user.png";
+import user from "@public/assets/user.png";
 import Input from "@/utils/Input";
 
 import { ComposeScanFiles, fileToBase64 } from "@/store/compose/compose-action";
@@ -17,6 +17,7 @@ import {
   ReverifySetFields,
 } from "@/store/reverify/reverify-action";
 import { useRouter } from "next/navigation";
+import { ReverifyState } from "@/store/reverify/reverify-reducer";
 
 const ReverificationPage = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
@@ -278,8 +279,10 @@ const mapDispatchToProps = (dispatch: any) => ({
   Reverify_Reset_Fields: () => dispatch(ReverifyResetFields()),
   Reverify_Get_Certificate: () => dispatch(ReverifyGetCertificate()),
   Reverify_Scan_Files: (files: any) => dispatch(ReverifyScanFiles(files)),
-  Reverify_Set_Fields: (name: any, value: any) =>
-    dispatch(ReverifySetFields(name, value)),
+  Reverify_Set_Fields: <K extends keyof ReverifyState>(
+    name: K,
+    value: ReverifyState[K],
+  ) => dispatch(ReverifySetFields(name, value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReverificationPage);

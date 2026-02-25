@@ -192,10 +192,10 @@ const _validateReverifyDetails =
     } else if (email && !email_validator.test(email)) {
       toast.error("Enter valid email id");
       new_error_info.email = "Enter valid email id";
-    } else if (!file) {
+    } else if (!file.name) {
       toast.error("Please upload file");
       new_error_info.file = "Please upload file";
-    } else if (file.size > 5 * 1024 * 1024) {
+    } else if (Number(file.size) > 5 * 1024 * 1024) {
       toast.error("Total file size should be less than 5MB");
       new_error_info.file = "Total file size should be less than 5MB";
     } else if (scan_file_error) {

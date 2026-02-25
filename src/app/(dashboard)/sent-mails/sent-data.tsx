@@ -3,11 +3,11 @@ import gsap from "gsap";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 
-import CloudSvg from "@/assets/cloud.svg";
-import MessageSvg from "@/assets/message.svg";
-import MailInfoSvg from "@/assets/mail-info.svg";
-import CalenderSvg from "@/assets/calender.svg";
-import WhatsAppPng from "@/assets/whatsapp.png";
+import CloudSvg from "@public/assets/cloud.svg";
+import MessageSvg from "@public/assets/message.svg";
+import MailInfoSvg from "@public/assets/mail-info.svg";
+import CalenderSvg from "@public/assets/calender.svg";
+import WhatsAppPng from "@public/assets/whatsapp.png";
 import { SentGetDownloadViewCert } from "@/store/sent-mails/sent-mails-action";
 
 const SentData = (props: any) => {

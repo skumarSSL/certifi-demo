@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useRef, useState } from "react";
 
-import AttachmentsSvg from "@/assets/attachments.svg";
+import AttachmentsSvg from "@public/assets/attachments.svg";
 
 import ComposeLeftSection from "@/app/(dashboard)/compose/compose-left-section";
 import ComposeRightSection from "@/app/(dashboard)/compose/compose-right-section";

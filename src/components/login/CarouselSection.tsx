@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 
 import gsap from "gsap";
 
-import post1 from "@/assets/post-1.png";
-import post2 from "@/assets/post-2.png";
-import post3 from "@/assets/post-3.png";
+import post1 from "@public/assets/post-1.png";
+import post2 from "@public/assets/post-2.png";
+import post3 from "@public/assets/post-3.png";
 
 const slides = [
   { id: 1, embed: post1.src },
@@ -99,14 +99,13 @@ function Carousel() {
             }}
             className="absolute inset-0 opacity-0 flex items-center justify-center"
           >
-            <Image
+            <img
               ref={(el) => {
                 if (el) imageRefs.current[i] = el;
               }}
               src={slide.embed}
               alt={`post-${slide.id}`}
-              fill
-              className="object-contain rounded-lg will-change-transform"
+              className="w-full h-full object-contain rounded-lg will-change-transform"
             />
           </div>
         ))}

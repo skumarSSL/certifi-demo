@@ -8,8 +8,8 @@ import Link from "next/link";
 import gsap from "gsap";
 import { connect } from "react-redux";
 
-import mailSvg from "@/assets/mail.svg";
-import reverifySvg from "@/assets/reverify.svg";
+import mailSvg from "@public/assets/mail.svg";
+import reverifySvg from "@public/assets/reverify.svg";
 import {
   LoginSetGlobalSidebar,
   LoginSetSidebar,

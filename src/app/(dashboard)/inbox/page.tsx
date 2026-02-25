@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-import key from "@/assets/key.svg";
-import user from "@/assets/user.png";
-import phone from "@/assets/phone.png";
+import key from "@public/assets/key.svg";
+import user from "@public/assets/user.png";
+import phone from "@public/assets/phone.png";
 import Input from "@/utils/Input";
 
 import { useRouter } from "next/navigation";
