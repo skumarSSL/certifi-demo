@@ -64,7 +64,7 @@ const DashboardWrapper = ({
         </main>
 
         {/* Compose button fixed */}
-        {pathname !== "/compose" && (
+        {pathname !== "/compose/" && (
           <div
             className="compose fixed bottom-20 right-10 bg-primary px-5 py-3 rounded-md flex items-center gap-2 shadow-lg cursor-pointer z-10"
             onClick={() => router.push("/compose")}

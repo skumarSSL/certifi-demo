@@ -7,6 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { Repeat, UploadCloud } from "lucide-react";
 
 import user from "@public/assets/user.png";
+import info from "@public/assets/info.svg";
+
 import Input from "@/utils/Input";
 
 import { ComposeScanFiles, fileToBase64 } from "@/store/compose/compose-action";
@@ -129,7 +131,7 @@ const ReverificationPage = (props: any) => {
       <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-4 md:p-6 flex flex-col items-start text-left gap-5">
         {/* Checkbox aligned with upload start */}
         <div className="w-full flex justify-end">
-          <label className="flex items-center gap-3 cursor-pointer justify-start">
+          <label className="flex items-center gap-1 cursor-pointer justify-start">
             <input
               type="checkbox"
               checked={props.is_form66}
@@ -144,6 +146,23 @@ const ReverificationPage = (props: any) => {
               <span className="font-extrabold">certificate</span> under{" "}
               <span className="font-extrabold">Section 63 BSA</span>?
             </span>
+            <div className="relative inline-block group">
+              <img src={info.src} className="w-5 h-5 cursor-pointer" />
+
+              {/* Tooltip */}
+              <div
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]"
+              >
+                <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[420px] min-w-[350px]  whitespace-normal break-words leading-relaxed text-center font-medium">
+                  Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
+                  significance of electronic or digital records and has
+                  dedicated provisions in Chapter 5 to address the admissibility
+                  and proof of electronic evidence.
+                  {/* Arrow */}
+                  <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2.5 h-2.5 bg-gray-900 rotate-45"></div>
+                </div> 
+              </div>
+            </div>
           </label>
         </div>
 
@@ -181,7 +200,7 @@ const ReverificationPage = (props: any) => {
 
                 <p className="text-sm text-gray-500">{scanProgress}%</p>
               </div>
-            ) : props.file ? (
+            ) : props.file.name ? (
               /* File Preview Card */
               <div className="w-full flex items-center gap-4 bg-white shadow-sm rounded-lg p-4 relative">
                 <div className="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center">
@@ -201,10 +220,10 @@ const ReverificationPage = (props: any) => {
                       {(props.file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
-                  <p className=" flex items-center space-x-3 justify-around text-primary-foreground bg-gray-700 px-5 py-2 font-semibold rounded-full cursor-pointer hover:bg-gray-600">
+                  <div className=" flex items-center space-x-3 justify-around text-primary-foreground bg-gray-700 px-5 py-2 font-semibold rounded-full cursor-pointer hover:bg-gray-600">
                     <Repeat size={14} />
                     <p>Replace file</p>
-                  </p>
+                  </div>
                 </div>
               </div>
             ) : (
