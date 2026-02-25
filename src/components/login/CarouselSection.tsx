@@ -8,9 +8,9 @@ import post2 from "@public/assets/post-2.png";
 import post3 from "@public/assets/post-3.png";
 
 const slides = [
-  { id: 1, embed: post1.src },
-  { id: 2, embed: post2.src },
-  { id: 3, embed: post3.src },
+  { id: 1, embed: post2.src },
+  { id: 2, embed: post3.src },
+  { id: 3, embed: post2.src },
   { id: 4, embed: post3.src },
 ];
 
