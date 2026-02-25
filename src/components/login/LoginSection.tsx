@@ -133,6 +133,7 @@ const LoginSection = (props: any) => {
             placeholder="Enter Email ID"
             icon={user.src}
             width={"w-90"}
+            background={"bg-white"}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
             }
@@ -144,6 +145,7 @@ const LoginSection = (props: any) => {
             value={props.password}
             placeholder="Enter Password"
             width={"w-90"}
+            background={"bg-white"}
             icon={lock.src}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
@@ -167,7 +169,7 @@ const LoginSection = (props: any) => {
           </div>
 
           {/* Google Login */}
-          <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-50 cursor-pointer">
+          <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-100 cursor-pointer">
             <img src={googleIcon.src} className="w-5 h-5" />
             <span className="text-sm font-medium text-gray-500">
               Login / Signup with Google
