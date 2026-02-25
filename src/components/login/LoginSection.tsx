@@ -9,12 +9,14 @@ import gsap from "gsap";
 import logo from "@/assets/hrlogo.png";
 import lock from "@/assets/lock.png";
 import user from "@/assets/user.png";
+import qrCode from "@/assets/qr-code.svg";
 import twitter from "@/assets/twitter.png";
 import youtube from "@/assets/youtube.png";
 import facebook from "@/assets/facebook.png";
 import linkedin from "@/assets/linkedin.png";
 import instagram from "@/assets/instagram.png";
 import googleIcon from "@/assets/googleIcon.svg";
+import googleStore from "@/assets/google-play.png";
 
 import Input from "@/utils/Input";
 import {
@@ -102,14 +104,14 @@ const LoginSection = (props: any) => {
 
   return (
     <div className="flex items-center justify-center w-full h-full ml-3">
-      <div className="relative w-full max-w-md h-[600px] md:h-[660px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
+      <div className="relative w-full max-w-md max-h-md h-[600px] md:h-[750px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
         {/* Logo */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-xl">
           <img src={logo.src} alt="Logo" className="w-50 px-5 py-2" />
         </div>
 
         {/* Animated Text */}
-        <p ref={textRef} className="text-center opacity-0 scale-0">
+        <p ref={textRef} className="text-center opacity-0 scale-0 mt-3">
           <span
             id="message"
             className="message text-sm font-semibold text-[#3498db]"
@@ -128,6 +130,7 @@ const LoginSection = (props: any) => {
             value={props.user_name}
             placeholder="Enter Email ID"
             icon={user.src}
+            width={"w-90"}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
             }
@@ -138,6 +141,7 @@ const LoginSection = (props: any) => {
             type="password"
             value={props.password}
             placeholder="Enter Password"
+            width={"w-90"}
             icon={lock.src}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
@@ -145,7 +149,7 @@ const LoginSection = (props: any) => {
             onKeyPress={onKeyPress}
           />
 
-          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-10">
+          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5">
             Forgot Password?
           </div>
 
@@ -161,20 +165,45 @@ const LoginSection = (props: any) => {
           </div>
 
           {/* Google Login */}
-          <div className="flex items-center justify-center gap-2 mt-6 w-60 mx-auto py-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer">
+          <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-50 cursor-pointer">
             <img src={googleIcon.src} className="w-5 h-5" />
             <span className="text-sm font-medium text-gray-500">
               Login / Signup with Google
             </span>
           </div>
 
+          <div className="flex flex-col justify-center items-center gap-3 mt-4">
+            <img src={qrCode.src} alt={qrCode.alt} className={`w-30 h-30`} />
+
+            <div className="flex flex-wrap gap-3 mt-1">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.certifi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+              >
+                <img
+                  src={googleStore.src}
+                  alt="Google Play"
+                  className="w-5 h-5"
+                />
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[8px] text-[#616161]">Get it on</span>
+                  <span className="text-xs font-semibold text-[#242424]">
+                    Google play store
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+
           {/* Divider */}
-          <div className="text-center text-gray-400 text-sm mt-4">
-            ─── Follow Us ───
+          <div className="text-center text-gray-400 text-sm mt-3">
+            ────── Follow Us ──────
           </div>
 
           {/* Social Icons */}
-          <div className="flex justify-center gap-3 mt-4">
+          <div className="flex justify-center gap-3 mt-2">
             {socialMediaLinks.map((media) => (
               <div
                 key={media.alt}
