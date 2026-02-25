@@ -127,7 +127,7 @@ const Navbar = (props: any) => {
               <Menu className="h-7 w-7 text-gray-700 hover:text-gray-600 hover:scale-3d transition ease-in-out dark:text-white cursor-pointer" />
             </button>
             <div className="flex justify-center items-center">
-              <Image src={hrlogo} alt="logo" width={150} height={60} />
+              <img src={hrlogo.src} alt="logo" width={150} height={60} />
             </div>
           </div>
         </div>
@@ -146,13 +146,13 @@ const Navbar = (props: any) => {
       >
         <div className="text-2xl font-bold">
           {" "}
-          {pathname === "/sent-mails"
+          {pathname === "/sent-mails/"
             ? "All Sent Mails"
-            : pathname === "/compose"
+            : pathname === "/compose/"
               ? "Compose"
-              : pathname === "/reverification"
+              : pathname === "/reverification/"
                 ? "Reverification"
-                : pathname === "/inbox"
+                : pathname === "/inbox/"
                   ? "Recieved Certified Email"
                   : ""}
         </div>

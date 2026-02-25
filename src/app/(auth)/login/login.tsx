@@ -37,7 +37,7 @@ function LoginScreen(props: any) {
             <img
               src={backgroundGif.src}
               alt="Animated background"
-              className="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-70"
+              className="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-50"
             />
 
             {/* Carousel */}

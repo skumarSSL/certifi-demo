@@ -19,6 +19,7 @@ import instagram from "@public/assets/instagram.png";
 import googleIcon from "@public/assets/googleIcon.svg";
 import googleStore from "@public/assets/google-play.png";
 import appleStore from "@public/assets/apple-logo.png";
+import webQrCode from "@public/assets/web-qr-code.svg";
 
 import Input from "@/utils/Input";
 import {
@@ -177,7 +178,7 @@ const LoginSection = (props: any) => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-3 mt-4">
-            <img src={appQrCode.src} alt={qrCode.alt} className={`w-35 h-35`} />
+            <img src={webQrCode.src} alt={qrCode.alt} className={`w-35 h-35`} />
 
             <div className="flex flex-wrap gap-3 mt-1">
               <a
