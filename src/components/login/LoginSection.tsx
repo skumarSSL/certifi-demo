@@ -110,20 +110,22 @@ const LoginSection = (props: any) => {
       <div className="relative w-full  max-w-[430px] h-[600px] md:h-[770px] p-8 bg-gray-100 rounded-xl  flex flex-col justify-center shadow-destructive-foreground">
         {/* Logo */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-xl">
-          <img src={logo.src} alt="Logo" className="w-50 px-5 py-2" />
+          <img src={logo.src} alt="Logo" className="w-54 px-5 py-2" />
         </div>
 
         {/* Animated Text */}
         <p ref={textRef} className="text-center opacity-0 scale-0 mt-3">
           <span
             id="message"
-            className="message text-sm font-semibold text-[#3498db] mt-2"
+            className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-75%"
           >
             New Era of Secured Communication
           </span>
           <br />
         </p>
-        <p className="text-[#fa8231] text-xl sm:text-2xl font-semibold text-center mt-3">Sign In</p>
+        <p className="text-[#fa8231] text-xl sm:text-2xl font-semibold text-center mt-4">
+          Sign In
+        </p>
 
         {/* Inputs */}
         <div className="mt-9 space-y-4">
@@ -131,7 +133,7 @@ const LoginSection = (props: any) => {
             name="user_name"
             type="text"
             value={props.user_name}
-            placeholder="Enter Email ID"
+            placeholder="Enter email"
             icon={user.src}
             width={"w-full"}
             background={"bg-white"}
@@ -144,7 +146,7 @@ const LoginSection = (props: any) => {
             name="password"
             type="password"
             value={props.password}
-            placeholder="Enter Password"
+            placeholder="Enter password"
             width={"w-full"}
             background={"bg-white"}
             icon={lock.src}
