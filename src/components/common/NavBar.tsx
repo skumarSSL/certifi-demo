@@ -132,12 +132,26 @@ const Navbar = (props: any) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer mr-3">
-          <img
-            src={props.profile_pic ? props.profile_pic : user.src}
-            className="w-8 h-8 object-cover rounded-full"
-            alt="User avatar"
-          />
+        <div className="flex">
+          <div className="flex items-center justify-center w-10 h-10 bg-[#ecf0f1] shadow-[#dfe6e9] rounded-full cursor-pointer">
+            <img
+              src={props.profile_pic ? props.profile_pic : user.src}
+              className="w-8 h-8 object-cover rounded-full"
+              alt="User avatar"
+            />
+          </div>
+          <div className="flex items-center gap-1 px-3 text-[14px] font-stretch-90% font-medium">
+            {props.profile_data?.first_name && (
+              <>
+                <span className="text-gray-700">Hello,</span>
+
+                <span className="font-semibold text-[#0E6DBD] tracking-wide animate-fade-in">
+                  {props.profile_data?.first_name}
+                </span>
+              </>
+            )}
+            {/* <span className="text-xl animate-wave">👋</span> */}
+          </div>
         </div>
       </div>
       <div
