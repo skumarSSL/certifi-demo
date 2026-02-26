@@ -107,7 +107,7 @@ const LoginSection = (props: any) => {
 
   return (
     <div className="flex items-center justify-center w-full h-full ml-3">
-      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[770px] p-8 bg-gray-100 rounded-xl  flex flex-col justify-center shadow-destructive-foreground">
+      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[770px] p-8 bg-gray-50 rounded-xl  flex flex-col justify-center shadow-destructive-foreground">
         {/* Logo */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-xl">
           <img src={logo.src} alt="Logo" className="w-54 px-5 py-2" />
@@ -117,7 +117,7 @@ const LoginSection = (props: any) => {
         <p ref={textRef} className="text-center opacity-0 scale-0 mt-3">
           <span
             id="message"
-            className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-75%"
+            className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
           >
             New Era of Secured Communication
           </span>

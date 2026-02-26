@@ -7,10 +7,10 @@ import post3 from "@public/assets/post-3.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
-  { id: 1, embed: post1.src },
-  { id: 2, embed: post2.src },
-  { id: 3, embed: post3.src },
-  { id: 4, embed: post1.src },
+  { id: 1, embed: post2.src },
+  { id: 2, embed: post3.src },
+  { id: 3, embed: post2.src },
+  { id: 4, embed: post3.src },
 ];
 
 function Carousel() {

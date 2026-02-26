@@ -1,7 +1,7 @@
 "use client";
 
 import StoreProvider from "@/app/StoreProvider";
-import backgroundGif from "@public/assets/background-login.png";
+import backgroundGif from "@public/assets/background.png";
 import Carousel from "@/components/login/CarouselSection";
 
 import LoginSection from "@/components/login/LoginSection";
@@ -37,7 +37,7 @@ function LoginScreen(props: any) {
             <img
               src={backgroundGif.src}
               alt="Animated background"
-              className="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-50"
+              className="absolute inset-0 w-full h-full object-cover rounded-2xl"
             />
 
             {/* Carousel */}
