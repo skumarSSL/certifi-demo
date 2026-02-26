@@ -107,7 +107,7 @@ const LoginSection = (props: any) => {
 
   return (
     <div className="flex items-center justify-center w-full h-full ml-3">
-      <div className="relative w-full max-w-md max-h-md h-[600px] md:h-[750px] p-8 bg-gray-100 rounded-xl shadow-lg flex flex-col justify-center">
+      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[770px] p-8 bg-gray-100 rounded-xl  flex flex-col justify-center shadow-destructive-foreground">
         {/* Logo */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-xl">
           <img src={logo.src} alt="Logo" className="w-50 px-5 py-2" />
@@ -117,13 +117,13 @@ const LoginSection = (props: any) => {
         <p ref={textRef} className="text-center opacity-0 scale-0 mt-3">
           <span
             id="message"
-            className="message text-sm font-semibold text-[#3498db]"
+            className="message text-sm font-semibold text-[#3498db] mt-2"
           >
-            New Era Of Secured Communication
+            New Era of Secured Communication
           </span>
           <br />
-          <span className="text-[#fa8231] text-2xl font-semibold">Sign In</span>
         </p>
+        <p className="text-[#fa8231] text-xl sm:text-2xl font-semibold text-center mt-3">Sign In</p>
 
         {/* Inputs */}
         <div className="mt-9 space-y-4">
@@ -133,7 +133,7 @@ const LoginSection = (props: any) => {
             value={props.user_name}
             placeholder="Enter Email ID"
             icon={user.src}
-            width={"w-90"}
+            width={"w-full"}
             background={"bg-white"}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
@@ -145,7 +145,7 @@ const LoginSection = (props: any) => {
             type="password"
             value={props.password}
             placeholder="Enter Password"
-            width={"w-90"}
+            width={"w-full"}
             background={"bg-white"}
             icon={lock.src}
             onChange={(e) =>
@@ -154,7 +154,7 @@ const LoginSection = (props: any) => {
             onKeyPress={onKeyPress}
           />
 
-          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right">
+          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right w-full">
             Forgot Password?
           </div>
 
@@ -251,7 +251,7 @@ const LoginSection = (props: any) => {
         <p className="text-gray-400 text-xs absolute bottom-3 text-center px-6">
           By signing in to CERTIFI, you agree to our{" "}
           <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
-          and <span className="underline cursor-pointer">Privacy policy</span>
+          and <span className="underline cursor-pointer">Privacy Policy</span>
         </p>
       </div>
     </div>
