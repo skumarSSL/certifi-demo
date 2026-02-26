@@ -11,6 +11,7 @@ import Pagination from "@/utils/pagination";
 import { Toaster } from "react-hot-toast";
 import { SentGetSuccessMails } from "@/store/sent-mails/sent-mails-action";
 import SentTimeModal from "./sent-time-modal";
+import SecureLoader from "../secure-loader";
 
 const SentMails = (props: any) => {
   const [page, setPage] = useState(1);
@@ -59,7 +60,6 @@ const SentMails = (props: any) => {
 
   return (
     <div ref={sentRef} className="relative flex flex-col h-[calc(100vh-120px)]">
-       
       <div className="sticky top-0 z-50 bg-gray-100">
         <FilterSection />
         <div className="grid grid-cols-12 mx-3 my-1 text-gray-800 text-[14px] font-semibold border border-gray-300 bg-gray-200 rounded-md">
@@ -73,8 +73,10 @@ const SentMails = (props: any) => {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-1">
-        {paginatedData.length > 0 ? (
+      <div className="relative flex-1 overflow-y-auto space-y-1">
+        {loader ? (
+          <SecureLoader />
+        ) : paginatedData.length > 0 ? (
           paginatedData.map((data: any) => (
             <SentData
               key={data.id}
@@ -82,13 +84,12 @@ const SentMails = (props: any) => {
               onClick={(id: string) => openSentModal(id)}
             />
           ))
-        ) : (
+        ) : paginatedData.length == 0 ? (
           <p className="text-center text-gray-400 py-10">No sent mails found</p>
-        )}
+        ) : null}
       </div>
 
-  
-      {props.sent_data.length > 0 && (
+      {props.sent_data.length > 0 && !loader && (
         <div className="sticky bottom-0 bg-white z-40 border-t border-gray-200">
           <Pagination
             currentPage={page}
