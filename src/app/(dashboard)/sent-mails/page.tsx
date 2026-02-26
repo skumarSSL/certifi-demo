@@ -59,21 +59,21 @@ const SentMails = (props: any) => {
 
   return (
     <div ref={sentRef} className="relative flex flex-col h-[calc(100vh-120px)]">
-      {/* ✅ HEADER - sticky */}
+       
       <div className="sticky top-0 z-50 bg-gray-100">
         <FilterSection />
-        <div className="grid grid-cols-12 mx-3 my-1 text-gray-800 text-[14px] font-semibold border border-gray-200 rounded-md">
-          <div className="col-span-3 px-4 py-2 border-r border-gray-200">
+        <div className="grid grid-cols-12 mx-3 my-1 text-gray-800 text-[14px] font-semibold border border-gray-300 bg-gray-200 rounded-md">
+          <div className="col-span-3 px-4 py-2 border-r border-gray-300">
             Recipient Information
           </div>
-          <div className="col-span-7 px-4 py-2 border-r mx-5 border-gray-200">
+          <div className="col-span-7 px-4 py-2 border-r mx-5 border-gray-300">
             Subject
           </div>
           <div className="col-span-2 px-4 py-2">Certificate Status</div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-1 px-1">
+      <div className="flex-1 overflow-y-auto space-y-1">
         {paginatedData.length > 0 ? (
           paginatedData.map((data: any) => (
             <SentData
