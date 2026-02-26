@@ -77,7 +77,7 @@ const CertifyInbox = (props: any) => {
     >
       <div className="sticky top-0 z-50 w-full bg-[#f1f2f6] border-2 border-gray-200 rounded-4xl py-1 shrink-0 mt-1">
         <div className="flex items-center gap-4 ml-7">
-          <span className="px-2 py-1 bg-[#fad390] text-md font-light rounded-md">
+          <span className="px-3 py-1 bg-[#EF9836] text-white text-md font-bold rounded-xl">
             View certified email using :
           </span>
 

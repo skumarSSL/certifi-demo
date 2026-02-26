@@ -24,40 +24,33 @@ const Sidebar = (props: any) => {
     if (!sidebarRef.current) return;
 
     const spanTag = document.querySelectorAll(".label-text");
-    const IconTag = document.querySelectorAll(".label-icon");
-    const IconImg = document.querySelectorAll(".label-img");
 
     if (props.show_sidebar || props.is_sidebar) {
       gsap.to(sidebarRef.current, {
         width: 220,
-        duration: 0.5,
-        ease: "power3.inOut",
-      });
-      gsap.to(spanTag, {
-        display: "block",
         duration: 0.4,
         ease: "power3.inOut",
       });
-      gsap.to(IconTag, {
-        display: "block",
-        duration: 0.2,
-        ease: "power3.inOut",
+
+      gsap.to(spanTag, {
+        opacity: 1,
+        x: 0,
+        duration: 0.3,
+        stagger: 0.05,
+        pointerEvents: "auto",
       });
     } else {
       gsap.to(sidebarRef.current, {
-        width: 64, // w-16
-        duration: 0.2,
+        width: 64,
+        duration: 0.3,
         ease: "power3.inOut",
       });
+
       gsap.to(spanTag, {
-        display: "none",
-        duration: 0.4,
-        ease: "power3.inOut",
-      });
-      gsap.to(IconTag, {
-        display: "block",
+        opacity: 0,
+        x: -10,
         duration: 0.2,
-        ease: "power3.inOut",
+        pointerEvents: "none",
       });
     }
   }, [props.is_sidebar]);
@@ -84,21 +77,21 @@ const Sidebar = (props: any) => {
           icon={Mail}
           svgIcon={reverifySvg.src}
           label="Recieved Emails"
-          href="/inbox"
+          href="/inbox/"
           isSideBar={props.is_sidebar}
         />
         <SideBarLink
           icon={MailCheck}
           svgIcon={mailSvg.src}
           label="Sent Mails"
-          href="/sent-mails"
+          href="/sent-mails/"
           isSideBar={props.is_sidebar}
         />
         <SideBarLink
           icon={CheckCircle}
           svgIcon={reverifySvg.src}
           label="Reverification"
-          href="/reverification"
+          href="/reverification/"
           isSideBar={props.is_sidebar}
         />
 
@@ -156,14 +149,13 @@ const SideBarLink = ({
         ${isActive ? "bg-sky-200 dark:bg-gray-600" : ""}
         ${isSideBar ? "justify-start gap-5" : "justify-center"}`}
       >
-        <Icon className={`label-icon h-7 w-7 text-gray-600 hidden"}`} />
+        <Icon className="label-icon h-7 w-7 text-gray-600 shrink-0" />
 
         {/* <img
           src={svgIcon}
           className={`label-img h-8 w-8 text-gray-600 hidden"}`}
         /> */}
-
-        <span className="label-text text-[16px] whitespace-nowrap">
+        <span className="label-text text-[16px] whitespace-nowrap will-change-[opacity,transform]">
           {isSideBar && label}
         </span>
       </div>
