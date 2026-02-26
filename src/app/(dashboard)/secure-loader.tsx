@@ -46,7 +46,7 @@ export default function SecureLoader() {
       gifTl
         .to(frame, {
           opacity: 1,
-          scale: 1,
+          scale: 1.3,
           filter: "blur(0px)",
           duration: 0.6,
           ease: "power3.out",
@@ -95,7 +95,7 @@ export default function SecureLoader() {
             </div>
 
             {/* Frame 3 */}
-            <div ref={frame3Ref} className="absolute relative">
+            <div ref={frame3Ref} className="absolute relative scale-90">
               <img src={newMailbox.src} className="w-23 h-21" />
               <img
                 src={certifLogo.src}
