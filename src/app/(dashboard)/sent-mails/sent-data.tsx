@@ -8,6 +8,7 @@ import MessageSvg from "@public/assets/message.svg";
 import MailInfoSvg from "@public/assets/mail-info.svg";
 import CalenderSvg from "@public/assets/calender.svg";
 import WhatsAppPng from "@public/assets/whatsapp.png";
+import ReceiptSvg from "@public/assets/receipt.svg";
 import { SentGetDownloadViewCert } from "@/store/sent-mails/sent-mails-action";
 
 const SentData = (props: any) => {
@@ -158,7 +159,7 @@ const SentData = (props: any) => {
 
       <div className="relative col-span-2 px-4 py-1 flex items-center justify-between align-middle">
         <p
-          className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-[#74b9ff]" : "bg-[#ffbe76]"} text-gray-900 group-hover:bg-[#e67e22]] transition`}
+          className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
         >
           {props.data.cert_req ? "Delivered" : "In Progress"}
         </p>
@@ -169,17 +170,23 @@ const SentData = (props: any) => {
 
         <div className="mt-7 flex space-x-3">
           <div onClick={() => setShowTime(!showTime)}>
-            <IconWithTooltip src={CalenderSvg.src} text="Message info" />
+            <IconWithTooltip
+              src={ReceiptSvg.src}
+              text="Message Deliver info"
+              widthHeight={"w-6 h-6"}
+            />
           </div>
-          <div
-            className={`${isDownloading && "opacity-30"}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!isDownloading) downloadAttachment();
-            }}
-          >
-            <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
-          </div>
+          {props.data.cert_req && (
+            <div
+              className={`${isDownloading && "opacity-30"}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!isDownloading) downloadAttachment();
+              }}
+            >
+              <IconWithTooltip src={CloudSvg.src} text="Download Certificate" />
+            </div>
+          )}
         </div>
 
         {/* Cloud */}
@@ -243,10 +250,21 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 export default connect(null, mapDispatchToProps)(SentData);
 
-const IconWithTooltip = ({ src, text }: { src: string; text: string }) => {
+const IconWithTooltip = ({
+  src,
+  text,
+  widthHeight,
+}: {
+  src: string;
+  text: string;
+  widthHeight?: string;
+}) => {
   return (
     <div className="relative inline-block group/icon overflow-visible">
-      <img src={src} className="w-7 h-7 cursor-pointer" />
+      <img
+        src={src}
+        className={`${widthHeight ? widthHeight : "w-7 h-7"} cursor-pointer`}
+      />
 
       {/* Tooltip */}
       <div className="absolute right-full top-1/2 mr-2 -translate-y-1/2 opacity-0 scale-95 translate-x-1 group-hover/icon:opacity-100 group-hover/icon:scale-100 group-hover/icon:translate-x-0 transition-all duration-200 ease-out pointer-events-none z-[9999] max-w-[220px]">

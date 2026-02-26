@@ -54,7 +54,7 @@ function EmailView({ data }: { data: any }) {
   };
 
   return (
-    <div className="max-w-7xl w-full bg-white rounded-xl shadow p-6 space-y-6 max-h-[70vh] overflow-hidden flex flex-col">
+    <div className="max-w-5xl md:max-w-7xl xl:max-w-9xl w-full bg-white rounded-xl shadow p-6 space-y-6 max-h-[70vh] overflow-hidden flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-start border-b pb-4">
         <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ function EmailView({ data }: { data: any }) {
             data.BODY.split(" ")[0] + " " + data.BODY.split(" ")[1]}
         </p>
 
-        <p>{data.BODY}</p>
+        <p>{data.BODY}</p> 
       </div>
 
       {/* Attachments */}
@@ -106,7 +106,10 @@ function EmailView({ data }: { data: any }) {
               <div
                 className={`w-10 h-10 bg-red-100 rounded flex items-center justify-center ${fileColor(getFileType(file.filename))} font-bold uppercase`}
               >
-                <div className="hover:underline hover:text-sky-800 truncate px-1" title={file.title}>
+                <div
+                  className="hover:underline hover:text-sky-800 truncate px-1"
+                  title={file.title}
+                >
                   {getFileType(file.filename)}
                 </div>
               </div>
