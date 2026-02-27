@@ -24,7 +24,7 @@ export default function TiptapEditor({ content = "", onChange }: Props) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "prose max-w-none min-h-[200px] p-3 focus:outline-none",
+        class: "prose max-w-none h-full p-3 focus:outline-none",
       },
     },
     onUpdate({ editor }) {
@@ -35,9 +35,8 @@ export default function TiptapEditor({ content = "", onChange }: Props) {
   if (!editor) return null;
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
-      <Toolbar editor={editor} />
-      <EditorContent editor={editor} />
+    <div className="border border-gray-200 rounded-lg overflow-hidden h-full flex flex-col">
+      <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
     </div>
   );
 }

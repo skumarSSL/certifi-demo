@@ -11,7 +11,7 @@ import Pagination from "@/utils/pagination";
 import { Toaster } from "react-hot-toast";
 import { SentGetSuccessMails } from "@/store/sent-mails/sent-mails-action";
 import SentTimeModal from "./sent-time-modal";
-import SecureLoader from "../secure-loader";
+import SentDataSkeleton from "./sent-skeleton";
 
 const SentMails = (props: any) => {
   const [page, setPage] = useState(1);
@@ -73,9 +73,13 @@ const SentMails = (props: any) => {
         </div>
       </div>
 
-      <div className="relative flex-1 overflow-y-auto space-y-1">
+      <div className="flex-1 overflow-y-auto space-y-1">
         {loader ? (
-          <SecureLoader />
+          <>
+            <SentDataSkeleton />
+            <SentDataSkeleton />
+            <SentDataSkeleton />
+          </>
         ) : paginatedData.length > 0 ? (
           paginatedData.map((data: any) => (
             <SentData

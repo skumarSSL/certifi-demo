@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Mail, LucideIcon, LogOut, CheckCircle, MailCheck } from "lucide-react";
+import {
+  Mail,
+  LucideIcon,
+  LogOut,
+  CheckCircle,
+  MailCheck,
+  Edit2,
+} from "lucide-react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -71,8 +78,20 @@ const Sidebar = (props: any) => {
       onMouseEnter={() => !props.show_sidebar && setSidebar(true)}
       onMouseLeave={() => !props.show_sidebar && setSidebar(false)}
     >
+      <div
+        className={`compose flex items-center justify-center bg-primary px-5 py-3 rounded-md gap-2 shadow-lg cursor-pointer mx-auto transition-all duration-300 ${props.is_sidebar ? "w-40" : "w-12"} mt-11 hover:opacity-75`}
+        onClick={() => router.push("/compose/")}
+      >
+        <Edit2 className="w-5 h-5 text-white shrink-0" />
+
+        {props.is_sidebar && (
+          <span className="compose-text text-white text-lg font-semibold whitespace-nowrap">
+            Compose
+          </span>
+        )}
+      </div>
       {/* Links */}
-      <nav className="flex flex-col h-full justify-start mx-2 gap-3 pt-6 mt-15">
+      <nav className="flex flex-col h-full justify-start mx-2 gap-3 pt-6 mt-3">
         <SideBarLink
           icon={Mail}
           svgIcon={reverifySvg.src}

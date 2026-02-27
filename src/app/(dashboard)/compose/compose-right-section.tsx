@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { Send, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import info from "@public/assets/info.svg";
 import WhatsAppPng from "@public/assets/whatsapp.png";
+
 import {
   ComposeSetFields,
   ComposeSendCertifiMail,
@@ -47,9 +49,13 @@ const ComposeRightSection = (props: any) => {
       <div
         className={`outline-none w-80 mx-auto py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? "max-h-60" : "h-auto"}`}
       >
-        <p className="font-semibold text-lg border-b border-gray-200 text-start sticky top-0 bg-white z-10">
-          Attachments
-        </p>
+        <div className="flex justify-between items-end font-semibold text-lg border-b border-gray-200 text-start sticky top-0 bg-white z-10">
+          <p>Attachments</p>
+          <p className="font-light text-xs">
+            Maximum size :{" "}
+            <span className="text-xs font-bold text-[#ef9836]">5MB</span>
+          </p>
+        </div>
 
         {props.attachments.length === 0 ? (
           <p className="text-sm text-gray-400 text-center py-4">
@@ -66,14 +72,20 @@ const ComposeRightSection = (props: any) => {
                   href={file.url}
                   target="_blank"
                   className="line-clamp-1 text-sm hover:text-sky-700"
+                  download={file.name}
                 >
                   {file.name}
                 </a>
 
-                <X
-                  className="w-6 h-6 rounded-full text-red-400 bg-gray-100 p-1 cursor-pointer hover:bg-red-200"
-                  onClick={() => removeFile(file.url)}
-                />
+                <div className="flex justify-center items-center">
+                  <p className="text-[10px] text-gray-500 w-15">
+                    ({(file.size / 1024 / 1024).toFixed(2)} MB) 
+                  </p>
+                  <X
+                    className="w-6 h-6 rounded-full text-red-400 bg-gray-100 p-1 cursor-pointer hover:bg-red-200"
+                    onClick={() => removeFile(file.url)}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -94,9 +106,25 @@ const ComposeRightSection = (props: any) => {
               checked={props.is_bsa}
               onChange={(e) => onChangeCertificateOption(e.target.name)}
             />
-            <span className="text-md font-light text-gray-800">
-              Include certificate in 63 BSA format?
-            </span>
+            <div className="flex justify-center items-center text-md font-light text-gray-800">
+              <span className="font-semibold">63 BSA format &nbsp;</span>{" "}
+              certificate ?
+              <div className="relative inline-block group">
+                <img src={info.src} className="w-5 h-5 cursor-pointer" />
+
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                  <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[420px] min-w-[350px]  whitespace-normal break-words leading-relaxed text-center font-medium">
+                    Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
+                    significance of electronic or digital records and has
+                    dedicated provisions in Chapter 5 to address the
+                    admissibility and proof of electronic evidence.
+                    {/* Arrow */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2.5 h-2.5 bg-gray-900 rotate-45"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </label>
 
           <label className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer transition">
@@ -108,12 +136,13 @@ const ComposeRightSection = (props: any) => {
               onChange={(e) => onChangeCertificateOption(e.target.name)}
             />
             <span className="text-md font-light text-gray-800">
-              Add forensic audit trail to the certificate
+              Add <span className="font-semibold">forensic audit trail</span> to
+              certificate
             </span>
           </label>
         </div>
 
-        <p className="font-semibold text-lg text-gray-800 ml-3 border-b border-gray-200 mt-11">
+        <p className="font-semibold text-lg text-gray-800 ml-3 border-b border-gray-200 mt-5">
           You can also
         </p>
 
@@ -127,7 +156,8 @@ const ComposeRightSection = (props: any) => {
               onChange={(e) => onChangeCertificateOption(e.target.name)}
             />
             <span className="text-md font-light text-gray-800">
-              Receive a copy of the certified communication?
+              Receive a <span className="font-semibold">copy</span> of the{" "}
+              <span className="font-semibold">certified communication</span>?
             </span>
           </label>
 
@@ -147,7 +177,7 @@ const ComposeRightSection = (props: any) => {
         </div>
       </div>
 
-      <div className="sticky bottom-0 flex justify-end pr-5 z-20 pt-11">
+      <div className="sticky bottom-0 flex justify-end items-end z-20 pt-11">
         <div
           onClick={onCertifiSend}
           className={`bg-primary px-5 py-2 rounded-md flex items-center gap-2 shadow-lg justify-center

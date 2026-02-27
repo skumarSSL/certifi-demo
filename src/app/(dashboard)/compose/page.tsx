@@ -16,10 +16,46 @@ import {
   ComposeSetFields,
   fileToBase64,
 } from "@/store/compose/compose-action";
+import Toolbar from "./toolbar";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import SecureLoader from "../secure-loader";
 
 const ComposePage = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
   const composeRef = useRef<HTMLInputElement>(null);
+
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    setLoader(true);
+    let timeout = setTimeout(() => {
+      setLoader(false);
+    }, 5000);
+  }, []);
+
+  let content = "";
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: { levels: [1, 2, 3] },
+      }),
+      Placeholder.configure({
+        placeholder: "Write your message here...",
+      }),
+    ],
+    content,
+    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: "prose max-w-none min-h-[200px] p-3 focus:outline-none",
+      },
+    },
+    onUpdate({ editor }) {
+      () => {};
+    },
+  });
 
   useEffect(() => {
     return () => {
@@ -95,40 +131,45 @@ const ComposePage = (props: any) => {
       ref={composeRef}
       className="relative flex h-[calc(100vh-120px)] bg-gray-100 p-5 overflow-hidden"
     >
-      <div className="w-full h-full shadow-2xl bg-white rounded-md flex flex-col mx-5">
-        <div className="flex items-center justify-between mt-7 ">
-          <p className="px-3  text-xl text-gray-800 font-medium w-52 h-7 text-center flex items-center justify-center ml-3 py-5">
-            New Certified Email
-          </p>
-          <div className="relative group">
-            <label
-              htmlFor="fileUpload"
-              className="w-11 h-11 rounded-full bg-white mr-7 hover:bg-gray-100 cursor-pointer flex items-center justify-center shadow transition"
-            >
-              <img
-                src={AttachmentsSvg.src}
-                alt="attachments"
-                className="w-6 h-6"
-              />
-            </label>
+      {loader ? (
+        <SecureLoader />
+      ) : (
+        <div className="w-full h-full shadow-2xl bg-white rounded-md flex flex-col mx-5">
+          <div className="grid grid-cols-8 items-center justify-between mt-2">
+            <div className="px-3 col-span-6  space-x-5 text-xl text-gray-800 font-medium w-full h-7 text-center flex items-center justify-start ml-3 py-2">
+              <p> New Certified Email</p>
+              <Toolbar editor={editor} />
+            </div>
+            <div className="relative col-span-2 group flex justify-end px-3">
+              <label
+                htmlFor="fileUpload"
+                className="w-11 h-11 rounded-full bg-white mr-7 hover:bg-gray-100 cursor-pointer flex items-center justify-center shadow transition"
+              >
+                <img
+                  src={AttachmentsSvg.src}
+                  alt="attachments"
+                  className="w-6 h-6"
+                />
+              </label>
 
-            <input
-              id="fileUpload"
-              type="file"
-              className="hidden"
-              onChange={uploadFile}
-            />
+              <input
+                id="fileUpload"
+                type="file"
+                className="hidden"
+                onChange={uploadFile}
+              />
+            </div>
+          </div>
+          <div className="border-t-2 border-gray-200 mt-1 my-1 mx-5"></div>
+          <div className="relative grid grid-cols-8 flex-1 overflow-y-auto px-5 pb-5">
+            {/* // left section */}
+            <ComposeLeftSection />
+
+            {/* // right section */}
+            <ComposeRightSection />
           </div>
         </div>
-        <div className="border-t-2 border-gray-200 my-3 mx-5"></div>
-        <div className="relative grid grid-cols-8 flex-1 overflow-y-auto px-5 pb-5">
-          {/* // left section */}
-          <ComposeLeftSection />
-
-          {/* // right section */}
-          <ComposeRightSection />
-        </div>
-      </div>
+      )}
       <Toaster
         toastOptions={{
           className:

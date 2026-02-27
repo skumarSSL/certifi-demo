@@ -39,7 +39,7 @@ export default function Toolbar({ editor }: Props) {
         : "p";
 
   return (
-    <div className="flex items-center justify-between border-b bg-gray-100 px-2 py-1">
+    <div className="flex items-center justify-between border-none bg-gray-100 px-2 py-1">
       <div className="flex items-center gap-1">
         <select
           className="border rounded px-2 py-1 text-sm"

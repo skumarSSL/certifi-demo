@@ -63,7 +63,7 @@ export default function SecureLoader() {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Glass background */}
       <div className="absolute inset-0 backdrop-blur-xl bg-white/50"></div>
 
