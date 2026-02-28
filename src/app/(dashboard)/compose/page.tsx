@@ -32,7 +32,7 @@ const ComposePage = (props: any) => {
     setLoader(true);
     let timeout = setTimeout(() => {
       setLoader(false);
-    }, 5000);
+    }, 8000);
   }, []);
 
   let content = "";
@@ -138,7 +138,7 @@ const ComposePage = (props: any) => {
           <div className="grid grid-cols-8 items-center justify-between mt-2">
             <div className="px-3 col-span-6  space-x-5 text-xl text-gray-800 font-medium w-full h-7 text-center flex items-center justify-start ml-3 py-2">
               <p> New Certified Email</p>
-              <Toolbar editor={editor} />
+              {/* <Toolbar editor={editor} /> */}
             </div>
             <div className="relative col-span-2 group flex justify-end px-3">
               <label

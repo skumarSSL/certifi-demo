@@ -89,10 +89,10 @@ const ComposeLeftSection = (props: any) => {
     <div className="relative col-span-6 px-3 space-y-3 bg-white h-full flex flex-col">
       <div className="flex justify-end items-start space-x-2 mt-2">
         <button
-          className={`relative text-sm font-bold text-white  hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "to" ? "bg-orange-400" : "bg-[#EF9837]"}`}
+          className={`relative text-md font-bold text-white  hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "to" ? "bg-orange-400" : "bg-[#EF9837]"}`}
           onClick={() => setRecipientType("to")}
         >
-          TO
+          To
           {toRecipient.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
               {toRecipient.length}
@@ -100,10 +100,10 @@ const ComposeLeftSection = (props: any) => {
           )}
         </button>
         <button
-          className={`relative text-sm font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
+          className={`relative text-md font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
           onClick={() => setRecipientType("cc")}
         >
-          CC
+          Cc
           {ccRecipient.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
               {ccRecipient.length}
@@ -111,10 +111,10 @@ const ComposeLeftSection = (props: any) => {
           )}
         </button>
         <button
-          className={`relative text-sm font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "certifi_cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
+          className={`relative text-md font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "certifi_cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
           onClick={() => setRecipientType("certifi_cc")}
         >
-          CERTIFI CC
+          CERTIFI Cc
           {certifiCCRecipient.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
               {certifiCCRecipient.length}
@@ -124,7 +124,7 @@ const ComposeLeftSection = (props: any) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800 -mt-5">
         <div className="flex flex-col gap-1">
-          <label className="font-semibold text-sm">
+          <label className="font-semibold text-md">
             Recipient Email<span className="text-red-400">*</span>
           </label>
           <input
@@ -138,7 +138,7 @@ const ComposeLeftSection = (props: any) => {
 
         <div className="flex space-x-3 items-end">
           <div className="flex flex-col gap-1 w-full">
-            <label className="font-semibold text-sm">
+            <label className="font-semibold text-md">
               Recipient Mobile Number<span className="text-red-400">*</span>
             </label>
             <input
@@ -162,7 +162,7 @@ const ComposeLeftSection = (props: any) => {
       >
         <div className="col-span-1">
           <label className="font-semibold text-sm">
-            TO<span className="text-red-400">*</span>
+            To<span className="text-red-400">*</span>
           </label>
         </div>
 
@@ -191,7 +191,7 @@ const ComposeLeftSection = (props: any) => {
           className={`grid grid-cols-12 ${Object.keys(ccRecipient).length == 0 && "h-10"}`}
         >
           <div className="col-span-1">
-            <label className="font-semibold text-sm">CC</label>
+            <label className="font-semibold text-sm">Cc</label>
           </div>
 
           <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">

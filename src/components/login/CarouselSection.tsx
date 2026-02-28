@@ -4,13 +4,14 @@ import gsap from "gsap";
 import post1 from "@public/assets/post-1.png";
 import post2 from "@public/assets/post-2.png";
 import post3 from "@public/assets/post-3.png";
+import post4 from "@public/assets/post2.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
-  { id: 1, embed: post2.src },
-  { id: 2, embed: post3.src },
-  { id: 3, embed: post2.src },
-  { id: 4, embed: post3.src },
+ 
+  { id: 2, embed: post2.src },
+  { id: 3, embed: post3.src },
+  { id: 4, embed: post4.src },
 ];
 
 function Carousel() {

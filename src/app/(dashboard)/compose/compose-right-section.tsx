@@ -47,7 +47,7 @@ const ComposeRightSection = (props: any) => {
   return (
     <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5 overflow-y-auto overflow-x-hidden">
       <div
-        className={`outline-none w-80 mx-auto py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? "max-h-60" : "h-auto"}`}
+        className={`outline-none mx-auto   py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? "max-h-70 lg:max-h-140" : "h-auto"}`}
       >
         <div className="flex justify-between items-end font-semibold text-lg border-b border-gray-200 text-start sticky top-0 bg-white z-10">
           <p>Attachments</p>
@@ -79,7 +79,7 @@ const ComposeRightSection = (props: any) => {
 
                 <div className="flex justify-center items-center">
                   <p className="text-[10px] text-gray-500 w-15">
-                    ({(file.size / 1024 / 1024).toFixed(2)} MB) 
+                    ({(file.size / 1024 / 1024).toFixed(2)} MB)
                   </p>
                   <X
                     className="w-6 h-6 rounded-full text-red-400 bg-gray-100 p-1 cursor-pointer hover:bg-red-200"
@@ -92,7 +92,7 @@ const ComposeRightSection = (props: any) => {
         )}
       </div>
 
-      <div className="outline-none w-80 mx-auto py-3 shadow-2xl bg-white rounded-md">
+      <div className="outline-none mx-auto  py-3 shadow-2xl bg-white rounded-md">
         <p className="font-semibold text-lg text-gray-800 ml-3 my-3 border-b border-gray-200">
           Certificate Options
         </p>
@@ -113,8 +113,8 @@ const ComposeRightSection = (props: any) => {
                 <img src={info.src} className="w-5 h-5 cursor-pointer" />
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
-                  <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[420px] min-w-[350px]  whitespace-normal break-words leading-relaxed text-center font-medium">
+                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                  <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[240px]  whitespace-normal break-words leading-relaxed text-center font-medium">
                     Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
                     significance of electronic or digital records and has
                     dedicated provisions in Chapter 5 to address the
@@ -170,14 +170,14 @@ const ComposeRightSection = (props: any) => {
               onChange={(e) => onChangeCertificateOption(e.target.name)}
             />
             <span className="text-md font-light text-gray-800">
-              WhatsApp Notification
+              <span className="font-semibold">WhatsApp</span> Notification
             </span>
             <img src={WhatsAppPng.src} className="w-5 h-5 cursor-pointer" />
           </label>
         </div>
       </div>
 
-      <div className="sticky bottom-0 flex justify-end items-end z-20 pt-11">
+      <div className="absolute bottom-0 right-4 flex justify-end items-end z-20 pt-11">
         <div
           onClick={onCertifiSend}
           className={`bg-primary px-5 py-2 rounded-md flex items-center gap-2 shadow-lg justify-center

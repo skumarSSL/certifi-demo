@@ -22,9 +22,10 @@ export default function Toolbar({ editor }: Props) {
   useEditorState({
     editor,
     selector: ({ editor }) => ({
-      isH1: editor?.isActive("heading", { level: 1 }),
-      isH2: editor?.isActive("heading", { level: 2 }),
-      isH3: editor?.isActive("heading", { level: 3 }),
+      isHeading1: editor?.isActive("heading", { level: 1 }),
+      isHeading2: editor?.isActive("heading", { level: 2 }),
+      isHeading3: editor?.isActive("heading", { level: 3 }),
+      isParagraph: editor?.isActive("paragraph")
     }),
   });
 

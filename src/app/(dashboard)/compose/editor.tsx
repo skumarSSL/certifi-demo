@@ -36,6 +36,7 @@ export default function TiptapEditor({ content = "", onChange }: Props) {
 
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden h-full flex flex-col">
+      <Toolbar editor={editor}/>
       <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
     </div>
   );
