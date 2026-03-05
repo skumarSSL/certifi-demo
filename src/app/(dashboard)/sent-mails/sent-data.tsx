@@ -80,8 +80,8 @@ const SentData = (props: any) => {
     });
   };
 
-  const hideDeliveredTime = () => {
-    gsap.to(`#deliveredTime${props.data.id}`, {
+  const hideDeliveredTime = (id: string) => {
+    gsap.to(`#deliveredTime${id}`, {
       scale: 0.2,
       display: "none",
       paddingTop: 0,
@@ -92,34 +92,12 @@ const SentData = (props: any) => {
   };
 
   useEffect(() => {
-    if (showTime) {
+    if (props.selectedMail === props.data.id) {
       getDeliveredTime();
     } else {
-      hideDeliveredTime();
+      hideDeliveredTime(props.data.id);
     }
-  }, [showTime]);
-
-  // const formatDate = (inputDate: string, isSameDay = true) => {
-  //   // Create a moment object for the input date
-  //   const date = moment(inputDate);
-
-  //   // Check if the date is valid
-  //   if (!date.isValid()) {
-  //     return "N/A"; // Return empty string if the date is invalid
-  //   }
-
-  //   // Create a moment object for today's date
-  //   const today = moment();
-
-  //   // Check if the input date is the same as today
-  //   if (date.isSame(today, "day") && isSameDay) {
-  //     // Return only the time if it's today
-  //     return date.format("HH:mm:ss");
-  //   } else {
-  //     // Otherwise, return the full date and time
-  //     return date.format("MMM DD, YYYY");
-  //   }
-  // };
+  }, [props.selectedMail]);
 
   const formatDate = (inputDate: string, isSameDay = true) => {
     const date = moment(inputDate);
@@ -131,12 +109,16 @@ const SentData = (props: any) => {
       : date.format("MMM DD, YYYY");
   };
 
+  const isActive = props.selectedMail === props.data.id;
+
   return (
     <div
       ref={cardRef}
       key={props.data.id}
       className="grid grid-cols-12 mx-3 bg-white text-gray-800 text-[14px] border-b border-x border-gray-200 transition-all duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md hover:-translate-y-[1px] hover:scale-[1.002] cursor-pointer group rounded-md"
-      // onClick={() => props.onClick(props.data.id)}
+      onClick={() => {
+        props.onClick(isActive ? null : props.data.id);
+      }}
     >
       <div className="col-span-3 px-4 py-3">
         <div className="flex space-x-3">
@@ -150,26 +132,27 @@ const SentData = (props: any) => {
         </p>
       </div>
 
-      <div className="col-span-7 px-4 py-1 flex items-center mx-5">
+      <div className="col-span-6 px-4 py-1 flex items-center mx-5">
         <p className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
           {props.data.subject} :{" "}
           <span className="text-sm font-normal">{props.data.body}</span>
         </p>
       </div>
 
-      <div className="relative col-span-2 px-4 py-1 flex items-center justify-between align-middle">
+      <div className="relative col-span-2 px-4 py-1 flex items-center justify-center align-middle">
         <p
           className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
         >
           {props.data.cert_req ? "Delivered" : "In Progress"}
         </p>
-
+      </div>
+      <div className="relative col-span-1 px-2 py-1 flex items-center justify-end align-middle">
         <p className="absolute top-1 right-1 text-sm text-gray-500 font-medium">
           {formatDate(props.data.time)}
         </p>
 
         <div className="mt-7 flex space-x-3">
-          <div onClick={() => setShowTime(!showTime)}>
+          <div onClick={() => props.onClick(isActive ? null : props.data.id)}>
             <IconWithTooltip
               src={ReceiptSvg.src}
               text="Message Deliver info"

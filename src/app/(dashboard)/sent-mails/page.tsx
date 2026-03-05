@@ -2,16 +2,16 @@
 
 import { connect } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import moment from "moment";
+import gsap from "gsap"; 
+
+import { Toaster } from "react-hot-toast";
 
 import SentData from "./sent-data";
 import FilterSection from "./sent-filter";
 import Pagination from "@/utils/pagination";
-import { Toaster } from "react-hot-toast";
-import { SentGetSuccessMails } from "@/store/sent-mails/sent-mails-action";
-import SentTimeModal from "./sent-time-modal";
 import SentDataSkeleton from "./sent-skeleton";
+
+import { SentGetSuccessMails } from "@/store/sent-mails/sent-mails-action";
 
 const SentMails = (props: any) => {
   const [page, setPage] = useState(1);
@@ -19,7 +19,7 @@ const SentMails = (props: any) => {
   const [loader, setLoader] = useState(false);
   const sentRef = useRef<HTMLDivElement>(null);
 
-  const [selectedMail, setSelectedMail] = useState<any | null>(null);
+  const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     setLoader(true);
@@ -41,21 +41,8 @@ const SentMails = (props: any) => {
 
   // paginatedData = [...paginatedData, ...paginatedData];
 
-  const openSentModal = (id: string) => {
-    const data = props.sent_data.find((item: any) => item.id === id);
-    if (data) setSelectedMail(data);
-  };
-
-  const closeModal = () => setSelectedMail(null);
-
-  const formatDate = (inputDate: string, isSameDay = true) => {
-    const date = moment(inputDate);
-    if (!date.isValid()) return "N/A";
-
-    const today = moment();
-    return date.isSame(today, "day") && isSameDay
-      ? date.format("HH:mm:ss")
-      : date.format("MMM DD, YYYY");
+  const selectedCard = (id: string) => {
+    setSelectedId(id);
   };
 
   return (
@@ -66,10 +53,15 @@ const SentMails = (props: any) => {
           <div className="col-span-3 px-4 py-2 border-r border-gray-300">
             Recipient Information
           </div>
-          <div className="col-span-7 px-4 py-2 border-r mx-5 border-gray-300">
+          <div className="col-span-6 flex justify-center items-center border-r  border-gray-300">
             Subject
           </div>
-          <div className="col-span-2 px-4 py-2">Certificate Status</div>
+          <div className="col-span-2 border-r border-gray-300 flex justify-center items-center">
+            <div>Certificate Status</div>
+          </div>
+          <div className="col-span-1 px-2 py-2 border-gray-300 text-end mr-3">
+            <div>Sent</div>
+          </div>
         </div>
       </div>
 
@@ -85,7 +77,8 @@ const SentMails = (props: any) => {
             <SentData
               key={data.id}
               data={data}
-              onClick={(id: string) => openSentModal(id)}
+              onClick={(id: string) => selectedCard(id)}
+              selectedMail={selectedId}
             />
           ))
         ) : paginatedData.length == 0 ? (
@@ -116,22 +109,6 @@ const SentMails = (props: any) => {
           error: { className: "bg-red-600 text-white font-light text-[15px]" },
         }}
       />
-
-      {/* Modal */}
-      {selectedMail && (
-        <SentTimeModal
-          id={selectedMail.id}
-          isOpenModal={true}
-          onCloseModal={closeModal}
-          time={formatDate(selectedMail.time)}
-          email_dr_time={formatDate(selectedMail.email_dr_time)}
-          sms_dr_time={formatDate(selectedMail.sms_dr_time)}
-          read_time={formatDate(selectedMail.read_time)}
-          whatsapp_dr_time={formatDate(selectedMail.whatsapp_dr_time)}
-          subject={selectedMail.subject}
-          recipient={selectedMail.recipient}
-        />
-      )}
     </div>
   );
 };
