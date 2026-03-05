@@ -5,6 +5,9 @@ export interface ComposeState {
   mobile_number: string;
   subject: string;
   to_sent: string;
+  to_mail: any[];
+  certified_cc: any[];
+  cc: any[];
   is_bsa: boolean;
   is_logs: boolean;
   is_copy_mail: boolean;
@@ -27,6 +30,9 @@ const initialState: ComposeState = {
   mobile_number: "",
   subject: "",
   to_sent: "",
+  to_mail: [],
+  certified_cc: [],
+  cc: [],
   is_bsa: false,
   is_logs: false,
   is_copy_mail: false,

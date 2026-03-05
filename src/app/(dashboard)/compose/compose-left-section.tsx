@@ -2,9 +2,12 @@ import { connect } from "react-redux";
 
 import TiptapEditor from "@/app/(dashboard)/compose/editor";
 
-import { ComposeSetFields } from "@/store/compose/compose-action";
+import {
+  ComposeRemoveFields,
+  ComposeSetFields,
+} from "@/store/compose/compose-action";
 import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import RecipientDropdown from "./recipient-dropdown";
 
 type Contact = {
@@ -13,10 +16,13 @@ type Contact = {
 };
 
 const ComposeLeftSection = (props: any) => {
-  const [recipientType, setRecipientType] = useState("to");
+  const [recipientType, setRecipientType] = useState("to_mail");
   const [toRecipient, setToRecipient] = useState<Contact[]>([]);
   const [ccRecipient, setCCRecipient] = useState<Contact[]>([]);
   const [certifiCCRecipient, setCertifiCCRecipient] = useState<Contact[]>([]);
+
+  const mobileRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const onChangeMobile = (e: any) => {
     const key_name = e.target.name;
@@ -37,30 +43,10 @@ const ComposeLeftSection = (props: any) => {
   };
 
   const addRecipient = (value: string) => {
-    setRecipientType(value);
-    let new_recipients = [];
-    if (value === "to") {
-      new_recipients = [
-        ...toRecipient,
-        { email: props.to_sent, mobile: props.mobile_number },
-      ];
-      setToRecipient(new_recipients);
-    } else if (value === "cc") {
-      new_recipients = [
-        ...ccRecipient,
-        { email: props.to_sent, mobile: props.mobile_number },
-      ];
-      setCCRecipient(new_recipients);
-    } else {
-      new_recipients = [
-        ...certifiCCRecipient,
-        { email: props.to_sent, mobile: props.mobile_number },
-      ];
-      setCertifiCCRecipient(new_recipients);
-    }
-
-    props.Compose_Set_Fields("to_sent", "");
-    props.Compose_Set_Fields("mobile_number", "");
+    props.Compose_Set_Fields(value, {
+      email: props.to_sent,
+      mobile: props.mobile_number,
+    });
   };
 
   const onKeyPress = (e: any) => {
@@ -71,17 +57,22 @@ const ComposeLeftSection = (props: any) => {
 
   const removeRecipient = (recipient_type: string, email: string) => {
     let new_recipients = [];
-    if (recipient_type === "to") {
-      new_recipients = toRecipient.filter((item, i) => item.email != email);
-      setToRecipient(new_recipients);
+    if (recipient_type === "to_mail") {
+      new_recipients = props.to_mail.filter((item: any) => item.email != email);
     } else if (recipient_type === "cc") {
-      new_recipients = ccRecipient.filter((item, i) => item.email != email);
-      setCCRecipient(new_recipients);
+      new_recipients = props.cc.filter((item: any) => item.email != email);
     } else {
-      new_recipients = certifiCCRecipient.filter(
-        (item, i) => item.email != email,
+      new_recipients = props.certified_cc.filter(
+        (item: any) => item.email != email,
       );
-      setCertifiCCRecipient(new_recipients);
+    }
+
+    props.Compose_Remove_Fields(recipient_type, new_recipients);
+  };
+
+  const emailFocus = () => {
+    if (emailRef.current) {
+      emailRef.current.focus();
     }
   };
 
@@ -89,63 +80,65 @@ const ComposeLeftSection = (props: any) => {
     <div className="relative col-span-6 px-3 space-y-3 bg-white h-full flex flex-col">
       <div className="flex justify-end items-start space-x-2 mt-2">
         <button
-          className={`relative text-md font-bold text-white  hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "to" ? "bg-orange-400" : "bg-[#EF9837]"}`}
-          onClick={() => setRecipientType("to")}
+          className={`relative text-md font-bold hover:text-white  hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "to_mail" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
+          onClick={() => setRecipientType("to_mail")}
         >
           To
-          {toRecipient.length > 0 && (
+          {props.to_mail.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
-              {toRecipient.length}
+              {props.to_mail.length}
             </span>
           )}
         </button>
         <button
-          className={`relative text-md font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
+          className={`relative text-md font-bold hover:text-white hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "cc" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
           onClick={() => setRecipientType("cc")}
         >
           Cc
-          {ccRecipient.length > 0 && (
+          {props.cc.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
-              {ccRecipient.length}
+              {props.cc.length}
             </span>
           )}
         </button>
         <button
-          className={`relative text-md font-bold text-white bg-[#EF9837] hover:bg-orange-400 px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "certifi_cc" ? "bg-orange-400" : "bg-[#EF9837]"}`}
-          onClick={() => setRecipientType("certifi_cc")}
+          className={`relative text-md font-bold hover:text-white bg-[#EF9837] hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "certified_cc" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
+          onClick={() => setRecipientType("certified_cc")}
         >
           CERTIFI Cc
-          {certifiCCRecipient.length > 0 && (
+          {props.certified_cc.length > 0 && (
             <span className="absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 text-xs font-bold text-white">
-              {certifiCCRecipient.length}
+              {props.certified_cc.length}
             </span>
           )}
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800 -mt-5">
-        <div className="flex flex-col gap-1">
-          <label className="font-semibold text-md">
-            Recipient Email<span className="text-red-400">*</span>
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 text-gray-800">
+        <div className="grid grid-cols-12 col-span-1">
+          <label className="font-semibold text-md col-span-2">
+            Email<span className="text-red-400">*</span>
           </label>
           <input
+            ref={emailRef}
             type="text"
             name="to_sent"
             value={props.to_sent}
-            className={`w-full border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
+            className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
             onChange={setFields}
           />
         </div>
 
-        <div className="flex space-x-3 items-end">
-          <div className="flex flex-col gap-1 w-full">
-            <label className="font-semibold text-md">
-              Recipient Mobile Number<span className="text-red-400">*</span>
+        <div className="flex space-x-3 items-end col-span-1">
+          <div className="grid grid-cols-12 gap-1 w-full">
+            <label className="font-semibold text-md col-span-2 ">
+              Mobile<span className="text-red-400">*</span>
             </label>
             <input
+              ref={mobileRef}
               type="text"
               name="mobile_number"
               value={props.mobile_number}
-              className={`w-full border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
+              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
               onChange={onChangeMobile}
               onKeyDown={onKeyPress}
             />
@@ -158,7 +151,11 @@ const ComposeLeftSection = (props: any) => {
       </div>
 
       <div
-        className={`grid grid-cols-12 ${Object.keys(toRecipient).length == 0 && "h-10"}`}
+        className={`grid grid-cols-12  ${ props.to_mail.length == 0 && "h-10"}`}
+        onClick={() => {
+          setRecipientType("to_mail");
+          emailFocus();
+        }}
       >
         <div className="col-span-1">
           <label className="font-semibold text-sm">
@@ -167,7 +164,7 @@ const ComposeLeftSection = (props: any) => {
         </div>
 
         <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-          {toRecipient.map((item, i) => (
+          {props.to_mail.map((item: any, i: number) => (
             <div
               key={i}
               className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
@@ -180,63 +177,70 @@ const ComposeLeftSection = (props: any) => {
               {/* Close button */}
               <X
                 className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0"
-                onClick={() => removeRecipient("to", item.email)}
+                onClick={() => removeRecipient("to_mail", item.email)}
               />
             </div>
           ))}
         </div>
       </div>
-      {recipientType === "cc" ? (
-        <div
-          className={`grid grid-cols-12 ${Object.keys(ccRecipient).length == 0 && "h-10"}`}
-        >
-          <div className="col-span-1">
-            <label className="font-semibold text-sm">Cc</label>
-          </div>
 
-          <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-            {ccRecipient.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
-              >
-                {/* Email text */}
-                <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
-                  {item.email}, <span>{item.mobile}</span>
-                </p>
-
-                {/* Close button */}
-                <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
-              </div>
-            ))}
-          </div>
+      <div
+        className={`grid grid-cols-12 ${ props.cc.length == 0 && "h-10"}`}
+        onClick={() => {
+          setRecipientType("cc");
+          emailFocus();
+        }}
+      >
+        <div className="col-span-1">
+          <label className="font-semibold text-sm">Cc</label>
         </div>
-      ) : recipientType === "certifi_cc" ? (
-        <div
-          className={`grid grid-cols-12 ${Object.keys(certifiCCRecipient).length == 0 && "h-10"}`}
-        >
-          <div className="col-span-1">
-            <label className="font-semibold text-sm">CERTIFI CC</label>
-          </div>
 
-          <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-            {certifiCCRecipient.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
-              >
-                {/* Email text */}
-                <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
-                  {item.email}, <span>{item.mobile}</span>
-                </p>
+        <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
+          {props.cc.map((item: any, i: number) => (
+            <div
+              key={i}
+              className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
+            >
+              {/* Email text */}
+              <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
+                {item.email}, <span>{item.mobile}</span>
+              </p>
 
-                {/* Close button */}
-                <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
-              </div>
-            ))}
-          </div>
+              {/* Close button */}
+              <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
+            </div>
+          ))}
         </div>
-      ) : null}
+      </div>
+
+      <div
+        className={`grid grid-cols-12 ${props.certified_cc.length == 0 && "h-10"}`}
+        onClick={() => {
+          setRecipientType("certified_cc");
+          emailFocus();
+        }}
+      >
+        <div className="col-span-1">
+          <label className="font-semibold text-sm">CERTIFI Cc</label>
+        </div>
+
+        <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
+          {props.certified_cc.map((item: any, i: number) => (
+            <div
+              key={i}
+              className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
+            >
+              {/* Email text */}
+              <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
+                {item.email}, <span>{item.mobile}</span>
+              </p>
+
+              {/* Close button */}
+              <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="grid grid-cols-12  gap-2 text-gray-800">
         <div className="col-span-1">
@@ -266,8 +270,11 @@ const ComposeLeftSection = (props: any) => {
 };
 
 const mapStateToProps = (store: any) => ({
+  cc: store.compose_store.cc,
+  to_mail: store.compose_store.to_mail,
   to_sent: store.compose_store.to_sent,
   subject: store.compose_store.subject,
+  certified_cc: store.compose_store.certified_cc,
   mail_body: store.compose_store.mail_body,
   error_info: store.compose_store.error_info,
   // profile_data: store.profile_store.profile_data,
@@ -279,6 +286,8 @@ const mapStateToProps = (store: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   Compose_Set_Fields: (name: any, value: any) =>
     dispatch(ComposeSetFields(name, value)),
+  Compose_Remove_Fields: (name: any, value: any) =>
+    dispatch(ComposeRemoveFields(name, value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComposeLeftSection);

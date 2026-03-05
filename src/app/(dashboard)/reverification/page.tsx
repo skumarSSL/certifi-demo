@@ -129,41 +129,6 @@ const ReverificationPage = (props: any) => {
       className="min-h-[calc(100vh-120px)] bg-gray-100 p-4 md:p-6 flex items-center  justify-center"
     >
       <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-4 md:p-6 flex flex-col items-start text-left gap-5">
-        {/* Checkbox aligned with upload start */}
-        <div className="w-full flex justify-end">
-          <label className="flex items-center gap-1 cursor-pointer justify-start">
-            <input
-              type="checkbox"
-              checked={props.is_form66}
-              name="is_form66"
-              onChange={() =>
-                props.Reverify_Set_Fields("is_form66", !props.is_form66)
-              }
-              className="mt-1 w-5 h-5 accent-sky-700 cursor-pointer"
-            />
-            <span className="text-md md:text-md font-light text-gray-800">
-              Would you like reverification{" "}
-              <span className="font-extrabold">certificate</span> under{" "}
-              <span className="font-extrabold">Section 63 BSA</span>?
-            </span>
-            <div className="relative inline-block group">
-              <img src={info.src} className="w-5 h-5 cursor-pointer" />
-
-              {/* Tooltip */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
-                <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[420px] min-w-[350px]  whitespace-normal break-words leading-relaxed text-center font-medium">
-                  Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
-                  significance of electronic or digital records and has
-                  dedicated provisions in Chapter 5 to address the admissibility
-                  and proof of electronic evidence.
-                  {/* Arrow */}
-                  <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2.5 h-2.5 bg-gray-900 rotate-45"></div>
-                </div>
-              </div>
-            </div>
-          </label>
-        </div>
-
         <div className="mt-1">
           <span className="text-md md:text-md font-semibold mb-3">Email</span>
           <Input
@@ -262,14 +227,51 @@ const ReverificationPage = (props: any) => {
           </div>
         </div>
 
-        <div className="flex mx-auto mt-5">
-          <button
-            onClick={onVerify}
-            disabled={loader}
-            className={`bg-[#ef9837] text-white font-bold text-xl px-13 py-3 rounded-md cursor-pointer ${loader && "opacity-60 cursor-not-allowed"}`}
-          >
-            Reverify
-          </button>
+        {/* Checkbox aligned with upload start */}
+        <div className="grid grid-cols-12 w-full justify-between items-center">
+          <div className="col-span-9 w-full">
+            <label className="flex items-center gap-1 cursor-pointer justify-start">
+              <input
+                type="checkbox"
+                checked={props.is_form66}
+                name="is_form66"
+                onChange={() =>
+                  props.Reverify_Set_Fields("is_form66", !props.is_form66)
+                }
+                className="mt-1 w-5 h-5 accent-sky-700 cursor-pointer"
+              />
+              <span className="text-md md:text-md font-light text-gray-800">
+                Would you like reverification{" "}
+                <span className="font-extrabold">certificate</span> under{" "}
+                <span className="font-extrabold">Section 63 BSA</span>?
+              </span>
+              <div className="relative inline-block group">
+                <img src={info.src} className="w-5 h-5 cursor-pointer" />
+
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                  <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[420px] min-w-[350px]  whitespace-normal break-words leading-relaxed text-center font-medium">
+                    Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
+                    significance of electronic or digital records and has
+                    dedicated provisions in Chapter 5 to address the
+                    admissibility and proof of electronic evidence.
+                    {/* Arrow */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2.5 h-2.5 bg-gray-900 rotate-45"></div>
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div className="flex w-full justify-end col-span-3">
+            <button
+              onClick={onVerify}
+              disabled={loader}
+              className={`bg-[#ef9837] text-white font-bold text-xl px-13 py-3 rounded-md cursor-pointer ${loader && "opacity-60 cursor-not-allowed"}`}
+            >
+              Reverify
+            </button>
+          </div>
         </div>
       </div>
 

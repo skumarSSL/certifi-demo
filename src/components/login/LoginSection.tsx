@@ -123,7 +123,7 @@ const LoginSection = (props: any) => {
           </span>
           <br />
         </p>
-        <p className="text-[#fa8231] text-xl sm:text-2xl font-semibold text-center mt-4">
+        <p className="text-[#ED9638] text-xl sm:text-2xl font-semibold text-center mt-4">
           Sign In
         </p>
 
@@ -250,7 +250,7 @@ const LoginSection = (props: any) => {
         </div>
 
         {/* Footer */}
-        <p className="text-gray-400 text-xs absolute bottom-3 text-center px-6">
+        <p className="text-gray-600 text-xs absolute bottom-3 text-center px-6">
           By signing in to CERTIFI, you agree to our{" "}
           <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
           and <span className="underline cursor-pointer">Privacy Policy</span>

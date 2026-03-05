@@ -32,7 +32,7 @@ const ComposePage = (props: any) => {
     setLoader(true);
     let timeout = setTimeout(() => {
       setLoader(false);
-    }, 8000);
+    }, 5000);
   }, []);
 
   let content = "";

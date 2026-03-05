@@ -19,7 +19,30 @@ const emailRegExp =
 
 export const ComposeSetFields =
   <K extends keyof ComposeState>(name: K, value: ComposeState[K]) =>
-  (dispatch: AppDispatch) => {
+  (dispatch: AppDispatch, getState: () => RootState) => {
+    if (name === "cc" || name === "to_mail" || name === "certified_cc") {
+      let is_valid = dispatch(_validateEmailMobile());
+      if (!is_valid) return;
+      let { cc, to_mail, certified_cc } = getState().compose_store;
+      let new_attachments: any[] = [];
+      if (name === "cc") {
+        new_attachments = [...cc, value];
+      } else if (name === "to_mail") {
+        new_attachments = [...to_mail, value];
+      } else if (name === "certified_cc") {
+        new_attachments = [...certified_cc, value];
+      }
+      dispatch(composeSetFields({ name, value: new_attachments }));
+      dispatch(composeSetFields({ name: "to_sent", value: "" }));
+      dispatch(composeSetFields({ name: "mobile_number", value: "" }));
+    } else {
+      dispatch(composeSetFields({ name, value }));
+    }
+  };
+
+export const ComposeRemoveFields =
+  <K extends keyof ComposeState>(name: K, value: ComposeState[K]) =>
+  (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(composeSetFields({ name, value }));
   };
 
@@ -176,21 +199,7 @@ export const _validateComposeDetails =
     };
     let is_valid = true;
 
-    if (!to_sent.trim()) {
-      error_obj.to_sent = "Recipient email is mandatory";
-      toast.error(error_obj.to_sent);
-      return (is_valid = false);
-    } else if (!emailRegExp.test(to_sent)) {
-      error_obj.to_sent = "Invalid recipient email";
-      toast.error(error_obj.to_sent);
-      return (is_valid = false);
-    }
-
-    if (!mobile_number.trim()) {
-      error_obj.mobile_number = "Recipient mobile number is mandatory";
-      toast.error(error_obj.mobile_number);
-      return (is_valid = false);
-    }
+    is_valid = dispatch(_validateEmailMobile());
 
     if (!subject.trim()) {
       error_obj.subject = "Subject is mandatory";
@@ -206,3 +215,27 @@ export const _validateComposeDetails =
 
     return is_valid;
   };
+
+export const _validateEmailMobile =
+  () => (dispatch: AppDispatch, getState: () => RootState) => {
+    let { mobile_number, to_sent } = getState().compose_store;
+
+    let is_valid = true;
+
+    if (!to_sent.trim()) {
+      toast.error("Recipient email is mandatory");
+      return (is_valid = false);
+    } else if (!emailRegExp.test(to_sent)) {
+      toast.error("Invalid recipient email");
+      return (is_valid = false);
+    }
+
+    if (!mobile_number.trim()) {
+      toast.error("Recipient mobile number is mandatory");
+      return (is_valid = false);
+    }
+
+    return is_valid;
+  };
+
+export const _checkDuplicateEntry = (mails: any[], new_mail: any) => {};

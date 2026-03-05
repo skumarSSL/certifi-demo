@@ -111,6 +111,14 @@ const SentData = (props: any) => {
 
   const isActive = props.selectedMail === props.data.id;
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      props.onClick(null);
+    }, 10000);
+
+    return () => clearTimeout(timeout);
+  }, [isActive]);
+
   return (
     <div
       ref={cardRef}
@@ -120,7 +128,7 @@ const SentData = (props: any) => {
         props.onClick(isActive ? null : props.data.id);
       }}
     >
-      <div className="col-span-3 px-4 py-3">
+      <div className="col-span-3 px-4 py-1 flex flex-col justify-center">
         <div className="flex space-x-3">
           <p className="font-bold group-hover:text-[#0976B1] transition-colors">
             {props.data.recipient}
@@ -141,7 +149,7 @@ const SentData = (props: any) => {
 
       <div className="relative col-span-2 px-4 py-1 flex items-center justify-center align-middle">
         <p
-          className={`px-3 py-1 rounded-md text-md font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
+          className={`px-2  rounded-md text-sm font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
         >
           {props.data.cert_req ? "Delivered" : "In Progress"}
         </p>
@@ -156,7 +164,7 @@ const SentData = (props: any) => {
             <IconWithTooltip
               src={ReceiptSvg.src}
               text="Message Deliver info"
-              widthHeight={"w-6 h-6"}
+              widthHeight={"w-4 h-4"}
             />
           </div>
           {props.data.cert_req && (
@@ -246,7 +254,7 @@ const IconWithTooltip = ({
     <div className="relative inline-block group/icon overflow-visible">
       <img
         src={src}
-        className={`${widthHeight ? widthHeight : "w-7 h-7"} cursor-pointer`}
+        className={`${widthHeight ? widthHeight : "w-5 h-5"} cursor-pointer`}
       />
 
       {/* Tooltip */}

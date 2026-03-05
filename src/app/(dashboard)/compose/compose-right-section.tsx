@@ -51,10 +51,18 @@ const ComposeRightSection = (props: any) => {
       >
         <div className="flex justify-between items-end font-semibold text-lg border-b border-gray-200 text-start sticky top-0 bg-white z-10">
           <p>Attachments</p>
-          <p className="font-light text-xs">
-            Maximum size :{" "}
-            <span className="text-xs font-bold text-[#ef9836]">5MB</span>
-          </p>
+          <div>
+            <p className="font-light text-xs">
+              Maximum size :{" "}
+              <span className="text-xs font-bold text-[#ef9836]">5MB</span>
+            </p>
+            <p className="font-light text-xs">
+              Number of files :{" "}
+              <span className="text-xs font-bold text-[#ef9836]">
+                {props.attachments.length}/10
+              </span>
+            </p>
+          </div>
         </div>
 
         {props.attachments.length === 0 ? (
@@ -190,7 +198,7 @@ const ComposeRightSection = (props: any) => {
           {isSending ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
           ) : (
-            <Send className="w-5 h-5 text-white" />
+            <Send className="w-5 h-5 text-white rotate-45" />
           )}
         </div>
       </div>
