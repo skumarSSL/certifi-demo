@@ -95,7 +95,7 @@ const Sidebar = (props: any) => {
         <SideBarLink
           icon={Mail}
           svgIcon={reverifySvg.src}
-          label="Recieved Emails"
+          label="Inbox"
           href="/inbox/"
           isSideBar={props.is_sidebar}
         />
