@@ -11,10 +11,14 @@ import {
   ComposeSetFields,
   ComposeSendCertifiMail,
   ComposeResetFields,
+  _validateComposeDetails,
 } from "@/store/compose/compose-action";
+import ConfirmationModal from "./confimation-modal";
+import SecureLoader from "../secure-loader";
 
 const ComposeRightSection = (props: any) => {
   const [isSending, setIsSending] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const router = useRouter();
 
@@ -28,7 +32,8 @@ const ComposeRightSection = (props: any) => {
       .Compose_Send_Certifi_Mail()
       .then(() => {
         props.Compose_Reset_Fields();
-        router.push("/compose");
+        // router.push("/compose");
+        setOpenModal(false);
       })
       .catch(() => {})
       .finally(() => {
@@ -49,6 +54,27 @@ const ComposeRightSection = (props: any) => {
     0,
   );
 
+  const allRecipients = () => {
+    let recipients = [];
+    let cc = props.cc.map(
+      (mail: { email: string; mobile: string; type: string }) =>
+        (mail = { ...mail, type: "cc" }),
+    );
+    let certified_cc = props.certified_cc.map(
+      (mail: { email: string; mobile: string; type: string }) =>
+        (mail = { ...mail, type: "certified_cc" }),
+    );
+
+    let to_mail = props.to_mail.map(
+      (mail: { email: string; mobile: string; type: string }) =>
+        (mail = { ...mail, type: "to_mail" }),
+    );
+
+    recipients = [...to_mail, ...cc, ...certified_cc];
+
+    return recipients;
+  };
+
   return (
     <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5 overflow-y-auto overflow-x-hidden">
       <div
@@ -60,7 +86,7 @@ const ComposeRightSection = (props: any) => {
             <p className="font-light text-xs">
               Maximum size :{" "}
               <span className="text-xs font-bold text-[#ef9836]">
-               ({(total_file_size / 1024 / 1024).toFixed(2)}/5)MB
+                ({(total_file_size / 1024 / 1024).toFixed(2)}/5)MB
               </span>
             </p>
             <p className="font-light text-xs">
@@ -194,7 +220,9 @@ const ComposeRightSection = (props: any) => {
 
       <div className="absolute bottom-0 right-4 flex justify-end items-end z-20 pt-11">
         <div
-          onClick={onCertifiSend}
+          onClick={() => {
+            if (props.Compose_Validate_Details()) setOpenModal(true);
+          }}
           className={`bg-primary px-5 py-2 rounded-md flex items-center gap-2 shadow-lg justify-center
       ${isSending ? "opacity-70 cursor-not-allowed w-40" : "cursor-pointer w-36"}`}
         >
@@ -209,11 +237,25 @@ const ComposeRightSection = (props: any) => {
           )}
         </div>
       </div>
+
+      {isSending ? (
+        <SecureLoader />
+      ) : openModal ? (
+        <ConfirmationModal
+          isOpen={openModal}
+          onCancel={() => setOpenModal(false)}
+          onConfirm={onCertifiSend}
+          recipients={allRecipients()}
+        />
+      ) : null}
     </div>
   );
 };
 
 const mapStateToProps = (store: any) => ({
+  cc: store.compose_store.cc,
+  to_mail: store.compose_store.to_mail,
+  certified_cc: store.compose_store.certified_cc,
   is_bsa: store.compose_store.is_bsa,
   is_logs: store.compose_store.is_logs,
   error_info: store.compose_store.error_info,
@@ -232,6 +274,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(ComposeSetFields(name, value)),
   Compose_Reset_Fields: () => dispatch(ComposeResetFields()),
   Compose_Send_Certifi_Mail: () => dispatch(ComposeSendCertifiMail()),
+  Compose_Validate_Details: () => dispatch(_validateComposeDetails()),
 });
 
 export default connect(

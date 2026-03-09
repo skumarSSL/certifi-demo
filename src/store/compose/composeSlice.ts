@@ -80,6 +80,9 @@ export const composeSlice = createSlice({
       state.mail_body = "";
       state.attachments = [];
       state.is_whatsApp = false;
+      state.to_mail = [];
+      state.cc = [];
+      state.certified_cc = [];
     },
 
     composeSetErrors: (

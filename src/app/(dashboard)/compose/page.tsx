@@ -62,9 +62,7 @@ const ComposePage = (props: any) => {
   });
 
   useEffect(() => {
-    return () => {
-      props.Compose_Reset_Fields();
-    };
+    props.Compose_Reset_Fields();
   }, []);
 
   useEffect(() => {

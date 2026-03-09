@@ -176,7 +176,7 @@ export const fileToBase64 = (file: any) => {
 
 export const _validateComposeDetails =
   () => (dispatch: AppDispatch, getState: () => RootState) => {
-    let { subject, mobile_number, mail_body, to_sent } =
+    let { subject, mobile_number, mail_body, to_sent, to_mail } =
       getState().compose_store;
 
     let error_obj = {
@@ -187,7 +187,12 @@ export const _validateComposeDetails =
     };
     let is_valid = true;
 
-    is_valid = dispatch(_validateEmailMobile());
+    // is_valid = dispatch(_validateEmailMobile());
+
+    if (to_mail.length === 0) {
+      toast.error("Recipients details are mandatory");
+      return (is_valid = false);
+    }
 
     if (!subject.trim()) {
       error_obj.subject = "Subject is mandatory";

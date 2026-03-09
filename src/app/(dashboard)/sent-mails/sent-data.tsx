@@ -143,10 +143,7 @@ const SentData = (props: any) => {
       <div className="col-span-6 px-4 py-1 flex items-center mx-3">
         <div className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
           <p> {props.data.subject}</p>{" "}
-          <span className="text-sm font-normal">
-            {props.data.body} {props.data.body} {props.data.body}{" "}
-            {props.data.body} {props.data.body}
-          </span>
+          <span className="text-sm font-normal">{props.data.body}</span>
         </div>
       </div>
 
