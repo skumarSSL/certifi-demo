@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { connect } from "react-redux";
 import { Toaster } from "react-hot-toast";
+
 import { useEffect, useRef, useState } from "react";
 
 import AttachmentsSvg from "@public/assets/attachments.svg";
@@ -21,6 +22,7 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import SecureLoader from "../secure-loader";
+import ScanningLoader from "../scanning-loader";
 
 const ComposePage = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
@@ -86,6 +88,11 @@ const ComposePage = (props: any) => {
 
     if (!file) return;
 
+    if (props.attachments.length >= 10) {
+      toast.error("Number of files limit exceeds");
+      return;
+    }
+
     let base64String;
 
     if (file.base64) {
@@ -122,7 +129,9 @@ const ComposePage = (props: any) => {
 
     await props.Compose_Scan_Files(finalValue);
 
-    setIsScanning(false);
+    setTimeout(() => {
+      setIsScanning(false);
+    }, 15000);
     return;
   };
 
@@ -134,7 +143,7 @@ const ComposePage = (props: any) => {
       {loader ? (
         <SecureLoader />
       ) : (
-        <div className="w-full h-full shadow-2xl bg-white rounded-md flex flex-col mx-5">
+        <div className="relative w-full h-full shadow-2xl bg-white rounded-md flex flex-col mx-5">
           <div className="grid grid-cols-8 items-center justify-between mt-2">
             <div className="px-3 col-span-6  space-x-5 text-xl text-gray-800 font-medium w-full h-7 text-center flex items-center justify-start ml-3 py-2">
               <p> New Certified Email</p>
@@ -148,7 +157,7 @@ const ComposePage = (props: any) => {
                 <img
                   src={AttachmentsSvg.src}
                   alt="attachments"
-                  className="w-6 h-6"
+                  className="w-6 h-6 fill-[#0E6DBD]"
                 />
               </label>
 
@@ -161,9 +170,14 @@ const ComposePage = (props: any) => {
             </div>
           </div>
           <div className="border-t-2 border-gray-200 mt-1 my-1 mx-5"></div>
+
           <div className="relative grid grid-cols-8 flex-1 overflow-y-auto px-5 pb-5">
             {/* // left section */}
-            <ComposeLeftSection />
+
+            <ComposeLeftSection
+              uploadFile={uploadFile}
+              isScanning={isScanning}
+            />
 
             {/* // right section */}
             <ComposeRightSection />

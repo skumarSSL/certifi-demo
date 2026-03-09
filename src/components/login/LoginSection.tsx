@@ -26,6 +26,7 @@ import {
   LoginGetLoggedIn,
   LoginSetCredentials,
 } from "@/store/login/login-action";
+import { WebsiteUrl } from "@/env";
 
 const socialMediaLinks = [
   {
@@ -107,7 +108,7 @@ const LoginSection = (props: any) => {
 
   return (
     <div className="flex items-center justify-center w-full h-full ml-3">
-      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[765px] p-8 bg-gray-50 rounded-xl  flex flex-col justify-center shadow-destructive-foreground">
+      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[765px] p-8 bg-gray-50 rounded-2xl  flex flex-col justify-center shadow-destructive-foreground">
         {/* Logo */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-lg">
           <img src={logo.src} alt="Logo" className="w-54 px-5 py-2" />
@@ -252,8 +253,19 @@ const LoginSection = (props: any) => {
         {/* Footer */}
         <p className="text-gray-600 text-xs absolute bottom-3 text-center px-6">
           By signing in to CERTIFI, you agree to our{" "}
-          <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
-          and <span className="underline cursor-pointer">Privacy Policy</span>
+          <a
+            href={`${WebsiteUrl}/terms-and-conditions`}
+            className="underline cursor-pointer"
+          >
+            Terms & Conditions
+          </a>{" "}
+          and{" "}
+          <a
+            href={`${WebsiteUrl}/privacy-policy`}
+            className="underline cursor-pointer"
+          >
+            Privacy Policy
+          </a>
         </p>
       </div>
     </div>

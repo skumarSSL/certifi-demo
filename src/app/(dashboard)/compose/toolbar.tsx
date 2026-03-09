@@ -12,20 +12,24 @@ import {
   Redo,
   Link2,
   Image as ImageIcon,
+  File,
 } from "lucide-react";
+
+import AttachmentsSvg from "@public/assets/attachments.svg";
 
 type Props = {
   editor: Editor | null;
+  uploadFile?: (e: any) => void;
 };
 
-export default function Toolbar({ editor }: Props) {
+export default function Toolbar({ editor, uploadFile }: Props) {
   useEditorState({
     editor,
     selector: ({ editor }) => ({
       isHeading1: editor?.isActive("heading", { level: 1 }),
       isHeading2: editor?.isActive("heading", { level: 2 }),
       isHeading3: editor?.isActive("heading", { level: 3 }),
-      isParagraph: editor?.isActive("paragraph")
+      isParagraph: editor?.isActive("paragraph"),
     }),
   });
 
@@ -128,6 +132,26 @@ export default function Toolbar({ editor }: Props) {
         >
           <ImageIcon size={16} />
         </ToolbarButton>
+
+        <div className="relative col-span-2 group flex justify-end px-1">
+          <label
+            htmlFor="fileUpload"
+            className="w-9 h-9 cursor-pointer flex items-center justify-center   transition"
+          >
+            <img
+              src={AttachmentsSvg.src}
+              alt="attachments"
+              className="w-5 h-5 fill-current text-gray-600"
+            />
+          </label>
+
+          <input
+            id="fileUpload"
+            type="file"
+            className="hidden"
+            onChange={uploadFile}
+          />
+        </div>
       </div>
 
       {/* RIGHT */}

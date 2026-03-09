@@ -20,24 +20,7 @@ const emailRegExp =
 export const ComposeSetFields =
   <K extends keyof ComposeState>(name: K, value: ComposeState[K]) =>
   (dispatch: AppDispatch, getState: () => RootState) => {
-    if (name === "cc" || name === "to_mail" || name === "certified_cc") {
-      let is_valid = dispatch(_validateEmailMobile());
-      if (!is_valid) return;
-      let { cc, to_mail, certified_cc } = getState().compose_store;
-      let new_attachments: any[] = [];
-      if (name === "cc") {
-        new_attachments = [...cc, value];
-      } else if (name === "to_mail") {
-        new_attachments = [...to_mail, value];
-      } else if (name === "certified_cc") {
-        new_attachments = [...certified_cc, value];
-      }
-      dispatch(composeSetFields({ name, value: new_attachments }));
-      dispatch(composeSetFields({ name: "to_sent", value: "" }));
-      dispatch(composeSetFields({ name: "mobile_number", value: "" }));
-    } else {
-      dispatch(composeSetFields({ name, value }));
-    }
+    dispatch(composeSetFields({ name, value }));
   };
 
 export const ComposeRemoveFields =
@@ -119,6 +102,9 @@ export const ComposeSendCertifiMail =
       is_copy_mail,
       is_whatsApp,
       mail_body,
+      to_mail,
+      cc,
+      certified_cc,
     } = getState().compose_store;
 
     const session_token = localStorage.getItem("session_token");
@@ -131,8 +117,8 @@ export const ComposeSendCertifiMail =
       purpose: "1",
       return_url: `${ProjectUrl}compose-mail?orderId=`,
       notify_url: `${ProjectUrl}compose-mail?orderId=`,
-      To_mail: to_sent,
-      mobile: mobile_number,
+      To_mail: to_mail,
+      mobile: mobile_number, // no need of it but corrected from backend first
       subject,
       mail_body,
       attachments: attachment_data,
@@ -140,6 +126,8 @@ export const ComposeSendCertifiMail =
       logs: is_logs,
       whatsapp: is_whatsApp,
       copy_mail: is_copy_mail,
+      cc,
+      certified_cc,
     };
 
     try {

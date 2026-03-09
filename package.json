@@ -26,6 +26,7 @@
     "crypto-js": "^4.2.0",
     "dot-env": "^0.0.1",
     "gsap": "^3.14.2",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.567.0",
     "lucide-solid": "^0.564.0",
     "moment": "^2.30.1",

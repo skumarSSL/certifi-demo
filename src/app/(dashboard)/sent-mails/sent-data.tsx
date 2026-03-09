@@ -140,11 +140,14 @@ const SentData = (props: any) => {
         </p>
       </div>
 
-      <div className="col-span-6 px-4 py-1 flex items-center mx-5">
-        <p className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
-          {props.data.subject} :{" "}
-          <span className="text-sm font-normal">{props.data.body}</span>
-        </p>
+      <div className="col-span-6 px-4 py-1 flex items-center mx-3">
+        <div className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
+          <p> {props.data.subject}</p>{" "}
+          <span className="text-sm font-normal">
+            {props.data.body} {props.data.body} {props.data.body}{" "}
+            {props.data.body} {props.data.body}
+          </span>
+        </div>
       </div>
 
       <div className="relative col-span-2 px-4 py-1 flex items-center justify-center align-middle">
@@ -193,7 +196,7 @@ const SentData = (props: any) => {
       </div>
       <div
         id={`deliveredTime${props.data.id}`}
-        className="col-span-12 items-center justify-around text-sm bg-[#ffeaa7] text-gray-900 rounded-b-md space-x-3 hidden"
+        className="col-span-12 items-center justify-around text-sm bg-white text-gray-900 rounded-b-md space-x-3 hidden py-1"
       >
         <div className="flex justify-between space-x-2 text-sm">
           <p className="flex space-x-1 text-gray-600">
@@ -215,7 +218,7 @@ const SentData = (props: any) => {
 
         <div className="flex justify-between text-sm space-x-2 ">
           <p className="flex space-x-2 text-gray-600">
-            <img src={WhatsAppPng.src} className="w-5 h-5 cursor-pointer" />
+            <img src={WhatsAppPng.src} className="w-4 h-4 cursor-pointer" />
             <span>WhatsApp Delivered</span>
           </p>
           <span className="font-medium">

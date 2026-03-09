@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 const Modal = (props: any) => {
-  let { onClose, is_open_modal, size = "", close = true, height = "40%" } = props;
+  let { onClose, is_open_modal, size = "", close = true } = props;
 
-    // const [height, setHeight] = useState("40%");
+    const [height, setHeight] = useState("40%");
 
-    // useEffect(() => {
-    //   if (size === "small") {
-    //     setHeight("55%");
-    //   } else if (size === "medium") {
-    //     setHeight("70%");
-    //   } else if (size === "large") {
-    //     setHeight("80%");
-    //   }
-    // }, [size]);
+    useEffect(() => {
+      if (size === "small") {
+        setHeight("55%");
+      } else if (size === "medium") {
+        setHeight("70%");
+      } else if (size === "large") {
+        setHeight("80%");
+      }
+    }, [size]);
 
   return (
     <div
@@ -23,7 +23,7 @@ const Modal = (props: any) => {
           : "fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center"
       }`}
     >
-      <div className="relative w-11/12 max-w-xl rounded-full">
+      <div className="relative w-11/12 max-w-4xl rounded-full">
         {close && (
           <button
             onClick={onClose}

@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 
+import scanLottie from "@public/lottie/scan.json";
 import TiptapEditor from "@/app/(dashboard)/compose/editor";
 
 import {
@@ -9,6 +10,9 @@ import {
 import { Plus, X } from "lucide-react";
 import { useRef, useState } from "react";
 import RecipientDropdown from "./recipient-dropdown";
+import InputRecipientModal from "./input-recipient-modal";
+import RecipientSection from "./recipient-section";
+import Lottie from "lottie-react";
 
 type Contact = {
   email: string;
@@ -17,42 +21,18 @@ type Contact = {
 
 const ComposeLeftSection = (props: any) => {
   const [recipientType, setRecipientType] = useState("to_mail");
-  const [toRecipient, setToRecipient] = useState<Contact[]>([]);
-  const [ccRecipient, setCCRecipient] = useState<Contact[]>([]);
-  const [certifiCCRecipient, setCertifiCCRecipient] = useState<Contact[]>([]);
+
+  const [showInputModal, setShowInputModal] = useState(false);
 
   const mobileRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-
-  const onChangeMobile = (e: any) => {
-    const key_name = e.target.name;
-    const val = e.target.value.replace(/[^0-9]/g, "");
-    if (key_name === "mobile_number") {
-      let newVal = parseInt(val);
-      let preVal = parseInt(props.mobile_number);
-
-      props.Compose_Set_Fields(
-        e.target.name,
-        newVal < 1 || newVal.toString().length > 10 ? preVal.toString() : val,
-      );
-    }
-  };
 
   const setFields = (e: any) => {
     props.Compose_Set_Fields(e.target.name, e.target.value);
   };
 
-  const addRecipient = (value: string) => {
-    props.Compose_Set_Fields(value, {
-      email: props.to_sent,
-      mobile: props.mobile_number,
-    });
-  };
-
-  const onKeyPress = (e: any) => {
-    if (e.key === "Enter") {
-      addRecipient(recipientType);
-    }
+  const addRecipient = (value: string, recipientMails: any[]) => {
+    props.Compose_Set_Fields(value, recipientMails);
   };
 
   const removeRecipient = (recipient_type: string, email: string) => {
@@ -76,12 +56,31 @@ const ComposeLeftSection = (props: any) => {
     }
   };
 
+  const onClickOpenModal = (recipient_type: string) => {
+    setRecipientType(recipient_type);
+    setShowInputModal(true);
+  };
+
   return (
     <div className="relative col-span-6 px-3 space-y-3 bg-white h-full flex flex-col">
+      {props.isScanning && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center">
+          {/* Grey glass background */}
+          <div className="absolute inset-0 backdrop-blur-sm bg-gray-200/30"></div>
+
+          <Lottie
+            animationData={scanLottie}
+            loop
+            autoplay
+            style={{ width: 200, height: 200 }}
+            className="relative z-10 text-white"
+          />
+        </div>
+      )}
       <div className="flex justify-end items-start space-x-2 mt-2">
         <button
           className={`relative text-md font-bold hover:text-white  hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "to_mail" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
-          onClick={() => setRecipientType("to_mail")}
+          onClick={() => onClickOpenModal("to_mail")}
         >
           To
           {props.to_mail.length > 0 && (
@@ -92,7 +91,7 @@ const ComposeLeftSection = (props: any) => {
         </button>
         <button
           className={`relative text-md font-bold hover:text-white hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "cc" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
-          onClick={() => setRecipientType("cc")}
+          onClick={() => onClickOpenModal("cc")}
         >
           Cc
           {props.cc.length > 0 && (
@@ -103,7 +102,7 @@ const ComposeLeftSection = (props: any) => {
         </button>
         <button
           className={`relative text-md font-bold hover:text-white bg-[#EF9837] hover:bg-[#ED9337] px-2 py-1 rounded-md cursor-pointer shadow-2xs ${recipientType === "certified_cc" ? "bg-[#ED9337] text-white" : "bg-orange-100 border border-[#ED9337] text-gray-600"}`}
-          onClick={() => setRecipientType("certified_cc")}
+          onClick={() => onClickOpenModal("certified_cc")}
         >
           CERTIFI Cc
           {props.certified_cc.length > 0 && (
@@ -113,134 +112,22 @@ const ComposeLeftSection = (props: any) => {
           )}
         </button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 text-gray-800">
-        <div className="grid grid-cols-12 col-span-1">
-          <label className="font-semibold text-md col-span-2">
-            Email<span className="text-red-400">*</span>
-          </label>
-          <input
-            ref={emailRef}
-            type="text"
-            name="to_sent"
-            value={props.to_sent}
-            className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
-            onChange={setFields}
-          />
-        </div>
 
-        <div className="flex space-x-3 items-end col-span-1">
-          <div className="grid grid-cols-12 gap-1 w-full">
-            <label className="font-semibold text-md col-span-2 ">
-              Mobile<span className="text-red-400">*</span>
-            </label>
-            <input
-              ref={mobileRef}
-              type="text"
-              name="mobile_number"
-              value={props.mobile_number}
-              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
-              onChange={onChangeMobile}
-              onKeyDown={onKeyPress}
-            />
-          </div>
-          <RecipientDropdown
-            recipientType={recipientType}
-            onSelect={(value: string) => addRecipient(value)}
-          />
-        </div>
-      </div>
-
-      <div
-        className={`grid grid-cols-12  ${ props.to_mail.length == 0 && "h-10"}`}
-        onClick={() => {
-          setRecipientType("to_mail");
-          emailFocus();
-        }}
-      >
-        <div className="col-span-1">
-          <label className="font-semibold text-sm">
-            To<span className="text-red-400">*</span>
-          </label>
-        </div>
-
-        <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-          {props.to_mail.map((item: any, i: number) => (
-            <div
-              key={i}
-              className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
-            >
-              {/* Email text */}
-              <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
-                {item.email}, <span>{item.mobile}</span>
-              </p>
-
-              {/* Close button */}
-              <X
-                className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0"
-                onClick={() => removeRecipient("to_mail", item.email)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div
-        className={`grid grid-cols-12 ${ props.cc.length == 0 && "h-10"}`}
-        onClick={() => {
-          setRecipientType("cc");
-          emailFocus();
-        }}
-      >
-        <div className="col-span-1">
-          <label className="font-semibold text-sm">Cc</label>
-        </div>
-
-        <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-          {props.cc.map((item: any, i: number) => (
-            <div
-              key={i}
-              className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
-            >
-              {/* Email text */}
-              <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
-                {item.email}, <span>{item.mobile}</span>
-              </p>
-
-              {/* Close button */}
-              <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div
-        className={`grid grid-cols-12 ${props.certified_cc.length == 0 && "h-10"}`}
-        onClick={() => {
-          setRecipientType("certified_cc");
-          emailFocus();
-        }}
-      >
-        <div className="col-span-1">
-          <label className="font-semibold text-sm">CERTIFI Cc</label>
-        </div>
-
-        <div className="col-span-11 flex flex-wrap gap-2 mt-1 border-b border-gray-300 py-1 bg-gray-100 px-1 rounded">
-          {props.certified_cc.map((item: any, i: number) => (
-            <div
-              key={i}
-              className="flex items-center bg-white text-sm rounded-full px-2 py-1 max-w-full"
-            >
-              {/* Email text */}
-              <p className="flex-1 truncate whitespace-nowrap overflow-hidden pr-2">
-                {item.email}, <span>{item.mobile}</span>
-              </p>
-
-              {/* Close button */}
-              <X className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0" />
-            </div>
-          ))}
-        </div>
-      </div>
+      <RecipientSection
+        recipientInfo={props.to_mail}
+        recipientType={"to_mail"}
+        onClick={onClickOpenModal}
+      />
+      <RecipientSection
+        recipientInfo={props.cc}
+        recipientType={"cc"}
+        onClick={onClickOpenModal}
+      />
+      <RecipientSection
+        recipientInfo={props.certified_cc}
+        recipientType={"certified_cc"}
+        onClick={onClickOpenModal}
+      />
 
       <div className="grid grid-cols-12  gap-2 text-gray-800">
         <div className="col-span-1">
@@ -262,9 +149,28 @@ const ComposeLeftSection = (props: any) => {
       <div className="flex-1 overflow-hidden">
         <TiptapEditor
           content={props.mail_body ?? ""}
+          uploadFile={props.uploadFile}
           onChange={(html) => props.Compose_Set_Fields("mail_body", html)}
         />
       </div>
+
+      {showInputModal && (
+        <InputRecipientModal
+          isOpenModal={showInputModal}
+          recipientType={recipientType}
+          onCloseModal={() => {
+            setShowInputModal(false);
+          }}
+          emails={
+            recipientType === "to_mail"
+              ? props.to_mail
+              : recipientType === "cc"
+                ? props.cc
+                : props.certified_cc
+          }
+          onAddEmail={addRecipient}
+        />
+      )}
     </div>
   );
 };

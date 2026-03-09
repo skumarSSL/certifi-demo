@@ -44,6 +44,11 @@ const ComposeRightSection = (props: any) => {
     props.Compose_Set_Fields("attachments", final_attachments);
   };
 
+  let total_file_size = props.attachments.reduce(
+    (acc: any, curr: any) => acc + curr.size,
+    0,
+  );
+
   return (
     <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5 overflow-y-auto overflow-x-hidden">
       <div
@@ -54,7 +59,9 @@ const ComposeRightSection = (props: any) => {
           <div>
             <p className="font-light text-xs">
               Maximum size :{" "}
-              <span className="text-xs font-bold text-[#ef9836]">5MB</span>
+              <span className="text-xs font-bold text-[#ef9836]">
+               ({(total_file_size / 1024 / 1024).toFixed(2)}/5)MB
+              </span>
             </p>
             <p className="font-light text-xs">
               Number of files :{" "}
@@ -70,7 +77,7 @@ const ComposeRightSection = (props: any) => {
             No attachments added
           </p>
         ) : (
-          <div className="flex flex-col gap-2 mt-3 overflow-y-auto">
+          <div className="flex flex-col gap-2 max-h-60 mt-3 overflow-y-auto">
             {props.attachments.map((file: any, i: number) => (
               <div
                 key={i}

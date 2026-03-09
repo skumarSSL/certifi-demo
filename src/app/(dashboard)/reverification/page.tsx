@@ -166,7 +166,7 @@ const ReverificationPage = (props: any) => {
             ) : props.file.name ? (
               /* File Preview Card */
               <div className="w-full flex items-center gap-4 bg-white shadow-sm rounded-lg p-4 relative">
-                <div className="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center">
+                <div className="w-14 h-14 bg-[#B9E6FF] rounded-lg flex items-center justify-center">
                   <span className="text-red-600 font-bold text-lg">PDF</span>
                 </div>
 
