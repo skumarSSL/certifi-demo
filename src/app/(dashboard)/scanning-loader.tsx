@@ -1,108 +1,265 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { File } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 
-export default function RadarLoader() {
-  const radarGroupRef = useRef<SVGGElement>(null);
-  const scanRef = useRef<SVGRectElement>(null);
-  const paperRef = useRef<HTMLDivElement>(null);
+interface LoaderProps {
+  isVisible: boolean;
+  isScanningComplete: boolean;
+  isScannedError: boolean;
+  onComplete?: () => void;
+}
+
+const ScanningLoader: React.FC<LoaderProps> = ({
+  isVisible,
+  isScanningComplete,
+  isScannedError,
+  onComplete,
+}) => {
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading",
+  );
+
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scannerRef = useRef<SVGRectElement>(null);
+  const docRef = useRef<SVGSVGElement>(null);
+
+  // Success Refs
+  const checkRef = useRef<SVGSVGElement>(null);
+  const checkPathRef = useRef<SVGPathElement>(null);
+
+  // Error Refs
+  const errorRef = useRef<SVGSVGElement>(null);
+  const errorPath1Ref = useRef<SVGPathElement>(null);
+  const errorPath2Ref = useRef<SVGPathElement>(null);
+
+  const linesRef = useRef<(SVGRectElement | null)[]>([]);
+  const scanTl = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    // Radar sweep
-    gsap.to(radarGroupRef.current, {
-      rotation: 360,
-      transformOrigin: "100px 100px",
-      duration: 4,
-      ease: "linear",
-      repeat: -1,
-    });
+    if (!isVisible) {
+      setStatus("loading");
+      return;
+    }
 
-    // Scan line animation
-    gsap.fromTo(
-      scanRef.current,
-      { y: 40 },
-      {
-        y: 160,
-        duration: 2,
-        ease: "power1.inOut",
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3 },
+      );
+
+      scanTl.current = gsap.timeline({ repeat: -1 });
+      scanTl.current
+        .fromTo(
+          linesRef.current,
+          { scaleX: 0, opacity: 0, transformOrigin: "left" },
+          {
+            scaleX: 1,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.inOut",
+          },
+        )
+        .to(linesRef.current, { opacity: 0, duration: 0.3, delay: 0.5 });
+
+      gsap.to(scannerRef.current, {
+        y: 30,
+        duration: 1,
         repeat: -1,
         yoyo: true,
-      }
-    );
-
-    // Paper pulse
-    gsap.to(paperRef.current, {
-      scale: 1.05,
-      duration: 1.2,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut",
+        ease: "sine.inOut",
+      });
     });
-  }, []);
+
+    return () => ctx.revert();
+  }, [isVisible]);
+
+  // Logic to switch between Success and Error
+  useEffect(() => {
+    if (isVisible && status === "loading") {
+      if (isScannedError) {
+        showErrorState();
+      } else if (isScanningComplete) {
+        showSuccessState();
+      }
+    }
+  }, [isScanningComplete, isScannedError, isVisible]);
+
+  const transitionOutDoc = () => {
+    if (scanTl.current) scanTl.current.pause();
+    return gsap.to([docRef.current, scannerRef.current], {
+      scale: 0.5,
+      opacity: 0,
+      duration: 0.4,
+      ease: "back.in(1.7)",
+    });
+  };
+
+  const showSuccessState = () => {
+    setStatus("success");
+    const tl = gsap.timeline({ onComplete: () => onComplete?.() });
+    tl.add(transitionOutDoc())
+      .fromTo(
+        checkRef.current,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+      )
+      .fromTo(
+        checkPathRef.current,
+        { strokeDasharray: 100, strokeDashoffset: 100 },
+        { strokeDashoffset: 0, duration: 0.6 },
+        "-=0.3",
+      );
+  };
+
+  const showErrorState = () => {
+    setStatus("error");
+    const tl = gsap.timeline({ onComplete: () => onComplete?.() });
+    tl.add(transitionOutDoc())
+      .fromTo(
+        errorRef.current,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+      )
+      .fromTo(
+        [errorPath1Ref.current, errorPath2Ref.current],
+        { strokeDasharray: 100, strokeDashoffset: 100 },
+        {
+          strokeDashoffset: 0,
+          duration: 0.4,
+          stagger: 0.2,
+          ease: "power2.out",
+        },
+        "-=0.2",
+      );
+  };
+
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* background blur */}
-      <div className="absolute inset-0 backdrop-blur-xl bg-white/40"></div>
-
-      <div className="relative w-56 h-56 flex items-center justify-center">
-        <svg viewBox="0 0 200 200" className="w-full h-full">
-          
-          {/* radar rings */}
-          <circle cx="100" cy="100" r="80" stroke="#0E6DBD" strokeWidth="2" fill="none" opacity="0.3" />
-          <circle cx="100" cy="100" r="55" stroke="#0E6DBD" strokeWidth="1.5" fill="none" opacity="0.3" />
-          <circle cx="100" cy="100" r="30" stroke="#0E6DBD" strokeWidth="1" fill="none" opacity="0.3" />
-
-          {/* Radar sweep */}
-          <g ref={radarGroupRef}>
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/20 backdrop-blur-md"
+    >
+      <div
+        ref={containerRef}
+        className="flex flex-col items-center p-10 rounded-3xl bg-white shadow-2xl border border-slate-100 min-w-[280px]"
+      >
+        <div className="relative w-33 h-33 mb-6 flex items-center justify-center">
+          {/* DOCUMENT LOADER */}
+          <svg
+            ref={docRef}
+            viewBox="0 0 80 100"
+            className="absolute inset-0 w-full h-full"
+          >
             <path
-              d="M100 100 L100 20 A80 80 0 0 1 180 100 Z"
-              fill="url(#radarGradient)"
-              opacity="0.6"
+              d="M15 5H55L75 25V95H15V5Z"
+              className="fill-white stroke-slate-200"
+              strokeWidth="2"
             />
-          </g>
-
-          {/* Clip area for scan */}
-          <defs>
-            <clipPath id="radarClip">
-              <circle cx="100" cy="100" r="80" />
-            </clipPath>
-
-            <linearGradient id="scanGradient" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#0E6DBD" stopOpacity="0" />
-              <stop offset="50%" stopColor="#0E6DBD" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#0E6DBD" stopOpacity="0" />
-            </linearGradient>
-
-            {/* <radialGradient id="radarGradient">
-              <stop offset="0%" stopColor="#0E6DBD" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#0E6DBD" stopOpacity="0" />
-            </radialGradient> */}
-          </defs>
-
-          {/* Scanning line */}
-          <g clipPath="url(#radarClip)">
+            {[40, 52, 64].map((y, i) => (
+              <rect
+                key={y}
+                ref={(el) => {
+                  linesRef.current[i] = el;
+                }}
+                x="25"
+                y={y}
+                width={i === 2 ? "20" : "35"}
+                height="4"
+                rx="2"
+                className="fill-sky-500"
+              />
+            ))}
             <rect
-              ref={scanRef}
-              x="20"
-              width="160"
-              height="25"
-              fill="url(#scanGradient)"
-              opacity="0.8"
+              ref={scannerRef}
+              x="10"
+              y="40"
+              width="60"
+              height="2"
+              rx="1"
+              className="fill-sky-400"
+              style={{ filter: "drop-shadow(0 0 6px rgba(56, 189, 248, 0.8))" }}
             />
-          </g>
-        </svg>
+          </svg>
 
-        {/* Paper icon */}
-        <div
-          ref={paperRef}
-          className="absolute flex items-center justify-center"
-        >
-          <File className="w-20 h-20 text-gray-500 opacity-90" />
+          {/* SUCCESS CHECK */}
+          <svg
+            ref={checkRef}
+            viewBox="0 0 100 100"
+            className="absolute inset-0 w-full h-full opacity-0"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              className="fill-green-50 stroke-green-500"
+              strokeWidth="2"
+            />
+            <path
+              ref={checkPathRef}
+              d="M30 52L44 66L72 38"
+              fill="none"
+              className="stroke-green-500"
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          {/* ERROR CROSS */}
+          <svg
+            ref={errorRef}
+            viewBox="0 0 100 100"
+            className="absolute inset-0 w-full h-full opacity-0"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              className="fill-red-50 stroke-red-500"
+              strokeWidth="2"
+            />
+            <path
+              ref={errorPath1Ref}
+              d="M35 35L65 65"
+              fill="none"
+              className="stroke-red-500"
+              strokeWidth="8"
+              strokeLinecap="round"
+            />
+            <path
+              ref={errorPath2Ref}
+              d="M65 35L35 65"
+              fill="none"
+              className="stroke-red-500"
+              strokeWidth="8"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
+
+        <h3
+          className={`text-lg font-bold transition-all duration-500 ${status === "success" ? "text-green-600" : status === "error" ? "text-red-600" : "text-slate-700"}`}
+        >
+          {status === "loading"
+            ? "Scanning Document..."
+            : status === "success"
+              ? "Clean File"
+              : "Threat Detected"}
+        </h3>
+
+        <p className="text-slate-400 text-sm mt-1 text-center">
+          {status === "success" && "No virus detected"}
+          {status === "error" && "Virus detected in file"}
+          {status === "loading" && "Processing secure trail"}
+        </p>
       </div>
     </div>
   );
-}
+};
+
+export default ScanningLoader;

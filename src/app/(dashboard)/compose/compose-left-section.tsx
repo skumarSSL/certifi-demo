@@ -13,6 +13,7 @@ import RecipientDropdown from "./recipient-dropdown";
 import InputRecipientModal from "./input-recipient-modal";
 import RecipientSection from "./recipient-section";
 import Lottie from "lottie-react";
+import ScanningLoader from "../scanning-loader";
 
 type Contact = {
   email: string;
@@ -64,18 +65,11 @@ const ComposeLeftSection = (props: any) => {
   return (
     <div className="relative col-span-6 px-3 space-y-3 bg-white h-full flex flex-col">
       {props.isScanning && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center">
-          {/* Grey glass background */}
-          <div className="absolute inset-0 backdrop-blur-sm bg-gray-200/30"></div>
-
-          <Lottie
-            animationData={scanLottie}
-            loop
-            autoplay
-            style={{ width: 200, height: 200 }}
-            className="relative z-10 text-white"
-          />
-        </div>
+        <ScanningLoader
+          isVisible={props.isScanning}
+          isScanningComplete={props.isScanningComplete}
+          isScannedError={props.isScannedError}
+        />
       )}
       <div className="flex justify-end items-start space-x-2 mt-2">
         <button

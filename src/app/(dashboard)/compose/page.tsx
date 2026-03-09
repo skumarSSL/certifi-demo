@@ -27,6 +27,8 @@ import ScanningLoader from "../scanning-loader";
 const ComposePage = (props: any) => {
   const [isScanning, setIsScanning] = useState(false);
   const composeRef = useRef<HTMLInputElement>(null);
+  const [isScanningComplete, setIsScanningComplete] = useState(false);
+  const [isScannedError, setIsScannedError] = useState(false);
 
   const [loader, setLoader] = useState(false);
 
@@ -127,12 +129,21 @@ const ComposePage = (props: any) => {
 
     setIsScanning(true);
 
-    await props.Compose_Scan_Files(finalValue);
-
-    setTimeout(() => {
-      setIsScanning(false);
-    }, 15000);
-    return;
+    props
+      .Compose_Scan_Files(finalValue)
+      .then(() => {
+        setIsScanningComplete(true);
+      })
+      .catch(() => {
+        setIsScannedError(true);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsScanningComplete(false);
+          setIsScannedError(false);
+          setIsScanning(false);
+        }, 2000);
+      });
   };
 
   return (
@@ -177,6 +188,8 @@ const ComposePage = (props: any) => {
             <ComposeLeftSection
               uploadFile={uploadFile}
               isScanning={isScanning}
+              isScanningComplete={isScanningComplete}
+              isScannedError={isScannedError}
             />
 
             {/* // right section */}
