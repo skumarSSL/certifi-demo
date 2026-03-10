@@ -78,8 +78,8 @@ const ReverificationPage = (props: any) => {
       return;
     }
 
-    if (selected_file.size > 1 * 1024 * 1024) {
-      toast.error("File size exceeds 1 MB");
+    if (selected_file.size > 6 * 1024 * 1024) {
+      toast.error("File size exceeds 6 MB");
       return;
     }
 
