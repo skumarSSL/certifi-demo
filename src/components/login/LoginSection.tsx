@@ -115,7 +115,7 @@ const LoginSection = (props: any) => {
         </div>
 
         {/* Animated Text */}
-        <p ref={textRef} className="text-center opacity-0 scale-0 mt-3">
+        <p ref={textRef} className="text-center opacity-0 scale-0 ">
           <span
             id="message"
             className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
@@ -157,9 +157,9 @@ const LoginSection = (props: any) => {
             onKeyDown={onKeyPress}
           />
 
-          <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right w-full">
+          {/* <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right w-full">
             Forgot Password?
-          </div>
+          </div> */}
 
           {/* Login Button */}
           <div className="flex justify-center items-center">
@@ -173,15 +173,15 @@ const LoginSection = (props: any) => {
           </div>
 
           {/* Google Login */}
-          <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-100 cursor-pointer">
+          {/* <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-100 cursor-pointer">
             <img src={googleIcon.src} className="w-5 h-5" />
             <span className="text-sm font-medium text-gray-500">
               Login / Signup with Google
             </span>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col justify-center items-center gap-3 mt-4">
-            <img src={webQrCode.src} alt={qrCode.alt} className={`w-35 h-35`} />
+          <div className="flex flex-col justify-center items-center gap-3 mt-7">
+            <img src={webQrCode.src} alt={qrCode.alt} className={`w-44 h-44`} />
 
             <div className="flex flex-wrap gap-3 mt-1">
               <a
@@ -227,7 +227,7 @@ const LoginSection = (props: any) => {
           </div>
 
           {/* Divider */}
-          <div className="text-center text-gray-400 text-sm mt-3">
+          <div className="text-center text-gray-400 text-sm mt-7">
             ────── Follow Us ──────
           </div>
 
