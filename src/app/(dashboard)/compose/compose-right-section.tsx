@@ -11,7 +11,7 @@ import {
   ComposeSetFields,
   ComposeSendCertifiMail,
   ComposeResetFields,
-  _validateComposeDetails,
+  ComposeValidateDetails,
 } from "@/store/compose/compose-action";
 import ConfirmationModal from "./confimation-modal";
 import SecureLoader from "../secure-loader";
@@ -274,7 +274,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(ComposeSetFields(name, value)),
   Compose_Reset_Fields: () => dispatch(ComposeResetFields()),
   Compose_Send_Certifi_Mail: () => dispatch(ComposeSendCertifiMail()),
-  Compose_Validate_Details: () => dispatch(_validateComposeDetails()),
+  Compose_Validate_Details: () => dispatch(ComposeValidateDetails()),
 });
 
 export default connect(

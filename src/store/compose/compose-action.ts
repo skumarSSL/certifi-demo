@@ -89,7 +89,7 @@ export const ComposeScanFiles =
 
 export const ComposeSendCertifiMail =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
-    const is_valid = _validateComposeDetails()(dispatch, getState);
+    const is_valid = ComposeValidateDetails()(dispatch, getState);
     if (!is_valid) return Promise.reject();
 
     const {
@@ -174,7 +174,7 @@ export const fileToBase64 = (file: any) => {
   });
 };
 
-export const _validateComposeDetails =
+export const ComposeValidateDetails =
   () => (dispatch: AppDispatch, getState: () => RootState) => {
     let { subject, mobile_number, mail_body, to_sent, to_mail } =
       getState().compose_store;
