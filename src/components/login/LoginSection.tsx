@@ -129,7 +129,7 @@ const LoginSection = (props: any) => {
         </p>
 
         {/* Inputs */}
-        <div className="mt-9 space-y-4">
+        <div className="mt-9 space-y-5">
           <Input
             name="user_name"
             type="text"
@@ -180,7 +180,7 @@ const LoginSection = (props: any) => {
             </span>
           </div> */}
 
-          <div className="flex flex-col justify-center items-center gap-3 mt-7">
+          <div className="flex flex-col justify-center items-center gap-3">
             <img src={webQrCode.src} alt={qrCode.alt} className={`w-44 h-44`} />
 
             <div className="flex flex-wrap gap-3 mt-1">
