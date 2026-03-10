@@ -118,7 +118,6 @@ export const ComposeSendCertifiMail =
       return_url: `${ProjectUrl}compose-mail?orderId=`,
       notify_url: `${ProjectUrl}compose-mail?orderId=`,
       To_mail: to_mail,
-      mobile: mobile_number, // no need of it but corrected from backend first
       subject,
       mail_body,
       attachments: attachment_data,
