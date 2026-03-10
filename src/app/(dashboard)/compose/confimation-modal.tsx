@@ -158,7 +158,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </p>
         </div>
         {/* Footer */}
-        <div className="p-6 bg-white border-t border-slate-100 flex flex-col gap-3">
+        <div className="p-6 bg-white   border-slate-100 flex flex-col gap-3">
           <button
             onClick={onConfirm}
             disabled={!isAllConfirmed}

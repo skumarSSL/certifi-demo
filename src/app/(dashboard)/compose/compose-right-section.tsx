@@ -176,10 +176,26 @@ const ComposeRightSection = (props: any) => {
               checked={props.is_logs}
               onChange={(e) => onChangeCertificateOption(e.target.name)}
             />
-            <span className="text-md font-light text-gray-800">
-              Add <span className="font-semibold">forensic audit trail</span> to
-              certificate
-            </span>
+
+            <div className="flex justify-center items-center text-md font-light text-gray-800">
+              <span className="text-md font-light text-gray-800">
+                Add <span className="font-semibold">forensic audit trail</span>
+              </span>
+              <div className="relative inline-block group ml-1">
+                <img src={info.src} className="w-5 h-5 cursor-pointer" />
+
+                {/* Tooltip */}
+                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                  <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[240px]  whitespace-normal break-words leading-relaxed text-center font-medium">
+                    Forensic audit trail certificate have detailed,
+                    chronological record of transactions and system activities,
+                    ensuring that data is traceable back to its origin.
+                    {/* Arrow */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2.5 h-2.5 bg-gray-900 rotate-45"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </label>
         </div>
 

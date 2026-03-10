@@ -155,6 +155,8 @@ const ComposeLeftSection = (props: any) => {
           onCloseModal={() => {
             setShowInputModal(false);
           }}
+          cc={props.cc}
+          certified_cc={props.certified_cc}
           emails={
             recipientType === "to_mail"
               ? props.to_mail

@@ -1,6 +1,6 @@
 import Modal from "@/utils/modal";
 import { Plus, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type Contact = {
@@ -8,15 +8,23 @@ type Contact = {
   mobile: string;
 };
 
+type Error = {
+  to_sent?: string;
+  mobile?: string;
+};
+
 const InputRecipientModal = ({
   isOpenModal,
   recipientType,
+  cc,
+  certified_cc,
   onCloseModal,
   emails = [],
   onAddEmail,
 }: any) => {
   const [toSent, setToSent] = useState("");
   const [mobile, setMobile] = useState("");
+  const [error, setError] = useState<Error>({});
   const [recipientInfo, setRecipientInfo] = useState<Contact[]>([]);
 
   useEffect(() => {
@@ -42,7 +50,27 @@ const InputRecipientModal = ({
 
   const onAdd = () => {
     let index = recipientInfo.findIndex((item: any) => item.email === toSent);
-    if (index > -1) {
+    let new_error: Error = {};
+    if (!toSent) {
+      new_error.to_sent = "Recipient email is mandatory";
+    }
+
+    if (!mobile) {
+      new_error.mobile = "Mobile is mandatory";
+      setError(new_error);
+      return;
+    }
+
+    if (recipientType === "to_mail" && recipientInfo.length >= 5) {
+      toast.error("Only 5 recipients allowed");
+      return;
+    } else if (
+      (recipientType === "cc" || recipientType === "certified_cc") &&
+      cc.length + certified_cc.length >= 10
+    ) {
+      toast.error("Atmost 10 combined cc and certified cc are allowed");
+      return;
+    } else if (index > -1) {
       toast.error("No Duplicate entry allowed !!");
       return;
     }
@@ -62,6 +90,29 @@ const InputRecipientModal = ({
     let new_recipients = [];
     new_recipients = recipientInfo.filter((item: any) => item.email != email);
     setRecipientInfo(new_recipients);
+  };
+
+  const onConfirm = () => {
+    let new_error: Error = {};
+    if (mobile && !toSent) {
+      new_error.to_sent = "Recipient email is mandatory";
+    }
+
+    if (toSent && !mobile) {
+      new_error.mobile = "Mobile is mandatory";
+      setError(new_error);
+      return;
+    }
+
+    let new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
+    setRecipientInfo(toSent && mobile ? new_recipients : recipientInfo);
+    setToSent("");
+    setMobile("");
+    onAddEmail(
+      recipientType,
+      toSent && mobile ? new_recipients : recipientInfo,
+    );
+    onClose();
   };
 
   return (
@@ -128,7 +179,7 @@ const InputRecipientModal = ({
               type="text"
               name="toSent"
               value={toSent}
-              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
+              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.to_sent && "border-sky-800"}`}
               onChange={(e) => setToSent(e.target.value)}
             />
           </div>
@@ -142,7 +193,7 @@ const InputRecipientModal = ({
                 type="text"
                 name="mobile"
                 value={mobile}
-                className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary`}
+                className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.mobile && "border-sky-800"}`}
                 onChange={onChangeMobile}
                 onKeyDown={onKeyPress}
               />
@@ -162,10 +213,7 @@ const InputRecipientModal = ({
             Cancel
           </button>
           <button
-            onClick={() => {
-              onAddEmail(recipientType, recipientInfo);
-              onClose();
-            }}
+            onClick={onConfirm}
             className="text-white bg-[#E98937] px-11 py-1 rounded-4xl hover:bg-orange-400 cursor-pointer"
           >
             Confirm
