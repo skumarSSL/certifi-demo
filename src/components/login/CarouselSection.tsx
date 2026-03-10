@@ -8,7 +8,6 @@ import post4 from "@public/assets/post2.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
- 
   { id: 2, embed: post2.src },
   { id: 3, embed: post3.src },
   { id: 4, embed: post4.src },

@@ -40,7 +40,7 @@ export const ReverifyGetCertificate =
         // notify_url: `${Redirection_url}/reverify-certificate?orderId=${orderId}`,
         return_url: `${ProjectUrl}reverify?orderId=`,
         notify_url: `${ProjectUrl}reverify?orderId=`,
-        mailid: email.trim(),
+        // mailid: email.trim(),
         To_mail: email.trim(),
         form66: is_form66 ? "1" : "0",
         attachments: file_res,

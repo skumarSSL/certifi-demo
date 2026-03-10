@@ -9,6 +9,7 @@ import { LoginGetSessionExpiry } from "@/store/login/login-action";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { connect, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 function LoginScreen(props: any) {
   const router = useRouter();
@@ -32,7 +33,7 @@ function LoginScreen(props: any) {
     <StoreProvider>
       <div className="min-h-screen md:min-h-dvh bg-gray-200 text-foreground p-8 space-y-6">
         <div className="grid grid-cols-5 items-center justify-center gap-4">
-          <div className="col-span-3 relative h-full flex items-center justify-center overflow-hidden border-gray-200 ">
+          <div className="col-span-3 relative h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden border-gray-200 ">
             {/* GIF Background */}
             <img
               src={backgroundGif.src}
@@ -46,11 +47,23 @@ function LoginScreen(props: any) {
             </div>
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-2 relative h-[calc(100vh-4rem)]">
             <LoginSection />
           </div>
         </div>
       </div>
+      <Toaster
+        toastOptions={{
+          className:
+            "bg-gray-900 text-white rounded-lg px-4 py-3 shadow-lg border border-gray-700",
+          success: {
+            className: "bg-green-600 text-white",
+          },
+          error: {
+            className: "bg-red-600 text-white font-light text-[15px]",
+          },
+        }}
+      />
     </StoreProvider>
   );
 }

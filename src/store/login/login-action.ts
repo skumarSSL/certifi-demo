@@ -85,7 +85,14 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
       },
       body: form_data,
     })
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then(async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          const result = await res.json();
+          return Promise.reject(result);
+        }
+      })
       .then((data) => {
         console.log("login_data", data);
         // dispatch(LoginGetSessionExpiry(data?.token));
@@ -99,8 +106,9 @@ export const LoginGetLoggedIn = () => (dispatch: any, getState: any) => {
         return Promise.resolve();
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        toast.error("Please enter valid credentials");
+        toast.error(
+          error?.non_field_errors[0] ?? "Please enter valid credentials",
+        );
         return Promise.reject();
       });
   } else {
