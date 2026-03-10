@@ -26,7 +26,6 @@ import {
   LoginGetLoggedIn,
   LoginSetCredentials,
 } from "@/store/login/login-action";
-import { WebsiteUrl } from "@/env";
 
 const socialMediaLinks = [
   {
@@ -107,24 +106,26 @@ const LoginSection = (props: any) => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-full ml-3">
-      <div className="relative w-full  max-w-[430px] h-[600px] md:h-[765px] p-8 bg-gray-50 rounded-2xl  flex flex-col justify-center shadow-destructive-foreground">
+    <div className="flex items-center justify-center w-full h-[95vh] ml-3">
+      <div
+        className={`relative w-full  max-w-[500px] h-full bg-gray-50 rounded-2xl  flex flex-col justify-center items-center shadow-destructive-foreground`}
+      >
         {/* Logo */}
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 rounded-md shadow-lg">
-          <img src={logo.src} alt="Logo" className="w-54 px-5 py-2" />
+        <div className="flex justify-center items-center w-80 rounded-md shadow-lg -mt-7">
+          <img src={logo.src} alt="Logo" className="w-60 px-5 py-2" />
         </div>
 
         {/* Animated Text */}
         <p ref={textRef} className="text-center opacity-0 scale-0 ">
           <span
             id="message"
-            className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
+            className="message text-lg text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
           >
             New Era of Secured Communication
           </span>
           <br />
         </p>
-        <p className="text-[#ED9638] text-xl sm:text-2xl font-semibold text-center mt-4">
+        <p className="text-[#ED9638] text-4xl font-semibold text-center mt-7">
           Sign In
         </p>
 
@@ -136,7 +137,8 @@ const LoginSection = (props: any) => {
             value={props.user_name}
             placeholder="Enter email"
             icon={user.src}
-            width={"w-full"}
+            width={"w-120"}
+            height={"h-20"}
             background={"bg-white"}
             onChange={(e) =>
               props.Login_Set_Fields(e.target.name, e.target.value)
@@ -148,7 +150,8 @@ const LoginSection = (props: any) => {
             type="password"
             value={props.password}
             placeholder="Enter password"
-            width={"w-full"}
+            width={"w-120"}
+            height={"h-20"}
             background={"bg-white"}
             icon={lock.src}
             onChange={(e) =>
@@ -164,9 +167,9 @@ const LoginSection = (props: any) => {
           {/* Login Button */}
           <div className="flex justify-center items-center">
             <button
-              disabled={isBtnDisabled || !props.user_name || !props.password}
+              disabled={isBtnDisabled}
               onClick={handleLogin}
-              className={`w-90 py-1.5 rounded-lg bg-primary text-white font-medium text-xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
+              className={`w-110 py-2.5 rounded-lg bg-primary text-white font-medium text-2xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
             >
               Login
             </button>
@@ -180,7 +183,7 @@ const LoginSection = (props: any) => {
             </span>
           </div> */}
 
-          <div className="flex flex-col justify-center items-center gap-3">
+          <div className="flex flex-col justify-center items-center gap-3 mt-11">
             <img src={webQrCode.src} alt={qrCode.alt} className={`w-44 h-44`} />
 
             <div className="flex flex-wrap gap-3 mt-1">
@@ -188,12 +191,12 @@ const LoginSection = (props: any) => {
                 href="https://play.google.com/store/apps/details?id=com.certifi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+                className="flex items-center gap-3 px-4 py-1 min-w-[130px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
               >
                 <img
                   src={googleStore.src}
                   alt="Google Play"
-                  className="w-5 h-5"
+                  className="w-6 h-6"
                 />
                 <div className="flex flex-col leading-tight">
                   <span className="text-[8px] text-[#616161]">Get it on</span>
@@ -207,12 +210,12 @@ const LoginSection = (props: any) => {
                 href="https://apps.apple.com/in/app/certifi-communications/id6737164586"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+                className="flex items-center gap-3 px-4 py-1 min-w-[130px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
               >
                 <img
                   src={appleStore.src}
                   alt="Google Play"
-                  className="w-5 h-5"
+                  className="w-6 h-6"
                 />
                 <div className="flex flex-col leading-tight">
                   <span className="text-[8px] text-[#616161]">
@@ -227,7 +230,7 @@ const LoginSection = (props: any) => {
           </div>
 
           {/* Divider */}
-          <div className="text-center text-gray-400 text-sm mt-7">
+          <div className="text-center text-gray-400 text-sm mt-13">
             ────── Follow Us ──────
           </div>
 
@@ -253,19 +256,8 @@ const LoginSection = (props: any) => {
         {/* Footer */}
         <p className="text-gray-600 text-xs absolute bottom-3 text-center px-6">
           By signing in to CERTIFI, you agree to our{" "}
-          <a
-            href={`${WebsiteUrl}/terms-and-conditions`}
-            className="underline cursor-pointer"
-          >
-            Terms & Conditions
-          </a>{" "}
-          and{" "}
-          <a
-            href={`${WebsiteUrl}/privacy-policy`}
-            className="underline cursor-pointer"
-          >
-            Privacy Policy
-          </a>
+          <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
+          and <span className="underline cursor-pointer">Privacy Policy</span>
         </p>
       </div>
     </div>

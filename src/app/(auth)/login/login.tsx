@@ -32,8 +32,8 @@ function LoginScreen(props: any) {
   return (
     <StoreProvider>
       <div className="min-h-screen md:min-h-dvh bg-gray-200 text-foreground p-8 space-y-6">
-        <div className="grid grid-cols-5 items-center justify-center gap-4">
-          <div className="col-span-3 relative h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden border-gray-200 ">
+        <div className="grid grid-cols-10 items-center justify-center gap-6 h-[95vh]">
+          <div className="col-span-7 relative h-full flex items-center justify-center overflow-hidden border-gray-200 ml-4">
             {/* GIF Background */}
             <img
               src={backgroundGif.src}
@@ -42,12 +42,12 @@ function LoginScreen(props: any) {
             />
 
             {/* Carousel */}
-            <div className="relative z-10 w-full max-w-4xl">
+            <div className="relative z-10 w-full max-w-5xl">
               <Carousel />
             </div>
           </div>
 
-          <div className="col-span-2 relative h-[calc(100vh-4rem)]">
+          <div className="col-span-3">
             <LoginSection />
           </div>
         </div>

@@ -45,13 +45,19 @@ const _validateLoginDetails = () => (dispatch: any, getState: any) => {
   let new_error_info: Record<string, string> = {};
 
   if (!user_name) {
-    new_error_info.user_name = "Enter user name";
+    new_error_info.user_name = "Enter email";
+    toast.error(new_error_info.user_name);
+    return (is_valid = false);
   }
   if (user_name && !email_validator.test(user_name)) {
-    new_error_info.user_name = "Enter valid user name";
+    new_error_info.user_name = "Enter valid email";
+    toast.error(new_error_info.user_name);
+    return (is_valid = false);
   }
   if (!password) {
     new_error_info.password = "Enter password";
+    toast.error(new_error_info.password);
+    return (is_valid = false);
   }
 
   if (Object.keys(new_error_info).length > 0) {
