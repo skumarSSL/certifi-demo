@@ -154,7 +154,7 @@ const ComposeRightSection = (props: any) => {
                 <img src={info.src} className="w-5 h-5 cursor-pointer" />
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999] pointer-events-none">
                   <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[240px]  whitespace-normal break-words leading-relaxed text-center font-medium">
                     Bharatiya Sakshya Adhiniyam, 2023 (BSA), recognizes the
                     significance of electronic or digital records and has
@@ -185,7 +185,7 @@ const ComposeRightSection = (props: any) => {
                 <img src={info.src} className="w-5 h-5 cursor-pointer" />
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999]">
+                <div className="absolute bottom-full right-1/2 translate-x-20 mb-3  opacity-0 scale-95 translate-y-2  group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-[99999] pointer-events-none">
                   <div className="relative bg-gray-800 text-white text-sm px-4 py-3 rounded-md shadow-lg  w-[240px]  whitespace-normal break-words leading-relaxed text-center font-medium">
                     Forensic audit trail certificate have detailed,
                     chronological record of transactions and system activities,
