@@ -2,6 +2,8 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Toolbar from "./toolbar";
 
@@ -21,6 +23,10 @@ export default function TiptapEditor({
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
       }),
+      Link.configure({
+        openOnClick: true,
+      }),
+      Image,
       Placeholder.configure({
         placeholder: "Write your message here...",
       }),
@@ -29,7 +35,8 @@ export default function TiptapEditor({
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "prose max-w-none h-full p-3 focus:outline-none",
+        class:
+          "tiptap-editor max-w-none h-full p-3 focus:outline-none [&_img]:max-w-full [&_img]:h-auto",
       },
     },
     onUpdate({ editor }) {

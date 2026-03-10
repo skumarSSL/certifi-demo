@@ -41,6 +41,7 @@ export const ReverifyGetCertificate =
         return_url: `${ProjectUrl}reverify?orderId=`,
         notify_url: `${ProjectUrl}reverify?orderId=`,
         mailid: email.trim(),
+        To_mail: email.trim(),
         form66: is_form66 ? "1" : "0",
         attachments: file_res,
       };

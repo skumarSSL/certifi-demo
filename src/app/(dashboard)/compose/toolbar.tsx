@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import AttachmentsSvg from "@public/assets/attachments.svg";
+import { useState } from "react";
 
 type Props = {
   editor: Editor | null;
@@ -23,6 +24,9 @@ type Props = {
 };
 
 export default function Toolbar({ editor, uploadFile }: Props) {
+  const [linkOpen, setLinkOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
+
   useEditorState({
     editor,
     selector: ({ editor }) => ({
@@ -115,21 +119,11 @@ export default function Toolbar({ editor, uploadFile }: Props) {
           <Code size={16} />
         </ToolbarButton>
 
-        <ToolbarButton
-          onClick={() => {
-            const url = prompt("Enter link URL");
-            if (url) editor.chain().focus().setLink({ href: url }).run();
-          }}
-        >
+        <ToolbarButton onClick={() => setLinkOpen(true)}>
           <Link2 size={16} />
         </ToolbarButton>
 
-        <ToolbarButton
-          onClick={() => {
-            const url = prompt("Enter image URL");
-            if (url) editor.chain().focus().setImage({ src: url }).run();
-          }}
-        >
+        <ToolbarButton onClick={() => setImageOpen(true)}>
           <ImageIcon size={16} />
         </ToolbarButton>
 
@@ -163,6 +157,42 @@ export default function Toolbar({ editor, uploadFile }: Props) {
           <Redo size={16} />
         </ToolbarButton>
       </div>
+
+      <UrlModal
+        open={linkOpen}
+        title="Insert Link"
+        onClose={() => setLinkOpen(false)}
+        onSubmit={(url) => {
+          if (!url) return;
+
+          if (!url.startsWith("http")) {
+            url = "https://" + url;
+          }
+
+          const { from, to } = editor.state.selection;
+
+          if (from === to) {
+            // no text selected
+            editor
+              .chain()
+              .focus()
+              .insertContent(`<a href="${url}">${url}</a>`)
+              .run();
+          } else {
+            // text selected
+            editor.chain().focus().setLink({ href: url }).run();
+          }
+        }}
+      />
+
+      <UrlModal
+        open={imageOpen}
+        title="Insert Image"
+        onClose={() => setImageOpen(false)}
+        onSubmit={(url) => {
+          editor?.chain().focus().setImage({ src: url }).run();
+        }}
+      />
     </div>
   );
 }
@@ -191,4 +221,52 @@ function ToolbarButton({
 
 function Divider() {
   return <div className="w-px h-6 bg-gray-300 mx-1" />;
+}
+
+function UrlModal({
+  open,
+  title,
+  onSubmit,
+  onClose,
+}: {
+  open: boolean;
+  title: string;
+  onSubmit: (url: string) => void;
+  onClose: () => void;
+}) {
+  const [url, setUrl] = useState("");
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+      <div className="bg-white rounded-lg shadow-lg p-5 w-[350px]">
+        <h3 className="text-lg font-semibold mb-3">{title}</h3>
+
+        <input
+          className="w-full border rounded px-3 py-2 mb-4"
+          placeholder="https://example.com"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+
+        <div className="flex justify-end gap-2">
+          <button className="px-3 py-1 rounded bg-gray-200" onClick={onClose}>
+            Cancel
+          </button>
+
+          <button
+            className="px-3 py-1 rounded bg-[#EE9337] text-white"
+            onClick={() => {
+              onSubmit(url);
+              setUrl("");
+              onClose();
+            }}
+          >
+            Insert
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -121,3 +121,7 @@ input::-webkit-textfield-decoration-container {
   animation: fadeIn 0.8s ease-out;
 }
 
+.tiptap-editor a {
+  @apply text-sky-600 underline hover:text-sky-800;
+}
+
