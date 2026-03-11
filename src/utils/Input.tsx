@@ -17,9 +17,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     props;
 
   return (
-    <div
-      className={`flex justify-center w-full ${props.height ? props.height : "h-18"}`}
-    >
+    <div className={`flex justify-center w-full  h-18 lg:h-20}`}>
       <div
         className={`
           relative flex items-center ${props.width ? props.width : "w-150"} my-3 rounded-xl px-4 py-3

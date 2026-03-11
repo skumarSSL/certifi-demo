@@ -7,7 +7,7 @@ import Carousel from "@/components/login/CarouselSection";
 import LoginSection from "@/components/login/LoginSection";
 import { LoginGetSessionExpiry } from "@/store/login/login-action";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+
 import { connect, useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
@@ -31,9 +31,11 @@ function LoginScreen(props: any) {
 
   return (
     <StoreProvider>
-      <div className="min-h-screen md:min-h-dvh bg-gray-200 text-foreground p-8 space-y-6">
-        <div className="grid grid-cols-10 items-center justify-center gap-6 h-[95vh]">
-          <div className="col-span-7 relative h-full flex items-center justify-center overflow-hidden border-gray-200 ml-4">
+      <div className={` min-h-dvh bg-gray-200 text-foreground p-8 space-y-6`}>
+        <div className="grid grid-cols-9 items-center gap-4">
+          <div
+            className={`col-span-6 relative  md:h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden border-gray-200 `}
+          >
             {/* GIF Background */}
             <img
               src={backgroundGif.src}

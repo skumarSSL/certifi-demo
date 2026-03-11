@@ -26,6 +26,7 @@ import {
   LoginGetLoggedIn,
   LoginSetCredentials,
 } from "@/store/login/login-action";
+import toast from "react-hot-toast";
 
 const socialMediaLinks = [
   {
@@ -89,6 +90,10 @@ const LoginSection = (props: any) => {
   }, []);
 
   const handleLogin = () => {
+    if (!props.user_name && !props.password) {
+      toast.error("Enter email and password");
+      return;
+    }
     setIsBtnDisabled(true);
     props
       .Login_Get_Logged_In()
@@ -106,97 +111,102 @@ const LoginSection = (props: any) => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-[95vh] ml-3">
+    <div className="flex items-center justify-center w-full h-full">
       <div
-        className={`relative w-full  max-w-[500px] h-full bg-gray-50 rounded-2xl  flex flex-col justify-center items-center shadow-destructive-foreground`}
+        className={`relative w-full max-w-xl h-[90vh] md:h-[calc(100vh-4rem)] p-8 bg-gray-50 rounded-xl  flex flex-col justify-center shadow-destructive-foreground`}
       >
         {/* Logo */}
-        <div className="flex justify-center items-center w-80 rounded-md shadow-lg -mt-7">
-          <img src={logo.src} alt="Logo" className="w-60 px-5 py-2" />
+        <div className="absolute top-8 left-1/2 -translate-x-1/2">
+          <div className="mx-auto rounded-md shadow-lg">
+            <img src={logo.src} alt="Logo" className="w-54 px-5 py-2" />
+          </div>
+
+          {/* Animated Text */}
+          <p ref={textRef} className={`text-center opacity-0 scale-0`}>
+            <span
+              id="message"
+              className="message text-sm text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
+            >
+              New Era of Secured Communication
+            </span>
+            <br />
+          </p>
         </div>
 
-        {/* Animated Text */}
-        <p ref={textRef} className="text-center opacity-0 scale-0 ">
-          <span
-            id="message"
-            className="message text-lg text-[#3498db] mt-2 font-inter font-semibold font-stretch-90%"
-          >
-            New Era of Secured Communication
-          </span>
-          <br />
-        </p>
-        <p className="text-[#ED9638] text-4xl font-semibold text-center mt-7">
-          Sign In
-        </p>
+        <div className="flex flex-col mt-15 h-auto [@media(max-height:945px)]:mt-23">
+          <div className="text-[#ED9638] sm:text-xl md:text-2xl  lg:text-3xl font-semibold text-center">
+            Sign In
+          </div>
+          {/* Inputs */}
+          <div className="mt-9 space-y-4">
+            <Input
+              name="user_name"
+              type="text"
+              value={props.user_name}
+              placeholder="Enter email"
+              icon={user.src}
+              width={"w-full"}
+              background={"bg-white"}
+              onChange={(e) =>
+                props.Login_Set_Fields(e.target.name, e.target.value)
+              }
+            />
 
-        {/* Inputs */}
-        <div className="mt-9 space-y-5">
-          <Input
-            name="user_name"
-            type="text"
-            value={props.user_name}
-            placeholder="Enter email"
-            icon={user.src}
-            width={"w-120"}
-            height={"h-20"}
-            background={"bg-white"}
-            onChange={(e) =>
-              props.Login_Set_Fields(e.target.name, e.target.value)
-            }
-          />
+            <Input
+              name="password"
+              type="password"
+              value={props.password}
+              placeholder="Enter password"
+              width={"w-full"}
+              background={"bg-white"}
+              icon={lock.src}
+              onChange={(e) =>
+                props.Login_Set_Fields(e.target.name, e.target.value)
+              }
+              onKeyDown={onKeyPress}
+            />
 
-          <Input
-            name="password"
-            type="password"
-            value={props.password}
-            placeholder="Enter password"
-            width={"w-120"}
-            height={"h-20"}
-            background={"bg-white"}
-            icon={lock.src}
-            onChange={(e) =>
-              props.Login_Set_Fields(e.target.name, e.target.value)
-            }
-            onKeyDown={onKeyPress}
-          />
-
-          {/* <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right w-full">
+            {/* <div className="text-sm font-bold text-sky-600 cursor-pointer pl-5 -mt-5 text-right w-full">
             Forgot Password?
           </div> */}
 
-          {/* Login Button */}
-          <div className="flex justify-center items-center">
-            <button
-              disabled={isBtnDisabled}
-              onClick={handleLogin}
-              className={`w-110 py-2.5 rounded-lg bg-primary text-white font-medium text-2xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
-            >
-              Login
-            </button>
-          </div>
+            {/* Login Button */}
+            <div className="flex justify-center items-center">
+              <button
+                disabled={isBtnDisabled}
+                onClick={handleLogin}
+                className={`w-90 py-1.5 rounded-lg bg-primary text-white font-medium text-xl ${isBtnDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:font-bold hover:bg-sky-600 transition ease-in-out"}`}
+              >
+                Login
+              </button>
+            </div>
 
-          {/* Google Login */}
-          {/* <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-100 cursor-pointer">
+            {/* Google Login */}
+            {/* <div className="flex items-center justify-center gap-2 mt-5 w-90 mx-auto py-2.5 rounded-lg bg-white hover:bg-gray-50 border border-gray-100 cursor-pointer">
             <img src={googleIcon.src} className="w-5 h-5" />
             <span className="text-sm font-medium text-gray-500">
               Login / Signup with Google
             </span>
           </div> */}
-
-          <div className="flex flex-col justify-center items-center gap-3 mt-11">
-            <img src={webQrCode.src} alt={qrCode.alt} className={`w-44 h-44`} />
+          </div>
+          <div className="flex flex-col items-center justify-center mt-9 lg:mt-9 [@media(min-height:945px)]:mt-3">
+            <img
+              src={webQrCode.src}
+              alt={qrCode.alt}
+              className={`lg:w-40 lg:h-40 w-35 h-35}`}
+            />
 
             <div className="flex flex-wrap gap-3 mt-1">
               <a
                 href="https://play.google.com/store/apps/details?id=com.certifi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-1 min-w-[130px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
               >
                 <img
                   src={googleStore.src}
                   alt="Google Play"
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                 />
                 <div className="flex flex-col leading-tight">
                   <span className="text-[8px] text-[#616161]">Get it on</span>
@@ -210,12 +220,12 @@ const LoginSection = (props: any) => {
                 href="https://apps.apple.com/in/app/certifi-communications/id6737164586"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-1 min-w-[130px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
+                className="flex items-center gap-3 px-4 py-1 min-w-[110px] rounded-lg border border-[#E1E3E6] bg-white no-underline cursor-pointer transition-all duration-200 hover:bg-gray-100"
               >
                 <img
                   src={appleStore.src}
                   alt="Google Play"
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                 />
                 <div className="flex flex-col leading-tight">
                   <span className="text-[8px] text-[#616161]">
@@ -227,38 +237,38 @@ const LoginSection = (props: any) => {
                 </div>
               </a>
             </div>
+
+            {/* Divider */}
+            <div className="text-center text-gray-400 text-sm mt-7 lg:mt-11 [@media(min-height:945px)]:mt-3">
+              ────── Follow Us ──────
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex justify-center gap-3 mt-2">
+              {socialMediaLinks.map((media) => (
+                <div
+                  key={media.alt}
+                  style={{ backgroundColor: media.color }}
+                  onClick={() => window.open(media.href, "_blank")}
+                  className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition"
+                >
+                  <img
+                    src={media.src}
+                    alt={media.alt}
+                    className={`${media.alt.includes("Youtube") ? "w-8 h-8" : "w-4 h-4"}`}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Divider */}
-          <div className="text-center text-gray-400 text-sm mt-13">
-            ────── Follow Us ──────
-          </div>
-
-          {/* Social Icons */}
-          <div className="flex justify-center gap-3 mt-2">
-            {socialMediaLinks.map((media) => (
-              <div
-                key={media.alt}
-                style={{ backgroundColor: media.color }}
-                onClick={() => window.open(media.href, "_blank")}
-                className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition"
-              >
-                <img
-                  src={media.src}
-                  alt={media.alt}
-                  className={`${media.alt.includes("Youtube") ? "w-8 h-8" : "w-4 h-4"}`}
-                />
-              </div>
-            ))}
-          </div>
+          {/* Footer */}
+          {/* <p className="text-gray-600 text-xs absolute bottom-3 text-center px-6">
+            By signing in to CERTIFI, you agree to our{" "}
+            <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
+            and <span className="underline cursor-pointer">Privacy Policy</span>
+          </p> */}
         </div>
-
-        {/* Footer */}
-        <p className="text-gray-600 text-xs absolute bottom-3 text-center px-6">
-          By signing in to CERTIFI, you agree to our{" "}
-          <span className="underline cursor-pointer">Terms & Conditions</span>{" "}
-          and <span className="underline cursor-pointer">Privacy Policy</span>
-        </p>
       </div>
     </div>
   );
