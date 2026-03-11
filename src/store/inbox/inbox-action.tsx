@@ -51,12 +51,13 @@ export const InboxGetViewCertifyMail =
       credentials: "include",
       headers: {
         Authorization: "Token " + session_token,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((result) => {
-        dispatch(inboxSetFields({ name: "inbox_data", value: result.data }));
+        dispatch(inboxSetFields({ name: "inbox_data", value: result }));
         return Promise.resolve();
       })
       .catch((err) => {
