@@ -34,6 +34,7 @@ const ComposeRightSection = (props: any) => {
         props.Compose_Reset_Fields();
         // router.push("/compose");
         setOpenModal(false);
+        props.setResetEditor(true);
       })
       .catch(() => {})
       .finally(() => {

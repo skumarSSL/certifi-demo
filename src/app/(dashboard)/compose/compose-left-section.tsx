@@ -145,6 +145,7 @@ const ComposeLeftSection = (props: any) => {
           content={props.mail_body ?? ""}
           uploadFile={props.uploadFile}
           onChange={(html) => props.Compose_Set_Fields("mail_body", html)}
+          resetEditor={props.resetEditor}
         />
       </div>
 

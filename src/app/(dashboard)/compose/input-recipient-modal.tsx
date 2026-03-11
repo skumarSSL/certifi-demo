@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 type Contact = {
   email: string;
-  mobile: string;
+  mobile?: string;
 };
 
 type Error = {
@@ -55,7 +55,7 @@ const InputRecipientModal = ({
       new_error.to_sent = "Recipient email is mandatory";
     }
 
-    if (!mobile) {
+    if (recipientType !== "cc" && !mobile) {
       new_error.mobile = "Mobile is mandatory";
       setError(new_error);
       return;
@@ -74,7 +74,14 @@ const InputRecipientModal = ({
       toast.error("No Duplicate entry allowed !!");
       return;
     }
-    let new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
+
+    let new_recipients: any = [];
+    if (recipientType !== "cc") {
+      new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
+    } else {
+      new_recipients = [...recipientInfo, { email: toSent }];
+    }
+
     setRecipientInfo(new_recipients);
     setToSent("");
     setMobile("");
@@ -98,19 +105,43 @@ const InputRecipientModal = ({
       new_error.to_sent = "Recipient email is mandatory";
     }
 
-    if (toSent && !mobile) {
+    if (toSent && recipientType !== "cc" && !mobile) {
       new_error.mobile = "Mobile is mandatory";
       setError(new_error);
       return;
     }
 
-    let new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
+    let index = recipientInfo.findIndex((item: any) => item.email === toSent);
+
+    if (recipientType === "to_mail" && recipientInfo.length >= 5) {
+      toast.error("Only 5 recipients allowed");
+      return;
+    } else if (
+      (recipientType === "cc" || recipientType === "certified_cc") &&
+      cc.length + certified_cc.length >= 10
+    ) {
+      toast.error("Atmost 10 combined cc and certified cc are allowed");
+      return;
+    } else if (index > -1) {
+      toast.error("No Duplicate entry allowed !!");
+      return;
+    }
+
+    let new_recipients: any = [];
+    if (recipientType !== "cc") {
+      new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
+    } else {
+      new_recipients = [...recipientInfo, { email: toSent }];
+    }
     setRecipientInfo(toSent && mobile ? new_recipients : recipientInfo);
     setToSent("");
     setMobile("");
     onAddEmail(
       recipientType,
-      toSent && mobile ? new_recipients : recipientInfo,
+
+      (toSent && mobile) || (recipientType == "cc" && toSent)
+        ? new_recipients
+        : recipientInfo,
     );
     onClose();
   };
@@ -158,7 +189,10 @@ const InputRecipientModal = ({
                   key={item.email}
                   className="flex space-x-2 text-gray-800 rounded-full p-2 bg-white justify-center items-center"
                 >
-                  <span>{item.email},</span>
+                  <span>
+                    {item.email}
+                    {recipientType !== "cc" && ","}
+                  </span>
                   <span className="font-medium">{item.mobile}</span>
                   <X
                     onClick={() => removeEmail(item.email)}
@@ -186,17 +220,21 @@ const InputRecipientModal = ({
 
           <div className="flex space-x-3 items-end col-span-1">
             <div className="grid grid-cols-12 gap-5 w-full">
-              <label className="font-semibold text-md col-span-2 ">
-                Mobile<span className="text-red-400">*</span>
-              </label>
-              <input
-                type="text"
-                name="mobile"
-                value={mobile}
-                className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.mobile && "border-sky-800"}`}
-                onChange={onChangeMobile}
-                onKeyDown={onKeyPress}
-              />
+              {recipientType !== "cc" && (
+                <>
+                  <label className="font-semibold text-md col-span-2 ">
+                    Mobile<span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="mobile"
+                    value={mobile}
+                    className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.mobile && "border-sky-800"}`}
+                    onChange={onChangeMobile}
+                    onKeyDown={onKeyPress}
+                  />
+                </>
+              )}
               <Plus
                 onClick={onAdd}
                 className="w-10 h-10 col-span-2 rounded-full p-2 bg-[#0976B1] text-white hover:bg-sky-600 cursor-pointer"

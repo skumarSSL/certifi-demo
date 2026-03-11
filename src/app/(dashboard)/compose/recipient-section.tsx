@@ -33,7 +33,8 @@ const RecipientSection = ({ recipientInfo, recipientType, onClick }: any) => {
             className="flex items-center bg-white text-sm rounded-full px-2 py-1 shrink-0"
           >
             <p className="truncate max-w-[300px]">
-              {item.email}, <span>{item.mobile}</span>
+              {item.email}
+              {recipientType !== "cc" && ","} <span>{item.mobile}</span>
             </p>
 
             {/* <X className="w-4 h-4 ml-1 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200" /> */}

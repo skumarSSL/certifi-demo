@@ -125,7 +125,7 @@ export const ComposeSendCertifiMail =
       logs: is_logs,
       whatsapp: is_whatsApp,
       copy_mail: is_copy_mail,
-      cc,
+      cc: cc.map((item) => item.email),
       certified_cc,
     };
 

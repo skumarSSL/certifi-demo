@@ -29,6 +29,7 @@ const ComposePage = (props: any) => {
   const composeRef = useRef<HTMLInputElement>(null);
   const [isScanningComplete, setIsScanningComplete] = useState(false);
   const [isScannedError, setIsScannedError] = useState(false);
+  const [resetEditor, setResetEditor] = useState(false);
 
   const [loader, setLoader] = useState(false);
 
@@ -188,10 +189,11 @@ const ComposePage = (props: any) => {
               isScanning={isScanning}
               isScanningComplete={isScanningComplete}
               isScannedError={isScannedError}
+              resetEditor={resetEditor}
             />
 
             {/* // right section */}
-            <ComposeRightSection />
+            <ComposeRightSection setResetEditor={setResetEditor} />
           </div>
         </div>
       )}

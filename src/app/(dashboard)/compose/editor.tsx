@@ -6,17 +6,20 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Toolbar from "./toolbar";
+import { useEffect } from "react";
 
 type Props = {
   content?: string;
   onChange?: (html: string) => void;
   uploadFile?: (e: any) => void;
+  resetEditor?: boolean;
 };
 
 export default function TiptapEditor({
   content = "",
   onChange,
   uploadFile,
+  resetEditor,
 }: Props) {
   const editor = useEditor({
     extensions: [
@@ -48,6 +51,10 @@ export default function TiptapEditor({
       onChange?.(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (resetEditor) editor?.chain().clearContent().focus().run();
+  }, [resetEditor]);
 
   if (!editor) return null;
 
