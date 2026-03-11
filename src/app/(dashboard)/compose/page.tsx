@@ -181,7 +181,7 @@ const ComposePage = (props: any) => {
           </div>
           <div className="border-t-2 border-gray-200 mt-1 my-1 mx-5"></div>
 
-          <div className="relative grid grid-cols-8 flex-1 overflow-y-auto px-5 pb-5">
+          <div className="relative grid grid-cols-8 flex-1 overflow-y-hidden px-5 pb-5">
             {/* // left section */}
 
             <ComposeLeftSection

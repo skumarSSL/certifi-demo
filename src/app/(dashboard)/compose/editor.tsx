@@ -59,12 +59,14 @@ export default function TiptapEditor({
   if (!editor) return null;
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden h-full flex flex-col">
+    <div className="border border-gray-200 rounded-lg h-[calc(100vh-32rem)] overflow-y-auto flex flex-col scroll-smooth">
       <Toolbar editor={editor} uploadFile={uploadFile} />
-      <EditorContent
-        editor={editor}
-        className="flex-1 overflow-y-auto prose max-w-none"
-      />
+      <div className="flex-1 min-h-60 overflow-y-auto">
+        <EditorContent
+          editor={editor}
+          className="flex-1 overflow-y-auto prose max-w-none"
+        />
+      </div>
     </div>
   );
 }

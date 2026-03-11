@@ -104,7 +104,7 @@ const ComposeRightSection = (props: any) => {
             No attachments added
           </p>
         ) : (
-          <div className="flex flex-col gap-2 max-h-60 mt-3 overflow-y-auto">
+          <div className="flex flex-col gap-2 max-h-45 mt-3 overflow-y-auto">
             {props.attachments.map((file: any, i: number) => (
               <div
                 key={i}
