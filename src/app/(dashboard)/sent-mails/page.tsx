@@ -2,7 +2,7 @@
 
 import { connect } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap"; 
+import gsap from "gsap";
 
 import { Toaster } from "react-hot-toast";
 
@@ -13,18 +13,67 @@ import SentDataSkeleton from "./sent-skeleton";
 
 import { SentGetSuccessMails } from "@/store/sent-mails/sent-mails-action";
 
+function myDebounce<T extends (...args: any[]) => void>(cb: T, delay: number) {
+  let timer: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<T>) => {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
+}
+
 const SentMails = (props: any) => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [loader, setLoader] = useState(false);
   const sentRef = useRef<HTMLDivElement>(null);
+  const [search, setSearch] = useState("");
+  const [filteredDataSource, setFilteredDataSource] = useState<any[]>([]);
 
   const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     setLoader(true);
-    props.Sent_Get_Success_Mails().finally(() => setLoader(false));
+    props
+      .Sent_Get_Success_Mails()
+      .then((data: any) => {
+        setFilteredDataSource(data);
+      })
+      .finally(() => setLoader(false));
   }, []);
+
+  useEffect(() => {
+    onSearch(search);
+  }, [search]);
+
+  const onSearch = myDebounce((text) => {
+    if (text) {
+      const newData = props.sent_data.filter(function (item: any) {
+        if (isNaN(text)) {
+          const recipient = item?.recipient?.toUpperCase();
+          const body = item?.body?.toUpperCase();
+          const itemData = item?.subject?.toUpperCase();
+          const textData = text?.toUpperCase();
+          return (
+            itemData?.indexOf(textData) > -1 ||
+            recipient?.indexOf(textData) > -1 ||
+            body?.indexOf(textData) > -1
+          );
+        } else {
+          return item.recipient_mobile.includes(text);
+        }
+      });
+      // setFilteredDataSource(newData);
+      setFilteredDataSource(newData);
+    } else {
+      // setFilteredDataSource([])
+      setFilteredDataSource(props.sent_data);
+    }
+    setPage(1);
+  }, 200);
 
   useEffect(() => {
     if (!sentRef.current) return;
@@ -37,7 +86,10 @@ const SentMails = (props: any) => {
   }, [props.is_sidebar]);
 
   const startIndex = (page - 1) * pageSize;
-  let paginatedData = props.sent_data.slice(startIndex, startIndex + pageSize);
+  let paginatedData = filteredDataSource.slice(
+    startIndex,
+    startIndex + pageSize,
+  );
 
   // paginatedData = [...paginatedData, ...paginatedData];
 
@@ -48,7 +100,7 @@ const SentMails = (props: any) => {
   return (
     <div ref={sentRef} className="relative flex flex-col h-[calc(100vh-120px)]">
       <div className="sticky top-0 z-50 bg-gray-100">
-        <FilterSection />
+        <FilterSection search={search} onSearch={setSearch} />
         <div className="grid grid-cols-12 mx-3 my-1 text-gray-800 text-[14px] font-semibold border border-gray-300 bg-gray-200 rounded-md">
           <div className="col-span-3 px-4 py-2 border-r border-gray-300">
             Recipient Information
@@ -86,11 +138,11 @@ const SentMails = (props: any) => {
         ) : null}
       </div>
 
-      {props.sent_data.length > 0 && !loader && (
+      {filteredDataSource.length > 0 && !loader && (
         <div className="sticky bottom-0 bg-white z-40 border-t border-gray-200">
           <Pagination
             currentPage={page}
-            totalCount={props.sent_data.length}
+            totalCount={filteredDataSource.length}
             pageSize={pageSize}
             onPageChange={(p) => setPage(p)}
             onPageSizeChange={(size) => {

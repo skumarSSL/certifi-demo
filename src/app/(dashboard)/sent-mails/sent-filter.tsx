@@ -1,7 +1,12 @@
 import { Search } from "lucide-react";
 
-const FilterSection = () => {
-  // const [search, setSearch] = useState("");
+const FilterSection = ({
+  search,
+  onSearch,
+}: {
+  search: string;
+  onSearch: (e: any) => void;
+}) => { 
 
   return (
     <div className="flex items-center justify-between my-3 ">
@@ -12,6 +17,8 @@ const FilterSection = () => {
           className="w-full rounded-md border-none bg-white p-2 pl-8 placeholder-gray-500 focus:border-transparent focus:outline-none dark:bg-gray-700 dark:text-white dark:placeholder-white"
           type="search"
           placeholder={"Search email, phone or subject"}
+          value={search}
+          onChange={(e) => onSearch(e.target.value)}
         />
       </div>
       {/* <div className="mr-3">

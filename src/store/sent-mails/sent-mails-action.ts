@@ -16,7 +16,7 @@ export const SentGetSuccessMails = () => (dispatch: any) => {
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((result) => {
       dispatch(sentSetFields({ name: "sent_data", value: result.data }));
-      return Promise.resolve();
+      return Promise.resolve(result.data);
     })
     .catch((err) => {
       err instanceof Error
