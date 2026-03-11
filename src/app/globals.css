@@ -83,21 +83,36 @@ body {
   float: left;
 }
 
-
 input::-ms-reveal,
 input::-webkit-textfield-decoration-container {
   display: none !important;
 }
 
 @keyframes wave {
-  0% { transform: rotate(0deg); }
-  10% { transform: rotate(14deg); }
-  20% { transform: rotate(-8deg); }
-  30% { transform: rotate(14deg); }
-  40% { transform: rotate(-4deg); }
-  50% { transform: rotate(10deg); }
-  60% { transform: rotate(0deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .animate-wave {
@@ -125,3 +140,47 @@ input::-webkit-textfield-decoration-container {
   @apply text-sky-600 underline hover:text-sky-800;
 }
 
+.ProseMirror h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.ProseMirror h2 {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.ProseMirror h3 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor li {
+  margin: 4px 0;
+}
+
+.tiptap-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}

@@ -24,7 +24,12 @@ export default function TiptapEditor({
         heading: { levels: [1, 2, 3] },
       }),
       Link.configure({
+        autolink: true,
         openOnClick: true,
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
       }),
       Image,
       Placeholder.configure({
@@ -49,7 +54,10 @@ export default function TiptapEditor({
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden h-full flex flex-col">
       <Toolbar editor={editor} uploadFile={uploadFile} />
-      <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
+      <EditorContent
+        editor={editor}
+        className="flex-1 overflow-y-auto prose max-w-none"
+      />
     </div>
   );
 }

@@ -12,11 +12,10 @@ import {
   Redo,
   Link2,
   Image as ImageIcon,
-  File,
 } from "lucide-react";
 
 import AttachmentsSvg from "@public/assets/attachments.svg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = {
   editor: Editor | null;
@@ -25,7 +24,7 @@ type Props = {
 
 export default function Toolbar({ editor, uploadFile }: Props) {
   const [linkOpen, setLinkOpen] = useState(false);
-  const [imageOpen, setImageOpen] = useState(false);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
 
   useEditorState({
     editor,
@@ -46,6 +45,21 @@ export default function Toolbar({ editor, uploadFile }: Props) {
       : editor.isActive("heading", { level: 3 })
         ? "h3"
         : "p";
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const src = reader.result as string;
+
+      editor.chain().focus().setImage({ src }).run();
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="flex items-center justify-between border-none bg-gray-100 px-2 py-1">
@@ -123,19 +137,29 @@ export default function Toolbar({ editor, uploadFile }: Props) {
           <Link2 size={16} />
         </ToolbarButton>
 
-        <ToolbarButton onClick={() => setImageOpen(true)}>
+        {/* IMAGE UPLOAD BUTTON */}
+        <ToolbarButton onClick={() => imageInputRef.current?.click()}>
           <ImageIcon size={16} />
         </ToolbarButton>
 
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageUpload}
+        />
+
+        {/* ATTACHMENT */}
         <div className="relative col-span-2 group flex justify-end px-1">
           <label
             htmlFor="fileUpload"
-            className="w-9 h-9 cursor-pointer flex items-center justify-center   transition"
+            className="w-9 h-9 cursor-pointer flex items-center justify-center"
           >
             <img
               src={AttachmentsSvg.src}
               alt="attachments"
-              className="w-5 h-5 fill-current text-gray-600"
+              className="w-5 h-5"
             />
           </label>
 
@@ -172,25 +196,14 @@ export default function Toolbar({ editor, uploadFile }: Props) {
           const { from, to } = editor.state.selection;
 
           if (from === to) {
-            // no text selected
             editor
               .chain()
               .focus()
               .insertContent(`<a href="${url}">${url}</a>`)
               .run();
           } else {
-            // text selected
             editor.chain().focus().setLink({ href: url }).run();
           }
-        }}
-      />
-
-      <UrlModal
-        open={imageOpen}
-        title="Insert Image"
-        onClose={() => setImageOpen(false)}
-        onSubmit={(url) => {
-          editor?.chain().focus().setImage({ src: url }).run();
         }}
       />
     </div>
@@ -211,7 +224,7 @@ function ToolbarButton({
       type="button"
       onClick={onClick}
       className={`p-2 rounded hover:bg-gray-200 transition ${
-        active ? "bg-blue-200 text-blue-700" : ""
+        active ? "bg-blue-200 text-sky-700" : ""
       }`}
     >
       {children}
