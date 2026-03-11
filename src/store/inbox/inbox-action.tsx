@@ -8,7 +8,8 @@ export const InboxResetFields = () => (dispatch: AppDispatch) => {
   dispatch(inboxResetFields());
 };
 export const InboxGetViewCertifyMail =
-  (code: string, mobile_number?: string, email?: string) => (dispatch: any) => {
+  (code: string, mobile_number?: string, email?: string, view_type?: string) =>
+  (dispatch: any) => {
     let session_token = localStorage.getItem("session_token");
 
     let email_validator =
@@ -19,9 +20,9 @@ export const InboxGetViewCertifyMail =
       receiver_otp: code,
     };
 
-    if (email?.trim()) {
+    if (view_type === "email") {
       data = {
-        email: email.trim(),
+        email: email?.trim(),
         receiver_otp: code,
       };
     }
@@ -36,8 +37,21 @@ export const InboxGetViewCertifyMail =
       return Promise.reject();
     }
 
-    if (Object.keys(data).indexOf("mob_num") > -1 && !data.mob_num) {
+    if (
+      view_type === "mobile" &&
+      Object.keys(data).indexOf("mob_num") > -1 &&
+      !data.mob_num
+    ) {
       toast.error("Mobile number is required");
+      return Promise.reject();
+    }
+
+    if (
+      view_type === "email" &&
+      Object.keys(data).indexOf("email") > -1 &&
+      !data.email
+    ) {
+      toast.error("Email is required");
       return Promise.reject();
     }
 

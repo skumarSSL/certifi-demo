@@ -229,22 +229,24 @@ const ReverificationPage = (props: any) => {
 
         {/* Checkbox aligned with upload start */}
         <div className="grid grid-cols-12 w-full justify-between items-center">
-          <div className="col-span-9 w-full">
+          <div
+            className="col-span-9 w-full"
+            onClick={() =>
+              props.Reverify_Set_Fields("is_form66", !props.is_form66)
+            }
+          >
             <label className="flex items-center gap-1 cursor-pointer justify-start">
               <input
                 type="checkbox"
                 checked={props.is_form66}
                 name="is_form66"
-                onChange={() =>
-                  props.Reverify_Set_Fields("is_form66", !props.is_form66)
-                }
                 className="mt-1 w-5 h-5 accent-sky-700 cursor-pointer"
               />
-              <span className="text-md md:text-md font-light text-gray-800">
+              <p className="text-md md:text-md font-light text-gray-800">
                 Would you like reverification{" "}
                 <span className="font-extrabold">certificate</span> under{" "}
                 <span className="font-extrabold">Section 63 BSA</span>?
-              </span>
+              </p>
               <div className="relative inline-block group">
                 <img src={info.src} className="w-5 h-5 cursor-pointer" />
 

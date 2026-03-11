@@ -39,14 +39,16 @@ const CertifyInbox = (props: any) => {
     });
   }, [props.is_sidebar]);
 
-  const onChangeMobileNumber = (val: string) => {
-    let newVal = parseInt(val);
-    let preVal = parseInt(mobile_number);
+  const onChangeMobileNumber = (e: any) => {
+    const key_name = e.target.name;
+    const val = e.target.value.replace(/[^0-9]/g, "");
+    if (key_name === "mobile_number") {
+      let newVal = parseInt(val);
+      let preVal = parseInt(mobile_number);
 
-    if (newVal < 1) {
-      setMobileNumber(preVal.toString());
-    } else {
-      setMobileNumber(val);
+      setMobileNumber(
+        newVal < 1 || newVal.toString().length > 10 ? preVal.toString() : val,
+      );
     }
   };
 
@@ -59,7 +61,7 @@ const CertifyInbox = (props: any) => {
   const onViewCertify = () => {
     setLoader(true);
     props
-      .Inbox_Get_View_Certify_Mail(code, mobile_number, email)
+      .Inbox_Get_View_Certify_Mail(code, mobile_number, email, viewType)
       .then(() => {
         setLoader(false);
         setCode("");
@@ -130,7 +132,7 @@ const CertifyInbox = (props: any) => {
                 placeholder="Enter mobile number"
                 icon={phone.src}
                 width={"w-100"}
-                onChange={(e) => onChangeMobileNumber(e.target.value.trim())}
+                onChange={onChangeMobileNumber}
                 background={"bg-white"}
               />
             )}
@@ -200,7 +202,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     code: string,
     mobile_number: string,
     email: string,
-  ) => dispatch(InboxGetViewCertifyMail(code, mobile_number, email)),
+    viewType: string,
+  ) => dispatch(InboxGetViewCertifyMail(code, mobile_number, email, viewType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CertifyInbox);
