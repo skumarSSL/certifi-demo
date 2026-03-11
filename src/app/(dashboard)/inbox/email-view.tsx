@@ -82,10 +82,6 @@ function EmailView({ data }: { data: any }) {
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto space-y-4 text-gray-700 leading-relaxed pr-2">
-        <p className="font-semibold">
-          {data.BODY.split(" ")[0] + " " + data.BODY.split(" ")[1]}
-        </p>
-
         <p>{data.BODY}</p>
       </div>
 
