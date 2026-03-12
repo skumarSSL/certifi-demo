@@ -1,5 +1,5 @@
 import Modal from "@/utils/modal";
-import { Plus, X } from "lucide-react";
+import { Check, Plus, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -13,6 +13,9 @@ type Error = {
   mobile?: string;
 };
 
+const emailRegExp =
+  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const InputRecipientModal = ({
   isOpenModal,
   recipientType,
@@ -25,10 +28,11 @@ const InputRecipientModal = ({
   const [toSent, setToSent] = useState("");
   const [mobile, setMobile] = useState("");
   const [error, setError] = useState<Error>({});
+  const [previousMails, setPreviousMails] = useState<Contact[]>([]);
   const [recipientInfo, setRecipientInfo] = useState<Contact[]>([]);
 
   useEffect(() => {
-    setRecipientInfo(emails);
+    setPreviousMails(emails);
   }, []);
 
   const onClose = () => {
@@ -50,13 +54,29 @@ const InputRecipientModal = ({
 
   const onAdd = () => {
     let index = recipientInfo.findIndex((item: any) => item.email === toSent);
+    let prevMailIndex = previousMails.findIndex(
+      (item: any) => item.email === toSent,
+    );
     let new_error: Error = {};
     if (!toSent) {
-      new_error.to_sent = "Recipient email is mandatory";
+      new_error.to_sent = "Email is mandatory";
+    }
+
+    if (toSent && !emailRegExp.test(toSent)) {
+      new_error.to_sent = "Please provide the valid email";
+      toast.error(new_error.to_sent);
     }
 
     if (recipientType !== "cc" && !mobile) {
       new_error.mobile = "Mobile is mandatory";
+    }
+
+    if (recipientType !== "cc" && mobile && mobile.trim().length < 10) {
+      new_error.mobile = "Please provide the valid mobile number";
+      toast.error(new_error.mobile);
+    }
+
+    if (Object.keys(new_error).length > 0) {
       setError(new_error);
       return;
     }
@@ -70,7 +90,7 @@ const InputRecipientModal = ({
     ) {
       toast.error("Atmost 10 combined cc and certified cc are allowed");
       return;
-    } else if (index > -1) {
+    } else if (index > -1 || prevMailIndex > -1) {
       toast.error("No Duplicate entry allowed !!");
       return;
     }
@@ -95,6 +115,12 @@ const InputRecipientModal = ({
 
   const removeEmail = (email: string) => {
     let new_recipients = [];
+    new_recipients = previousMails.filter((item: any) => item.email != email);
+    setPreviousMails(new_recipients);
+  };
+
+  const removeRecentEmail = (email: string) => {
+    let new_recipients = [];
     new_recipients = recipientInfo.filter((item: any) => item.email != email);
     setRecipientInfo(new_recipients);
   };
@@ -102,16 +128,32 @@ const InputRecipientModal = ({
   const onConfirm = () => {
     let new_error: Error = {};
     if (mobile && !toSent) {
-      new_error.to_sent = "Recipient email is mandatory";
+      new_error.to_sent = "Mobile is mandatory";
+    }
+
+    if (toSent && !emailRegExp.test(toSent)) {
+      new_error.to_sent = "Please provide the valid email";
+      toast.error(new_error.to_sent);
     }
 
     if (toSent && recipientType !== "cc" && !mobile) {
       new_error.mobile = "Mobile is mandatory";
+    }
+
+    if (recipientType !== "cc" && mobile && mobile.trim().length < 10) {
+      new_error.mobile = "Please provide the valid mobile number";
+      toast.error(new_error.mobile);
+    }
+
+    if (Object.keys(new_error).length > 0) {
       setError(new_error);
       return;
     }
 
     let index = recipientInfo.findIndex((item: any) => item.email === toSent);
+    let prevMailIndex = previousMails.findIndex(
+      (item: any) => item.email === toSent,
+    );
 
     if (recipientType === "to_mail" && recipientInfo.length >= 5) {
       toast.error("Only 5 recipients allowed");
@@ -122,28 +164,29 @@ const InputRecipientModal = ({
     ) {
       toast.error("Atmost 10 combined cc and certified cc are allowed");
       return;
-    } else if (index > -1) {
+    } else if (index > -1 || prevMailIndex > -1) {
       toast.error("No Duplicate entry allowed !!");
       return;
     }
 
-    let new_recipients: any = [];
-    if (recipientType !== "cc") {
-      new_recipients = [...recipientInfo, { email: toSent, mobile: mobile }];
-    } else {
-      new_recipients = [...recipientInfo, { email: toSent }];
-    }
-    setRecipientInfo(toSent && mobile ? new_recipients : recipientInfo);
     setToSent("");
     setMobile("");
-    onAddEmail(
-      recipientType,
-
-      (toSent && mobile) || (recipientType == "cc" && toSent)
-        ? new_recipients
-        : recipientInfo,
-    );
+    onAddEmail(recipientType, [...previousMails, ...recipientInfo]);
     onClose();
+  };
+
+  const changeTickColor = () => {
+    let is_valid = true;
+
+    if (!toSent || (recipientType !== "cc" && mobile.trim().length < 10)) {
+      is_valid = false;
+    }
+
+    if (toSent && !emailRegExp.test(toSent)) {
+      is_valid = false;
+    }
+
+    return is_valid;
   };
 
   return (
@@ -181,28 +224,93 @@ const InputRecipientModal = ({
           </button> */}
         </div>
 
-        {recipientInfo.length > 0 && (
+        {(previousMails.length > 0 || recipientInfo.length > 0) && (
           <div className="space-y-3 bg-gray-200 p-2 rounded-xl">
             <div className="flex flex-wrap gap-2 text-sm">
+              {previousMails.map((item: any) => (
+                <div className="relative group inline-block">
+                  {/* Recently Added label */}
+                  {/* <span className="absolute inset-0 flex items-center justify-center text-[11px] font-medium text-sky-900 uppercase opacity-0 group-hover:opacity-100 z-20 pointer-events-none p-2 rounded-full">
+                    Recently Added
+                  </span> */}
+
+                  <div
+                    key={item.email}
+                    className="flex space-x-2 text-gray-800 rounded-full  justify-center items-center bg-orange-300"
+                  >
+                    <p className="flex space-x-2 text-gray-800 rounded-full p-2 bg-white justify-center items-center transition">
+                      <span>
+                        {item.email}
+                        {recipientType !== "cc" && ","}
+                      </span>
+
+                      <span className="font-medium">{item.mobile}</span>
+                    </p>
+
+                    <X
+                      onClick={() => removeRecentEmail(item.email)}
+                      className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0 relative mr-2"
+                    />
+                  </div>
+                </div>
+              ))}
+
               {recipientInfo.map((item: any) => (
-                <p
-                  key={item.email}
-                  className="flex space-x-2 text-gray-800 rounded-full p-2 bg-white justify-center items-center"
-                >
-                  <span>
-                    {item.email}
-                    {recipientType !== "cc" && ","}
-                  </span>
-                  <span className="font-medium">{item.mobile}</span>
-                  <X
-                    onClick={() => removeEmail(item.email)}
-                    className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0"
-                  />
-                </p>
+                <div className="relative group inline-block">
+                  {/* Recently Added label */}
+                  {/* <span className="absolute inset-0 flex items-center justify-center text-[11px] font-medium text-sky-900 uppercase opacity-0 group-hover:opacity-100 z-20 pointer-events-none p-2 rounded-full">
+                    Recently Added
+                  </span> */}
+
+                  <div
+                    key={item.email}
+                    className="flex space-x-2 text-gray-800 rounded-full  justify-center items-center bg-orange-300"
+                  >
+                    <p className="flex space-x-2 text-gray-800 rounded-full p-2 bg-white justify-center items-center transition">
+                      <span>
+                        {item.email}
+                        {recipientType !== "cc" && ","}
+                      </span>
+
+                      <span className="font-medium">{item.mobile}</span>
+                    </p>
+
+                    <X
+                      onClick={() => removeRecentEmail(item.email)}
+                      className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0 relative mr-2"
+                    />
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         )}
+
+        {/* {recipientInfo.length > 0 && (
+          <div>
+            <p>Recently Added</p>
+            <div className="space-y-3 bg-gray-200 p-2 rounded-xl">
+              <div className="flex flex-wrap gap-2 text-sm">
+                {recipientInfo.map((item: any) => (
+                  <p
+                    key={item.email}
+                    className="flex space-x-2 text-gray-800 rounded-full p-2 bg-white justify-center items-center"
+                  >
+                    <span>
+                      {item.email}
+                      {recipientType !== "cc" && ","}
+                    </span>
+                    <span className="font-medium">{item.mobile}</span>
+                    <X
+                      onClick={() => removeRecentEmail(item.email)}
+                      className="w-4 h-4 text-gray-500 hover:text-red-400 bg-gray-100 rounded-full p-0.5 cursor-pointer hover:bg-red-200 shrink-0"
+                    />
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        )} */}
 
         <div className="grid grid-cols-2 md:grid-cols-2 gap-6 text-gray-800 mt-11">
           <div className="grid grid-cols-12 col-span-1">
@@ -213,8 +321,13 @@ const InputRecipientModal = ({
               type="text"
               name="toSent"
               value={toSent}
-              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.to_sent && "border-sky-800"}`}
+              className={`w-full col-span-10 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.to_sent && "border-red-600"}`}
               onChange={(e) => setToSent(e.target.value)}
+              onFocus={() => {
+                let error_info = { ...error };
+                delete error_info.to_sent;
+                setError(error_info);
+              }}
             />
           </div>
 
@@ -229,16 +342,23 @@ const InputRecipientModal = ({
                     type="text"
                     name="mobile"
                     value={mobile}
-                    className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.mobile && "border-sky-800"}`}
+                    className={`w-full col-span-8 border border-gray-300 py-2 px-3 text-sm rounded-md outline-none bg-gray-100 focus:border-primary ${error.mobile && "border-red-600"}`}
                     onChange={onChangeMobile}
                     onKeyDown={onKeyPress}
+                    onFocus={() => {
+                      let error_info = { ...error };
+                      delete error_info.mobile;
+                      setError(error_info);
+                    }}
                   />
                 </>
               )}
-              <Plus
+              <span
                 onClick={onAdd}
-                className="w-10 h-10 col-span-2 rounded-full p-2 bg-[#0976B1] text-white hover:bg-sky-600 cursor-pointer"
-              />
+                className={`w-10 h-10 col-span-2 text-2xl rounded-full p-2 bg-green-600 ${changeTickColor() ? "opacity-100" : "opacity-50"} text-white  cursor-pointer flex justify-center items-center font-extrabold`}
+              >
+                ✓
+              </span>
             </div>
           </div>
         </div>
