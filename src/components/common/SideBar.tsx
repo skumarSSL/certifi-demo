@@ -74,7 +74,7 @@ const Sidebar = (props: any) => {
   return (
     <div
       ref={sidebarRef}
-      className={`fixed left-0 top-0 z-40 h-full bg-white dark:bg-black shadow-xl flex flex-col overflow-hidden ${!props.is_sidebar && "bg-gray-400"} mt-15`}
+      className={`fixed left-0 top-0 z-40 h-full bg-white shadow-xl flex flex-col overflow-hidden ${!props.is_sidebar && "bg-gray-400"} mt-15`}
       onMouseEnter={() => !props.show_sidebar && setSidebar(true)}
       onMouseLeave={() => !props.show_sidebar && setSidebar(false)}
     >
@@ -165,7 +165,7 @@ const SideBarLink = ({
       <div
         className={`flex items-center p-2 rounded-md transition-all  
         ${label === "Logout" ? "bg-gray-100 hover:bg-gray-200" : "bg-sky-100 hover:bg-sky-200"}  dark:hover:bg-gray-700
-        ${isActive ? "bg-sky-200 dark:bg-gray-600" : ""}
+        ${isActive ? "bg-sky-200" : ""}
         ${isSideBar ? "justify-start gap-5" : "justify-center"}`}
       >
         <Icon className="label-icon h-7 w-7 text-gray-600 shrink-0" />

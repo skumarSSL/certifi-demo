@@ -112,7 +112,7 @@ const Navbar = (props: any) => {
   };
 
   return (
-    <div className="grid items-center bg-white px-4 py-3 dark:bg-black dark:px-4 dark:py-3">
+    <div className="grid items-center bg-white px-4 py-3 dark:px-4 dark:py-3">
       <div className="flex items-center justify-between shadow w-full rounded-xl">
         <div className="flex items-center gap-8">
           <div className={`flex space-x-3 items-center`}>

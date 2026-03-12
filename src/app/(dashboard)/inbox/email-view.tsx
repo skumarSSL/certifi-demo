@@ -121,12 +121,14 @@ function EmailView({ data }: { data: any }) {
           📎 Attachment ({data.ATTACH.length})
         </h4>
 
-        <div className="flex gap-4 flex-wrap h-18 overflow-scroll col-span-10">
+        <div
+          className={`flex gap-4 flex-wrap ${data.ATTACH.length > 0 ? "h-[calc(100vh-50rem)]" : "h-[calc(100vh-70rem)]"} col-span-10 overflow-y-auto`}
+        >
           {/* File Card */}
           {data.ATTACH.map((file: any, i: number) => (
             <div
               key={i}
-              className="flex items-center gap-3 border border-gray-300 rounded-lg py-1 px-3"
+              className={`flex items-center gap-3 border border-gray-300 rounded-lg py-1 px-3`}
             >
               <div
                 className={`w-8 h-5 bg-blue-100 rounded flex items-center justify-center ${fileColor(getFileType(file.filename))} font-bold uppercase`}
