@@ -13,6 +13,7 @@ type Props = {
   onChange?: (html: string) => void;
   uploadFile?: (e: any) => void;
   resetEditor?: boolean;
+  setResetEditor: (e: boolean) => void;
 };
 
 export default function TiptapEditor({
@@ -20,6 +21,7 @@ export default function TiptapEditor({
   onChange,
   uploadFile,
   resetEditor,
+  setResetEditor,
 }: Props) {
   const editor = useEditor({
     extensions: [
@@ -53,7 +55,10 @@ export default function TiptapEditor({
   });
 
   useEffect(() => {
-    if (resetEditor) editor?.chain().clearContent().focus().run();
+    if (resetEditor) {
+      editor?.chain().clearContent().focus().run();
+      setResetEditor(false);
+    }
   }, [resetEditor]);
 
   if (!editor) return null;

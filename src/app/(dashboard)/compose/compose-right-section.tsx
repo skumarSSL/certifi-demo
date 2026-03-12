@@ -79,7 +79,7 @@ const ComposeRightSection = (props: any) => {
   return (
     <div className="relative col-span-2 border-l-2 border-gray-200 px-3 h-full space-y-5 overflow-y-auto overflow-x-hidden">
       <div
-        className={`outline-none mx-auto   py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? "max-h-70 lg:max-h-140" : "h-auto"}`}
+        className={`outline-none mx-auto   py-2 shadow-2xl bg-white flex flex-col px-3 rounded-md ${props.attachments.length > 0 ? `max-h-[calc(100vh-41rem)]` : "h-auto"}`}
       >
         <div className="flex justify-between items-end font-semibold text-lg border-b border-gray-200 text-start sticky top-0 bg-white z-10">
           <p>Attachments</p>
@@ -205,7 +205,7 @@ const ComposeRightSection = (props: any) => {
         </p>
 
         <div className="mt-5 flex flex-col items-start justify-center ml-3">
-          <label className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer transition">
+          <label className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer transition mr-3">
             <input
               type="checkbox"
               name="is_copy_mail"
