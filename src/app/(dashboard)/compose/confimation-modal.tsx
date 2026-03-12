@@ -105,7 +105,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                       <Users size={18} />
                     )}
                     <span className="font-bold uppercase tracking-wider text-sm">
-                      Confirm {key.replace("_", " ")} list ({list.length})
+                      Confirm {key === "certified" ? "CERTIFI Cc" : key.replace("_", " ")} list ({list.length})
                     </span>
                   </div>
                   <div
@@ -138,7 +138,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                           {person.email}
                         </span>
                         {person.mobile && (
-                          <span className="text-[10px] text-slate-400 font-mono tracking-tighter">
+                          <span className="text-[12px] text-slate-500 tracking-normal">
                             SMS: {person.mobile}
                           </span>
                         )}

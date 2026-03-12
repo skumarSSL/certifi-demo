@@ -190,6 +190,7 @@ const ComposePage = (props: any) => {
               isScanningComplete={isScanningComplete}
               isScannedError={isScannedError}
               resetEditor={resetEditor}
+              setResetEditor={setResetEditor}
             />
 
             {/* // right section */}

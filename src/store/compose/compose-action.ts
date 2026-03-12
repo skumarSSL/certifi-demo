@@ -151,6 +151,9 @@ export const ComposeSendCertifiMail =
         _cashfreeCheckOut(result.id, result.order_id);
       } else if (result.respCode === 200) {
         toast.success(result.response);
+      } else if (result.respCode === 402) {
+        toast.error(result.response);
+        return Promise.reject();
       }
 
       return Promise.resolve();
@@ -186,10 +189,8 @@ export const ComposeValidateDetails =
     };
     let is_valid = true;
 
-    // is_valid = dispatch(_validateEmailMobile());
-
     if (to_mail.length === 0) {
-      toast.error("Recipients details are mandatory");
+      toast.error("To Address is mandatory");
       return (is_valid = false);
     }
 
@@ -207,27 +208,3 @@ export const ComposeValidateDetails =
 
     return is_valid;
   };
-
-export const _validateEmailMobile =
-  () => (dispatch: AppDispatch, getState: () => RootState) => {
-    let { mobile_number, to_sent } = getState().compose_store;
-
-    let is_valid = true;
-
-    if (!to_sent.trim()) {
-      toast.error("Recipient email is mandatory");
-      return (is_valid = false);
-    } else if (!emailRegExp.test(to_sent)) {
-      toast.error("Invalid recipient email");
-      return (is_valid = false);
-    }
-
-    if (!mobile_number.trim()) {
-      toast.error("Recipient mobile number is mandatory");
-      return (is_valid = false);
-    }
-
-    return is_valid;
-  };
-
-export const _checkDuplicateEntry = (mails: any[], new_mail: any) => {};

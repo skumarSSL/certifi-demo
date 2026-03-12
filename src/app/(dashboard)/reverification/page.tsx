@@ -123,6 +123,11 @@ const ReverificationPage = (props: any) => {
       });
   };
 
+  const truncateWords = (text: string, limit: number) => {
+    if (text.length <= limit) return text;
+    return text.slice(0, limit) + "...";
+  };
+
   return (
     <div
       ref={reverificationRef}
@@ -175,9 +180,10 @@ const ReverificationPage = (props: any) => {
                     <a
                       className="font-medium text-gray-800"
                       href={props.file.url}
+                      title={props.file.name}
                       download={props.file.name}
                     >
-                      {props.file.name}
+                      {truncateWords(props.file.name, 40)}
                     </a>
                     <p className="text-sm text-gray-500">
                       {(props.file.size / 1024 / 1024).toFixed(2)} MB

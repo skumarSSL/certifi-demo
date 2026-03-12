@@ -36,7 +36,9 @@ const ComposeRightSection = (props: any) => {
         setOpenModal(false);
         props.setResetEditor(true);
       })
-      .catch(() => {})
+      .catch(() => {
+        setOpenModal(false);
+      })
       .finally(() => {
         setIsSending(false);
       });

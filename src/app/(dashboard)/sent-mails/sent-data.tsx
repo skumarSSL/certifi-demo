@@ -134,10 +134,12 @@ const SentData = (props: any) => {
             {props.data.recipient}
           </p>
         </div>
-        <p className="font-medium text-gray-500">
-          {" "}
-          {props.data.recipient_mobile}
-        </p>
+        {props.data.email_type === "certified" && (
+          <p className="font-medium text-gray-500">
+            {" "}
+            {props.data.recipient_mobile}
+          </p>
+        )}
       </div>
 
       <div className="col-span-6 px-4 py-1 flex items-center mx-3">
@@ -148,11 +150,13 @@ const SentData = (props: any) => {
       </div>
 
       <div className="relative col-span-2 px-4 py-1 flex items-center justify-center align-middle">
-        <p
-          className={`px-2  rounded-md text-sm font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
-        >
-          {props.data.cert_req ? "Delivered" : "In Progress"}
-        </p>
+        {props.data.email_type === "certified" && (
+          <p
+            className={`px-2  rounded-md text-sm font-light ${props.data.cert_req ? "bg-sky-100 text-blue-900 border border-sky-700" : "bg-orange-100 border border-orange-600 text-orange-600"}  text-gray-900 group-hover:bg-[#e67e22]] transition`}
+          >
+            {props.data.cert_req ? "Delivered" : "In Progress"}
+          </p>
+        )}
       </div>
       <div className="relative col-span-1 px-2 py-1 flex items-center justify-end align-middle">
         <p className="absolute top-1 right-1 text-sm text-gray-500 font-medium">
@@ -167,6 +171,7 @@ const SentData = (props: any) => {
               widthHeight={"w-4 h-4"}
             />
           </div>
+
           {props.data.cert_req && (
             <div
               className={`${isDownloading && "opacity-30"}`}
