@@ -46,17 +46,15 @@ const _validateLoginDetails = () => (dispatch: any, getState: any) => {
 
   if (!user_name) {
     new_error_info.user_name = "Enter email";
-    toast.error(new_error_info.user_name);
     return (is_valid = false);
   }
   if (user_name && !email_validator.test(user_name)) {
-    new_error_info.user_name = "Enter valid email";
+    new_error_info.user_name = "Please provide valid email";
     toast.error(new_error_info.user_name);
     return (is_valid = false);
   }
   if (!password) {
     new_error_info.password = "Enter password";
-    toast.error(new_error_info.password);
     return (is_valid = false);
   }
 

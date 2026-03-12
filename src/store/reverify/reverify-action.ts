@@ -76,7 +76,10 @@ export const ReverifyGetCertificate =
           // setTimeout(() => {
           //   window.location.reload();
           // }, 5000);
-          if (result.respCode == 200) toast.success(result.response);
+          if (result.respCode == 200)
+            toast.success(
+              `Submitted your request. Reverification certificate will be sent to ${email.trim()}`,
+            );
         }
         //   if (profile_data)
         //     dispatch(

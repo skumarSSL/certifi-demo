@@ -13,8 +13,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
-  const { type, value, placeholder, icon, onChange, onFocus, error, ...rest } =
-    props;
+  const {
+    name,
+    type,
+    value,
+    placeholder,
+    icon,
+    onChange,
+    onFocus,
+    error,
+    ...rest
+  } = props;
 
   return (
     <div className={`flex justify-center w-full  h-18 lg:h-20}`}>
@@ -36,6 +45,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         {/* Input */}
         <input
           ref={ref}
+          name={name}
           type={type === "password" && showPassword ? "text" : type}
           value={value}
           placeholder={placeholder}

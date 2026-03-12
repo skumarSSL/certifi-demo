@@ -90,8 +90,8 @@ const LoginSection = (props: any) => {
   }, []);
 
   const handleLogin = () => {
-    if (!props.user_name && !props.password) {
-      toast.error("Enter email and password");
+    if (!props.user_name || !props.password) {
+      toast.error("Both fields are mandatory!");
       return;
     }
     setIsBtnDisabled(true);
