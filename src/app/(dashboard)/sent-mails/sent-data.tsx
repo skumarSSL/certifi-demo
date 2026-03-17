@@ -144,8 +144,8 @@ const SentData = (props: any) => {
 
       <div className="col-span-6 px-4 py-1 flex items-center mx-3">
         <div className="text-gray-700 font-bold line-clamp-2 group-hover:text-gray-900">
-          <p> {props.data.subject}</p>{" "}
-          <span className="text-sm font-normal">{props.data.body}</span>
+          <p> {props.data.subject.replaceAll(/&nbsp;?/g, " ")}</p>{" "}
+          <span className="text-sm font-normal">{props.data.body.replaceAll(/&nbsp;?/g, " ")}</span>
         </div>
       </div>
 
