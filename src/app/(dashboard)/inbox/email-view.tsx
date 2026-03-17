@@ -1,7 +1,23 @@
 import { Share2, ArrowRight, Trash2, Download } from "lucide-react";
 import moment from "moment";
+import { useEffect, useRef } from "react";
 
 function EmailView({ data }: { data: any }) {
+  const emailBodyRef = useRef<HTMLDivElement | null>(null);
+
+  const isHTML = (str: string) => {
+    const htmlRegex = /<\/?[a-z][\s\S]*>/i;
+    return htmlRegex.test(str);
+  };
+
+  useEffect(() => {
+    if (!emailBodyRef.current || !data?.BODY) return;
+
+    if (isHTML(data.BODY)) {
+      emailBodyRef.current.innerHTML = data.BODY;
+    }
+  }, [data?.BODY]);
+
   const stringToGradient = (str: string) => {
     const colors = ["#6366f1", "#22c55e", "#f97316", "#ec4899"];
     let hash = str.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -81,7 +97,9 @@ function EmailView({ data }: { data: any }) {
       {/* Subject */}
       <div>
         {/* <p className="text-sm text-gray-400">07:42 AM</p> */}
-        <h3 className="font-semibold text-lg mt-1">{data.SUBJECT}</h3>
+        <h3 className="font-semibold text-lg mt-1">
+          {data.SUBJECT.replaceAll(/&nbsp;?/g, " ")}
+        </h3>
         <p className="text-sm text-gray-500 mt-1">
           <span className="text-gray-800 font-bold">To</span>:{" "}
           {data.TO_ADDRESSES.split(",").map((text: string, i: number) => {
@@ -112,7 +130,13 @@ function EmailView({ data }: { data: any }) {
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto space-y-4 text-gray-700 leading-relaxed pr-2">
-        <p>{data.BODY}</p>
+        {isHTML(data.BODY) ? (
+          <div ref={emailBodyRef} id="emailBody">
+            {data.BODY.replaceAll(/&nbsp;?/g, " ")}
+          </div>
+        ) : (
+          <p>{data.BODY}</p>
+        )}
       </div>
 
       {/* Attachments */}
